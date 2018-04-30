@@ -1,8 +1,10 @@
 package com.kincurrently.models;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
@@ -31,22 +33,127 @@ public class User {
     @Size(max=150, message = "Password cannot be more than 150 characters.")
     private String password;
 
-    @Column
+    @Column(nullable=false)
+    @NotBlank(message = "First name field cannot be blank.")
     @Size(max=150, message = "First name cannot be more than 150 characters.")
     private String firstName;
 
-    @Column
+    @Column(nullable=false)
+    @NotBlank(message = "Last name field cannot be blank.")
     @Size(max=150, message = "Last name cannot be more than 150 characters.")
     private String lastName;
 
     @Column(nullable=false)
     @Temporal(DATE)
-    @NotBlank(message = "Birthdate field cannot be blank.")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "Birthdate field cannot be blank.")
     private Date birthdate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<Task> tasks;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+//    private List<Task> tasks;
+//
+    @ManyToOne(optional = false)
+    @JoinColumn (name = "family_id")
+    private Family family;
 
     public User() {
+    }
+
+    public User(User copy) {
+        this.id = copy.id;
+        this.username = copy.username;
+        this.email = copy.email;
+        this.password = copy.password;
+        this.firstName = copy.firstName;
+        this.lastName = copy.lastName;
+        this.birthdate = copy.birthdate;
+//        this.tasks = copy.tasks;
+        this.family = copy.family;
+    }
+    public User(String username, String email, String password, String firstName, String lastName, Date birthdate, Family family) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthdate = birthdate;
+//        this.tasks = tasks;
+        this.family = family;
+    }
+
+    public User(Long id, String username, String email, String password, String firstName, String lastName, Date birthdate, Family family) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthdate = birthdate;
+//        this.tasks = tasks;
+        this.family = family;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Date getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public Family getFamily() {
+        return family;
+    }
+
+    public void setFamily(Family family) {
+        this.family = family;
     }
 }
