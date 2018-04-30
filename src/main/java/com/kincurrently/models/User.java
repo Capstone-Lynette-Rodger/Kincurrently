@@ -43,6 +43,10 @@ public class User {
     @Size(max=150, message = "Last name cannot be more than 150 characters.")
     private String lastName;
 
+    @Column
+    @Size(max=150, message = "Family title cannot be more than 150 characters.")
+    private String title;
+
     @Column(nullable=false)
     @Temporal(DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -70,7 +74,7 @@ public class User {
 //        this.tasks = copy.tasks;
         this.family = copy.family;
     }
-    public User(String username, String email, String password, String firstName, String lastName, Date birthdate, Family family) {
+    public User(String username, String email, String password, String firstName, String lastName, Date birthdate, Family family, String title) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -79,9 +83,10 @@ public class User {
         this.birthdate = birthdate;
 //        this.tasks = tasks;
         this.family = family;
+        this.title = title;
     }
 
-    public User(Long id, String username, String email, String password, String firstName, String lastName, Date birthdate, Family family) {
+    public User(Long id, String username, String email, String password, String firstName, String lastName, Date birthdate, Family family, String title) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -91,6 +96,7 @@ public class User {
         this.birthdate = birthdate;
 //        this.tasks = tasks;
         this.family = family;
+        this.title = title;
     }
 
     public long getId() {
@@ -155,5 +161,13 @@ public class User {
 
     public void setFamily(Family family) {
         this.family = family;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

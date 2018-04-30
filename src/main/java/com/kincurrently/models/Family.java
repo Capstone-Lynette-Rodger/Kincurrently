@@ -25,16 +25,20 @@ public class Family {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "family")
     private List<User> users;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "family")
+    private List<Event> events;
+
     public Family() {
     }
 
-    public Family(String name, String code, List<User> users) {
+    public Family(String name, String code, List<User> users, List<Event> events) {
         this.name = name;
         this.code = code;
         this.users = users;
+        this.events = events;
     }
 
-    public Family(Long id, String name, String code, List<User> users) {
+    public Family(Long id, String name, String code, List<User> users, List<Event> events) {
         this.id = id;
         this.name = name;
         this.code = code;
@@ -71,5 +75,13 @@ public class Family {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 }

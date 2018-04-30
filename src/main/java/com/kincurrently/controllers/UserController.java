@@ -8,6 +8,7 @@ import com.kincurrently.repositories.Roles;
 import com.kincurrently.repositories.UserRepository;
 import com.kincurrently.services.DateTimeService;
 import com.kincurrently.services.UserDetailsLoader;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +38,11 @@ public class UserController {
         this.rolesRepo = rolesRepo;
         this.familyRepo = familyRepo;
         this.dtService = dtSservice;
+    }
+
+    @GetMapping("/")
+    public String showMainPage() {
+        return "index";
     }
 
 
@@ -88,6 +94,46 @@ public class UserController {
         userRepo.save(user);
 //      Need to assign all new users as having a 'Parent' role
         rolesRepo.save(new UserRole(user.getId(), "PARENT"));
+        return "redirect:/";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "index";
+    }
+
+    @GetMapping("/dashboard")
+    public String showDashboard() {
+        return "users/dashboard";
+    }
+
+    @PostMapping("/register/child")
+    public String saveChildUser(@Valid User user, Errors userErrors, Model model, @RequestParam String verifyPassword, @RequestParam String birthdate) {
+        //validating user registration for email, username, and password validation
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userErrors = userService.checkRegistration(user, userErrors);
+        if(!user.getPassword().equals(verifyPassword)) {
+            userErrors.rejectValue(
+                    "password",
+                    "user.password",
+                    "Passwords do not match."
+            );
+        }
+        if(userErrors.hasErrors()) {
+            model.addAttribute("errors", userErrors);
+            model.addAttribute("user", user);
+            return "users/register";
+        }
+//      Need to parse birthdate string into date object
+        user.setBirthdate(dtService.parseDate(birthdate));
+//      Need to encode password before storing in database
+        String hash = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hash);
+        user.setFamily(loggedInUser.getFamily());
+//      Save child user and user role
+        userRepo.save(user);
+//      Need to assign all new users as having a 'Parent' role
+        rolesRepo.save(new UserRole(user.getId(), "CHILD"));
         return "redirect:/register";
     }
 }

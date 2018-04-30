@@ -17,6 +17,8 @@
         <p th:if="${#fields.hasErrors('user.lastName')}" th:errors="*{user.lastName}" />
     </div>
 
+    <input id="title" th:value="*{user.title}" name="title" placeholder="What name do you like to go by? i.e. Mom, Dad, Mommy, etc." />
+
     <input type="date" name="birthdate" th:required="required" />
     <div>
         <p th:if="${#fields.hasErrors('user.birthdate')}" th:errors="*{user.birthdate}" />
