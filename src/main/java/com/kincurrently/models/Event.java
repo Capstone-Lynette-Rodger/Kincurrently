@@ -1,6 +1,9 @@
 package com.kincurrently.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.Date;
 
 @Entity
@@ -25,23 +28,64 @@ public class Event {
     private String location;
 
     @Column
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-DD")
     private java.util.Date start_date;
 
     @Column
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIME)
+    @DateTimeFormat(pattern = "hh:mm a")
+    private java.util.Date start_time;
+
+    @Column
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-DD")
     private java.util.Date end_date;
 
-    public Event(Family family, String title, String description, String location, Date start_date, Date end_date) {
+    @Column
+    @Temporal(TemporalType.TIME)
+    @DateTimeFormat(pattern = "hh:mm a")
+    private java.util.Date end_time;
+
+
+    public Event(Family family, String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time) {
         this.family = family;
         this.title = title;
         this.description = description;
         this.location = location;
         this.start_date = start_date;
+        this.start_time = start_time;
         this.end_date = end_date;
+        this.end_time = end_time;
+    }
+
+    public Event(String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time) {
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.start_date = start_date;
+        this.start_time = start_time;
+        this.end_date = end_date;
+        this.end_time = end_time;
     }
 
     public Event() {
+    }
+
+    public Date getStart_time() {
+        return start_time;
+    }
+
+    public void setStart_time(Date start_time) {
+        this.start_time = start_time;
+    }
+
+    public Date getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(Date end_time) {
+        this.end_time = end_time;
     }
 
     public long getId() {
