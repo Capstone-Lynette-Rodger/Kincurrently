@@ -44,8 +44,8 @@ public class User {
     @NotBlank(message = "Birthdate field cannot be blank.")
     private Date birthdate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<Task> tasks;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+//    private List<Task> tasks;
 
     public User() {
     }
