@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/header :: header (Events)"></head>
+<body>
+
+    <div th:replace="partials/navbar :: navbar"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="card"  th:each="event : ${events}">
+                <h2 th:text="${event.title}"></h2>
+                <!--<h5>Post created on: <span th:text="${post.createDate}"></span></h5>-->
+                <h5>Start Date: <span th:text="${event.start_date}"></span></h5>
+                <h5>Start Time: <span th:text="${event.start_time}"></span></h5>
+                <h5>End Date: <span th:text="${event.end_date}"></span></h5>
+                <h5>End Time: <span th:text="${event.end_time}"></span></h5>
+                <h5>Location: <span th:text="${event.location}">  </span></h5>
+                <p class="bodyText" th:text="${event.description}"></p>
+                <hr />
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <form class="form" th:action="@{events/create}" method="POST" th:object="${event}">
+                <label>Title: </label>
+                <input type="text" th:field="*{title}" /> <br />
+                <label>Start Date: </label>
+                <input type="date" name="startDate" /> <label>Start Time: </label>
+                <input type="time" name="startTime" /> <br />
+                <label>End Date: </label>
+                <input type="date" name="endDate" /> <label>End Time: </label>
+                <input type="time" name="endTime" /> <br />
+                <label>Location: </label>
+                <input type="text" th:field="*{location}" /> <br />
+                <label>Description: </label>
+                <input type="text" th:field="*{description}" />
+
+                <button>Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <footer th:replace="partials/footer :: footer"></footer>
+
+</body>
+</html>
