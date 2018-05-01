@@ -5,54 +5,37 @@
 <div th:replace="partials/navbar :: navbar"></div>
 
 <h1>Create an account</h1>
-<form th:action="@{/register}" method="POST">
-    <!--Creating a new user-->
-    <input id="firstName" th:value="*{user.firstName}" name="firstName" placeholder="First Name" th:required="required" />
-    <div>
-        <p th:if="${#fields.hasErrors('user.firstName')}" th:errors="*{user.firstName}" />
-    </div>
+<form th:action="@{/register}" method="POST">reating  new user-->
+    <input id="firstName" th:value="*{user.firstName}" name="firstName" placeholder="First Name" th:required="required">
+    <p class="text-danger" th:if="${#fields.hasErrors('user.firstName')}" th:errors="*{user.firstName}" />
 
     <input id="lastName" th:value="*{user.lastName}" name="lastName" placeholder="Last Name" th:required="required" />
-    <div>
-        <p th:if="${#fields.hasErrors('user.lastName')}" th:errors="*{user.lastName}" />
-    </div>
+    <p class="text-danger" th:if="${#fields.hasErrors('user.lastName')}" th:errors="*{user.lastName}" />
 
     <input id="title" th:value="*{user.title}" name="title" placeholder="What name do you like to go by? i.e. Mom, Dad, Mommy, etc." />
 
     <input type="date" name="birthdate" th:required="required" />
-    <div>
-        <p th:if="${#fields.hasErrors('user.birthdate')}" th:errors="*{user.birthdate}" />
-    </div>
+    <p class="text-danger" th:if="${#fields.hasErrors('user.birthdate')}" th:errors="*{user.birthdate}" />
 
     <input id="username" th:value="*{user.username}" name="username" placeholder="Username" th:required="required" />
-    <div>
-        <p th:if="${#fields.hasErrors('user.username')}" th:errors="*{user.username}" />
-    </div>
+    <p class="text-danger" th:if="${#fields.hasErrors('user.username')}" th:errors="*{user.username}" />
 
     <input id="email" th:value="*{user.email}" name="email" placeholder="Email" th:required="required" />
-    <div>
-        <p th:if="${#fields.hasErrors('user.email')}" th:errors="*{user.email}" />
-    </div>
+    <p class="text-danger" th:if="${#fields.hasErrors('user.email')}" th:errors="*{user.email}" />
 
     <input id="password" type="password" th:value="*{user.password}" name="password" placeholder="Password" th:required="required" />
     <input id="verifyPassword" type="password" name="verifyPassword" placeholder="Verify Password" th:required="required"/>
-    <div>
-        <p th:if="${#fields.hasErrors('user.password')}" th:errors="*{user.password}" />
-    </div>
+    <p class="text-danger" th:if="${#fields.hasErrors('user.password')}" th:errors="*{user.password}" />
     <!--Creating or Joining a Family-->
     <label>
         <input type="checkbox" name="joinFamily" id="joinIfExisting"/>Join an existing family?
     </label>
     <div id="showForNewFamily">
         <input id="family" th:value="*{family.name}" name="name" placeholder="What would you like to name your family?" />
-        <div>
-            <p th:if="${#fields.hasErrors('family.name')}" th:errors="*{family.name}" />
-        </div>
+        <p class="text-danger" th:if="${#fields.hasErrors('family.name')}" th:errors="*{family.name}" />
     </div>
     <input id="code" th:value="*{family.code}" name="code" placeholder="Enter a unique code for family members to join your family." />
-    <div>
-        <p th:if="${#fields.hasErrors('family.code')}" th:errors="*{family.code}" />
-    </div>
+    <p class="text-danger" th:if="${#fields.hasErrors('family.code')}" th:errors="*{family.code}" />
     <input value="Sign me up!" type="submit"/>
 </form>
 
