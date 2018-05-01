@@ -10,7 +10,6 @@
         <div class="row">
             <div class="card"  th:each="event : ${events}">
                 <h2 th:text="${event.title}"></h2>
-                <!--<h5>Post created on: <span th:text="${post.createDate}"></span></h5>-->
                 <h5>Start Date: <span th:text="${event.start_date}"></span></h5>
                 <h5>Start Time: <span th:text="${event.start_time}"></span></h5>
                 <h5>End Date: <span th:text="${event.end_date}"></span></h5>
@@ -44,6 +43,15 @@
             </form>
         </div>
     </div>
+
+    <div class="container">
+        <div class="row">
+            <h1>Comments</h1>
+            <div><span th:each="eventComment : ${event.eventComments}"><div th:text="${eventComment.commentBody}"></div></span></div>
+        </div>
+    </div>
+
+
 
     <footer th:replace="partials/footer :: footer"></footer>
 

@@ -3,8 +3,8 @@ package com.kincurrently.models;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "events")
@@ -17,6 +17,9 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "family_id")
     private Family family;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
+    private List<EventComment> eventComments;
 
     @Column
     private String title;
@@ -34,7 +37,7 @@ public class Event {
 
     @Column
     @Temporal(TemporalType.TIME)
-    @DateTimeFormat(pattern = "hh:mm a")
+    @DateTimeFormat(pattern = "hh:mm")
     private java.util.Date start_time;
 
     @Column
@@ -44,11 +47,11 @@ public class Event {
 
     @Column
     @Temporal(TemporalType.TIME)
-    @DateTimeFormat(pattern = "hh:mm a")
+    @DateTimeFormat(pattern = "hh:mm")
     private java.util.Date end_time;
 
 
-    public Event(Family family, String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time) {
+    public Event(Family family, String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments) {
         this.family = family;
         this.title = title;
         this.description = description;
@@ -57,9 +60,10 @@ public class Event {
         this.start_time = start_time;
         this.end_date = end_date;
         this.end_time = end_time;
+        this.eventComments = eventComments;
     }
 
-    public Event(String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time) {
+    public Event(String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments) {
         this.title = title;
         this.description = description;
         this.location = location;
@@ -67,9 +71,18 @@ public class Event {
         this.start_time = start_time;
         this.end_date = end_date;
         this.end_time = end_time;
+        this.eventComments = eventComments;
     }
 
     public Event() {
+    }
+
+    public List<EventComment> getEventComments() {
+        return eventComments;
+    }
+
+    public void setEventComments(List<EventComment> eventComments) {
+        this.eventComments = eventComments;
     }
 
     public Date getStart_time() {

@@ -1,6 +1,8 @@
 package com.kincurrently.controllers;
 
 import com.kincurrently.models.Event;
+import com.kincurrently.models.EventComment;
+import com.kincurrently.repositories.EventCommentRepository;
 import com.kincurrently.repositories.EventRepository;
 import com.kincurrently.repositories.FamilyRepository;
 import org.springframework.stereotype.Controller;
@@ -17,10 +19,12 @@ public class EventController {
 
     private final EventRepository eventRepository;
     private final FamilyRepository familyRepository;
+    private final EventCommentRepository eventCommentRepository;
 
-    public EventController(EventRepository eventRepository, FamilyRepository familyRepository) {
+    public EventController(EventRepository eventRepository, FamilyRepository familyRepository, EventCommentRepository eventCommentRepository) {
         this.eventRepository = eventRepository;
         this.familyRepository = familyRepository;
+        this.eventCommentRepository = eventCommentRepository;
     }
 
     @GetMapping("/events")
@@ -29,6 +33,16 @@ public class EventController {
         model.addAttribute("event", new Event());
 
         return "/events/events";
+    }
+
+
+    @GetMapping("events/{id}")
+    public String indPostView(@PathVariable long id, Model model) {
+
+        model.addAttribute("event", eventRepository.findOne(id));
+        model.addAttribute("eventComment", new EventComment());
+
+        return "events/showEvent";
     }
 
     @PostMapping("/events/create")

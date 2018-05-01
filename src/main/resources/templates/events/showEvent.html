@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/header :: header (Events)"></head>
+<body>
+
+<div th:replace="partials/navbar :: navbar"></div>
+
+<div class="card">
+    <h2 th:text="${event.title}"></h2>
+    <p th:text="${event.description}"></p>
+</div>
+<hr />
+
+<div class="container">
+    <div class="row">
+        <h1>Comments</h1>
+        <div><span th:each="eventComment : ${event.eventComments}"><div th:text="${eventComment.commentBody}"></div></span></div>
+    </div>
+</div>
+
+
+
+<footer th:replace="partials/footer :: footer"></footer>
+
+</body>
+</html>
