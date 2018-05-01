@@ -1,8 +1,11 @@
 package com.kincurrently.models;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -21,18 +24,22 @@ public class Event {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
     private List<EventComment> eventComments;
 
-    @Column
+    @Column(nullable = false)
+    @NotBlank(message = "Title field cannot be blank.")
+    @Size(max=50, message = "Title cannot be more than 100 characters.")
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
+    @NotBlank(message = "Description field cannot be blank.")
     private String description;
 
     @Column
     private String location;
 
-    @Column
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-DD")
+//    @NotNull(message = "Events need to have a start date")
     private java.util.Date start_date;
 
     @Column

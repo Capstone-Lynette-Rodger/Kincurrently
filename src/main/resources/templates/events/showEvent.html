@@ -19,6 +19,19 @@
     </div>
 </div>
 
+<div class="container">
+    <div class="row">
+        <h1>Add Comments</h1>
+        <form class="xs-offset-3 xs-col-6 center-block text-center" th:action="@{/events/comment}" method="post" th:object="${eventComment}">
+            <label class="titleLabel">Comment:</label> <br />
+            <input class="createTitle" th:field="*{commentBody}" />
+            <input type="hidden" name="eventId" th:value="${event.id}" />
+            <br />
+            <input type="submit" />
+        </form>
+    </div>
+</div>
+
 
 
 <footer th:replace="partials/footer :: footer"></footer>

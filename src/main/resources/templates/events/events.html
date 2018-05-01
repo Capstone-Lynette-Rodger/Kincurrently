@@ -16,6 +16,7 @@
                 <h5>End Time: <span th:text="${event.end_time}"></span></h5>
                 <h5>Location: <span th:text="${event.location}">  </span></h5>
                 <p class="bodyText" th:text="${event.description}"></p>
+                <div><a th:href="@{/events/{id}(id=${event.getId()})}">View Event</a></div>
                 <hr />
             </div>
 
@@ -25,11 +26,13 @@
 
     <div class="container">
         <div class="row">
-            <form class="form" th:action="@{events/create}" method="POST" th:object="${event}">
+            <form class="form" th:action="@{/events/create}" method="POST" th:object="${event}">
                 <label>Title: </label>
-                <input type="text" th:field="*{title}" /> <br />
+                <input type="text" th:field="*{title}" th:required="required" /> <br />
+                <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />
                 <label>Start Date: </label>
-                <input type="date" name="startDate" /> <label>Start Time: </label>
+                <input type="date" name="startDate" th:required="required" /> <label>Start Time: </label>
+                <!--<p th:if="${#fields.hasErrors('start_date')}" th:errors="*{start_date}" />-->
                 <input type="time" name="startTime" /> <br />
                 <label>End Date: </label>
                 <input type="date" name="endDate" /> <label>End Time: </label>
@@ -37,17 +40,11 @@
                 <label>Location: </label>
                 <input type="text" th:field="*{location}" /> <br />
                 <label>Description: </label>
-                <input type="text" th:field="*{description}" />
+                <input type="text" th:field="*{description}" th:required="required" />
+                <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" />
 
                 <button>Submit</button>
             </form>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <h1>Comments</h1>
-            <div><span th:each="eventComment : ${event.eventComments}"><div th:text="${eventComment.commentBody}"></div></span></div>
         </div>
     </div>
 

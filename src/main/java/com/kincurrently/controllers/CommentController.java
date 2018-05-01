@@ -19,9 +19,9 @@ public class CommentController {
     }
 
     @PostMapping("/events/comment")
-    public String addComment(@RequestParam(name = "eventId") long id, EventComment comment) {
-        comment.setEvent(eventRepository.findOne(id));
-        eventCommentRepository.save(comment);
-        return "redirect:/";
+    public String addComment(@RequestParam(name = "eventId") long id, EventComment eventComment) {
+        eventComment.setEvent(eventRepository.findOne(id));
+        eventCommentRepository.save(eventComment);
+        return "redirect:/events/" + id;
     }
 }

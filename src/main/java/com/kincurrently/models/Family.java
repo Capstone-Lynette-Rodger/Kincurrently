@@ -22,7 +22,7 @@ public class Family {
     @Size(max=200, message = "Family code cannot be more than 200 characters.")
     private String code;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "family")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "family", fetch = FetchType.EAGER)
     private List<User> users;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "family")
