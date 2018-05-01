@@ -69,6 +69,14 @@ public class User {
     public User() {
     }
 
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<EventComment> eventComments;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Event> events;
+
+
     public User(User copy) {
         this.id = copy.id;
         this.username = copy.username;
@@ -77,27 +85,35 @@ public class User {
         this.firstName = copy.firstName;
         this.lastName = copy.lastName;
         this.birthdate = copy.birthdate;
-        this.tasksCreated = copy.tasksCreated;
-        this.designatedTasks = copy.designatedTasks;
         this.family = copy.family;
         this.title = copy.title;
+        this.eventComments = copy.eventComments;
+        this.events = copy.events;
+        this.tasksCreated = copy.tasksCreated;
+        this.designatedTasks = copy.designatedTasks;
         this.taskComments = copy.taskComments;
     }
-    public User(String username, String email, String password, String firstName, String lastName, Date birthdate, List<Task> tasksCreated, List<Task> designatedTasks, Family family, String title, List<TaskComment> taskComments) {
+
+    public User(String username, String email, String password, String firstName, String lastName, Date birthdate, List<Task> tasksCreated, List<Task> designatedTasks, Family family, String title, List<TaskComment> taskComments, List<EventComment> eventComments, List<Event> events) {
+
         this.username = username;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdate = birthdate;
-        this.tasksCreated = tasksCreated;
-        this.designatedTasks = designatedTasks;
         this.family = family;
         this.title = title;
+        this.eventComments = eventComments;
+        this.events = events;
+        this.tasksCreated = tasksCreated;
+        this.designatedTasks = designatedTasks;
         this.taskComments = taskComments;
     }
 
-    public User(Long id, String username, String email, String password, String firstName, String lastName, Date birthdate, List<Task> tasksCreated, List<Task> designatedTasks, Family family, String title, List<TaskComment> taskComments) {
+
+    public User(Long id, String username, String email, String password, String firstName, String lastName, Date birthdate, List<Task> tasksCreated, List<Task> designatedTasks, Family family, String title, List<TaskComment> taskComments, List<EventComment> eventComments, List<Event> events) {
+
         this.id = id;
         this.username = username;
         this.email = email;
@@ -105,11 +121,14 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdate = birthdate;
-        this.tasksCreated = tasksCreated;
-        this.designatedTasks = designatedTasks;
         this.family = family;
         this.title = title;
+        this.eventComments = eventComments;
+        this.events = events;
+        this.tasksCreated = tasksCreated;
+        this.designatedTasks = designatedTasks;
         this.taskComments = taskComments;
+
     }
 
     public long getId() {
@@ -184,6 +203,23 @@ public class User {
         this.title = title;
     }
 
+
+    public List<EventComment> getEventComments() {
+        return eventComments;
+    }
+
+    public void setEventComments(List<EventComment> eventComments) {
+        this.eventComments = eventComments;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
     public List<Task> getTasksCreated() {
         return tasksCreated;
     }
@@ -206,5 +242,6 @@ public class User {
 
     public void setDesignatedTasks(List<Task> designatedTasks) {
         this.designatedTasks = designatedTasks;
+
     }
 }

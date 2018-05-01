@@ -1,10 +1,13 @@
 package com.kincurrently.models;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.sql.Time;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "events")
@@ -18,23 +21,42 @@ public class Event {
     @JoinColumn(name = "family_id")
     private Family family;
 
-    @Column
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
+    private List<EventComment> eventComments;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name="events_categories",
+            joinColumns = {@JoinColumn(name="event_id")},
+            inverseJoinColumns = {@JoinColumn(name="category_id")}
+    )
+    private List<Category> categories;
+
+    @Column(nullable = false)
+    @NotBlank(message = "Title field cannot be blank.")
+    @Size(max=50, message = "Title cannot be more than 100 characters.")
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
+    @NotBlank(message = "Description field cannot be blank.")
     private String description;
 
     @Column
     private String location;
 
-    @Column
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-DD")
+//    @NotNull(message = "Events need to have a start date")
     private java.util.Date start_date;
 
     @Column
     @Temporal(TemporalType.TIME)
-    @DateTimeFormat(pattern = "hh:mm a")
+    @DateTimeFormat(pattern = "hh:mm")
     private java.util.Date start_time;
 
     @Column
@@ -44,11 +66,11 @@ public class Event {
 
     @Column
     @Temporal(TemporalType.TIME)
-    @DateTimeFormat(pattern = "hh:mm a")
+    @DateTimeFormat(pattern = "hh:mm")
     private java.util.Date end_time;
 
 
-    public Event(Family family, String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time) {
+    public Event(Family family, String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments, List<Category> categories, User user) {
         this.family = family;
         this.title = title;
         this.description = description;
@@ -57,9 +79,12 @@ public class Event {
         this.start_time = start_time;
         this.end_date = end_date;
         this.end_time = end_time;
+        this.eventComments = eventComments;
+        this.categories = categories;
+        this.user = user;
     }
 
-    public Event(String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time) {
+    public Event(String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments, List<Category> categories, User user) {
         this.title = title;
         this.description = description;
         this.location = location;
@@ -67,9 +92,28 @@ public class Event {
         this.start_time = start_time;
         this.end_date = end_date;
         this.end_time = end_time;
+        this.eventComments = eventComments;
+        this.categories = categories;
+        this.user = user;
     }
 
     public Event() {
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public List<EventComment> getEventComments() {
+        return eventComments;
+    }
+
+    public void setEventComments(List<EventComment> eventComments) {
+        this.eventComments = eventComments;
     }
 
     public Date getStart_time() {
@@ -143,4 +187,14 @@ public class Event {
     public void setEnd_date(Date end_date) {
         this.end_date = end_date;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 }

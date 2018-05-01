@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/header :: header (Events)"></head>
+<body>
+
+<div th:replace="partials/navbar :: navbar"></div>
+
+<div class="card">
+    <h2 th:text="${event.title}"></h2>
+    <p th:text="${event.description}"></p>
+    <div><span th:each="category : ${event.categories}"><button class="btn btn-primary" th:text="${category.name}"></button></span></div>
+</div>
+<hr />
+
+<div class="container">
+    <div class="row">
+        <h1>Comments</h1>
+        <div><span th:each="eventComment : ${event.eventComments}"><div th:utext="${eventComment.commentBody}"></div>
+        <div>Posted by: <span th:text="${eventComment.user.getUsername()}"></span></div></span></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <h1>Add Comments</h1>
+        <form class="xs-offset-3 xs-col-6 center-block text-center" th:action="@{/events/comment}" method="post" th:object="${eventComment}">
+            <label class="titleLabel">Comment:</label> <br />
+            <textarea class="createTitle" th:field="*{commentBody}" ></textarea>
+            <input type="hidden" name="eventId" th:value="${event.id}" />
+            <br />
+            <input type="submit" />
+        </form>
+    </div>
+</div>
+
+
+
+<footer th:replace="partials/footer :: footer"></footer>
+
+</body>
+</html>

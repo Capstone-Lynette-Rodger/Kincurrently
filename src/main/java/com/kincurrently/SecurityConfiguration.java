@@ -43,6 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login?logout") // append a query string value
+                /* Pages that require authentication */
                 /*Pages that require a specific role */
                 .and()
                 .authorizeRequests()

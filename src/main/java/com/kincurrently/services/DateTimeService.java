@@ -19,5 +19,15 @@ public class DateTimeService {
         return date;
     }
 
+    public Date parseTime(String dateString) {
+        Date date = new Date();
+        try {
+            date = new SimpleDateFormat("hh:mm").parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
 
 }
