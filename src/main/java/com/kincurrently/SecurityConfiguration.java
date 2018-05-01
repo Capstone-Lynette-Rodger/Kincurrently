@@ -46,14 +46,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 /*Pages that require a specific role */
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register/child")
+                .antMatchers("/register/child",
+                        "/tasks/create")
                 .hasAuthority("ROLE_PARENT") // only author can disable comments
                 /* Pages that require athentication */
                 .and()
                 .authorizeRequests()
                 .antMatchers(
                         "/dashboard", // only authenticated users can view dashboard
-                        "/register/child" // only authenticated users can register children
+                        "/register/child",// only authenticated users can register children
+                        "/tasks", "/tasks/{id}",
+                        "/events", "/events/create"
                 )
                 .authenticated()
                 /* Pages that can be viewed without having to log in */

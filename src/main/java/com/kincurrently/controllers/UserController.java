@@ -91,6 +91,9 @@ public class UserController {
             family = familyRepo.findByCode(family.getCode());
             user.setFamily(family);
         }
+        if(user.getTitle().trim().equals("")){
+            user.setTitle(null);
+        }
         userRepo.save(user);
 //      Need to assign all new users as having a 'Parent' role
         rolesRepo.save(new UserRole(user.getId(), "PARENT"));
@@ -137,6 +140,9 @@ public class UserController {
         String hash = passwordEncoder.encode(user.getPassword());
         user.setPassword(hash);
         user.setFamily(loggedInUser.getFamily());
+        if(user.getTitle().trim().equals("")){
+            user.setTitle(null);
+        }
 //      Save child user and user role
         userRepo.save(user);
 //      Need to assign all new users as having a 'Parent' role

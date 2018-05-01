@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/header :: header (Events)"></head>
+<body>
+<div th:replace="partials/navbar :: navbar"></div>
+<h2>My Current Tasks</h2>
+<div class="container">
+    <div class="row">
+        <div class="card">
+            <h2 th:text="${task.title}"></h2>
+            <h5>Completion Deadline: <span th:text="${task.completed_by}"></span></h5>
+            <h5>Status: <span th:text="${task.status.status}"></span></h5>
+            <h5 th:if="${task.creator.title}">Assigned By: <span th:text="${task.creator.title}"></span></h5>
+            <h5 th:if="${task.creator.title == null}">Assigned By: <span th:text="${task.creator.firstName}"></span></h5>
+            <h5 th:if="${task.designated_user.title}">Assigned To: <span th:text="${task.designated_user.title}"></span></h5>
+            <h5 th:if="${task.designated_user.title == null}">Assigned To: <span th:text="${task.designated_user.firstName}"></span></h5>
+            <h5>Date Assigned: <span th:text="${task.created_on}">  </span></h5>
+            <p class="bodyText" th:text="${task.description}"></p>
+            <form th:action="@{/tasks/update}" method="POST" th:if="${task.designated_user.id == #authentication.principal.id}">
+                <input  type="hidden" name="taskId" th:value="${task.id}"/>
+                <button th:if="${task.status.id == 1}">Mark As In Progress</button>
+                <button th:if="${task.status.id == 2}">Mark As Completed</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <h2>Comments</h2>
+        <div th:each="taskComment: ${comments}">
+            <p th:text="${taskComment.commentBody}"></p>
+            <p th:if="${taskComment.user.title == null}" th:text="${taskComment.user.firstName}"></p>
+            <p th:if="${taskComment.user.title}" th:text="${taskComment.user.title}"></p>
+            <br/>
+        </div>
+        <form th:action="@{/taskcomment}" method="POST" th:object="${newComment}">
+            <input type="hidden" name="taskId" th:value="${task.id}"/>
+            <textarea type="text" th:field="${newComment.commentBody}" th:required="required"></textarea>
+            <p class="text-danger" th:if="${#fields.hasErrors('commentBody')}" th:errors="*{commentBody}" />
+            <button>Submit</button>
+        </form>
+    </div>
+</div>
+<footer th:replace="partials/footer :: footer"></footer>
+</body>
+</html>
