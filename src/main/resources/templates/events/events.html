@@ -16,6 +16,7 @@
                 <h5>End Time: <span th:text="${event.end_time}"></span></h5>
                 <h5>Location: <span th:text="${event.location}">  </span></h5>
                 <p class="bodyText" th:text="${event.description}"></p>
+                <div><span th:each="category : ${event.categories}"><button class="btn btn-primary" th:text="${category.name}"></button></span></div>
                 <div><a th:href="@{/events/{id}(id=${event.getId()})}">View Event</a></div>
                 <hr />
             </div>
@@ -42,6 +43,12 @@
                 <label>Description: </label>
                 <input type="text" th:field="*{description}" th:required="required" />
                 <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" />
+                <h1>Categories</h1>
+                <div>
+                    <label th:each="category : ${categories}">
+                        <input type="checkbox" th:field="*{categories}" th:value="${category.id}" /> <span class="categories" th:text="${category.name}"></span>
+                    </label>
+                </div>
 
                 <button>Submit</button>
             </form>

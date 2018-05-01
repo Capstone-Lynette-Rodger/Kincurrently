@@ -9,6 +9,7 @@
 <div class="card">
     <h2 th:text="${event.title}"></h2>
     <p th:text="${event.description}"></p>
+    <div><span th:each="category : ${event.categories}"><button class="btn btn-primary" th:text="${category.name}"></button></span></div>
 </div>
 <hr />
 

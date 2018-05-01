@@ -1,8 +1,10 @@
 package com.kincurrently.controllers;
 
+import com.kincurrently.models.Category;
 import com.kincurrently.models.Event;
 import com.kincurrently.models.EventComment;
 import com.kincurrently.models.User;
+import com.kincurrently.repositories.CategoryRepository;
 import com.kincurrently.repositories.EventCommentRepository;
 import com.kincurrently.repositories.EventRepository;
 import com.kincurrently.repositories.FamilyRepository;
@@ -27,13 +29,17 @@ public class EventController {
     private final EventRepository eventRepository;
     private final FamilyRepository familyRepository;
     private final EventCommentRepository eventCommentRepository;
+    private final CategoryRepository categoryRepository;
     private DateTimeService dtService;
 
-    public EventController(EventRepository eventRepository, FamilyRepository familyRepository, EventCommentRepository eventCommentRepository, DateTimeService dtService) {
+    public EventController(EventRepository eventRepository, FamilyRepository familyRepository,
+                           EventCommentRepository eventCommentRepository, DateTimeService dtService,
+                           CategoryRepository categoryRepository) {
         this.eventRepository = eventRepository;
         this.familyRepository = familyRepository;
         this.eventCommentRepository = eventCommentRepository;
         this.dtService = dtService;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("/events")
@@ -42,6 +48,8 @@ public class EventController {
 
         model.addAttribute("events", eventRepository.findByFamilyId(current.getFamily().getId()));
         model.addAttribute("event", new Event());
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
 
         return "/events/events";
     }
@@ -51,6 +59,8 @@ public class EventController {
     public String indPostView(@PathVariable long id, Model model) {
 
         model.addAttribute("event", eventRepository.findOne(id));
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
         model.addAttribute("eventComment", new EventComment());
 
         return "events/showEvent";
@@ -67,6 +77,8 @@ public class EventController {
         if (validation.hasErrors()) {
             model.addAttribute("event", event);
             model.addAttribute("validation", validation);
+            Iterable<Category> categories = categoryRepository.findAll();
+            model.addAttribute("categories", categories);
             return "/events/events";
         }
 
@@ -93,6 +105,9 @@ public class EventController {
 
 
         }
+
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
 
         eventRepository.save(event);
 

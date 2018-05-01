@@ -24,6 +24,15 @@ public class Event {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
     private List<EventComment> eventComments;
 
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name="events_categories",
+            joinColumns = {@JoinColumn(name="event_id")},
+            inverseJoinColumns = {@JoinColumn(name="category_id")}
+    )
+    private List<Category> categories;
+
     @Column(nullable = false)
     @NotBlank(message = "Title field cannot be blank.")
     @Size(max=50, message = "Title cannot be more than 100 characters.")
@@ -58,7 +67,7 @@ public class Event {
     private java.util.Date end_time;
 
 
-    public Event(Family family, String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments) {
+    public Event(Family family, String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments, List<Category> categories) {
         this.family = family;
         this.title = title;
         this.description = description;
@@ -68,9 +77,10 @@ public class Event {
         this.end_date = end_date;
         this.end_time = end_time;
         this.eventComments = eventComments;
+        this.categories = categories;
     }
 
-    public Event(String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments) {
+    public Event(String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments, List<Category> categories) {
         this.title = title;
         this.description = description;
         this.location = location;
@@ -79,9 +89,18 @@ public class Event {
         this.end_date = end_date;
         this.end_time = end_time;
         this.eventComments = eventComments;
+        this.categories = categories;
     }
 
     public Event() {
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public List<EventComment> getEventComments() {
