@@ -56,7 +56,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "creator")
     private List<Task> tasksCreated;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "designated_user", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "designated_user")
     private List<Task> designatedTasks;
 
     @ManyToOne(optional = false)
