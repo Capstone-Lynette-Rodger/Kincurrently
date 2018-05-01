@@ -7,6 +7,9 @@
 <h1 th:if="${#authentication.principal.title}" th:text="${#authentication.principal.title}"></h1>
 <h1 th:if="${#authentication.principal.title == null}" th:text="${#authentication.principal.firstName}"></h1>
 <h1 th:text="${#authentication.principal.family.name}"></h1>
+<ul th:each="member : ${familyMembers}">
+    <li th:text="${member.firstName}"></li>
+</ul>
 
 
 <div th:replace="partials/footer :: footer"></div>

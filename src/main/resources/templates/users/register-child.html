@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header :: header('Kincurrently')"/>
+<body>
+<div th:replace="partials/navbar :: navbar"></div>
+
+<h1>Create an account</h1>
+<form th:action="@{/register/child}" method="POST" th:object="${user}">
+    <input id="childFirstName" th:field="*{firstName}" name="firstName" placeholder="First Name" th:required="required" />
+    <div>
+        <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" />
+    </div>
+
+    <input id="childLastName" th:field="*{lastName}" name="lastName" placeholder="Last Name" th:required="required" />
+    <div>
+        <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" />
+    </div>
+
+    <input id="childTitle" th:field="*{title}" name="title" placeholder="What name do you like to go by? i.e. Mom, Dad, Mommy, etc." />
+
+    <input type="date" name="birthdate" th:required="required" />
+    <div>
+        <p th:if="${#fields.hasErrors('birthdate')}" th:errors="*{birthdate}" />
+    </div>
+
+    <input id="childUsername" th:field="*{username}" name="username" placeholder="Username" th:required="required" />
+    <div>
+        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" />
+    </div>
+
+    <input id="childEmail" th:field="*{email}" name="email" placeholder="Email" th:required="required" />
+    <div>
+        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" />
+    </div>
+
+    <input id="childPassword" type="password" th:field="*{password}" name="password" placeholder="Password" th:required="required" />
+    <input id="childVerifyPassword" type="password" name="verifyPassword" placeholder="Verify Password" th:required="required"/>
+    <div>
+        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" />
+    </div>
+    <input value="Register Child" type="submit"/>
+</form>
+
+<div th:replace="partials/footer :: footer"></div>
+</body>
+</html>

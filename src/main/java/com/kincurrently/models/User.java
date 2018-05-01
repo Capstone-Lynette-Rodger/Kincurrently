@@ -53,12 +53,18 @@ public class User {
     @NotNull(message = "Birthdate field cannot be blank.")
     private Date birthdate;
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-//    private List<Task> tasks;
-//
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creator")
+    private List<Task> tasksCreated;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "designated_user", fetch = FetchType.EAGER)
+    private List<Task> designatedTasks;
+
     @ManyToOne(optional = false)
     @JoinColumn (name = "family_id")
     private Family family;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<TaskComment> taskComments;
 
     public User() {
     }
@@ -83,8 +89,13 @@ public class User {
         this.title = copy.title;
         this.eventComments = copy.eventComments;
         this.events = copy.events;
+        this.tasksCreated = copy.tasksCreated;
+        this.designatedTasks = copy.designatedTasks;
+        this.taskComments = copy.taskComments;
     }
-    public User(String username, String email, String password, String firstName, String lastName, Date birthdate, Family family, String title, List<EventComment> eventComments, List<Event> events) {
+
+    public User(String username, String email, String password, String firstName, String lastName, Date birthdate, List<Task> tasksCreated, List<Task> designatedTasks, Family family, String title, List<TaskComment> taskComments, List<EventComment> eventComments, List<Event> events) {
+
         this.username = username;
         this.email = email;
         this.password = password;
@@ -95,9 +106,14 @@ public class User {
         this.title = title;
         this.eventComments = eventComments;
         this.events = events;
+        this.tasksCreated = tasksCreated;
+        this.designatedTasks = designatedTasks;
+        this.taskComments = taskComments;
     }
 
-    public User(Long id, String username, String email, String password, String firstName, String lastName, Date birthdate, Family family, String title, List<EventComment> eventComments, List<Event> events) {
+
+    public User(Long id, String username, String email, String password, String firstName, String lastName, Date birthdate, List<Task> tasksCreated, List<Task> designatedTasks, Family family, String title, List<TaskComment> taskComments, List<EventComment> eventComments, List<Event> events) {
+
         this.id = id;
         this.username = username;
         this.email = email;
@@ -109,6 +125,9 @@ public class User {
         this.title = title;
         this.eventComments = eventComments;
         this.events = events;
+        this.tasksCreated = tasksCreated;
+        this.designatedTasks = designatedTasks;
+        this.taskComments = taskComments;
 
     }
 
@@ -184,6 +203,7 @@ public class User {
         this.title = title;
     }
 
+
     public List<EventComment> getEventComments() {
         return eventComments;
     }
@@ -198,5 +218,30 @@ public class User {
 
     public void setEvents(List<Event> events) {
         this.events = events;
+    }
+
+    public List<Task> getTasksCreated() {
+        return tasksCreated;
+    }
+
+    public void setTasksCreated(List<Task> tasksCreated) {
+        this.tasksCreated = tasksCreated;
+    }
+
+    public List<TaskComment> getTaskComments() {
+        return taskComments;
+    }
+
+    public void setTaskComments(List<TaskComment> taskComments) {
+        this.taskComments = taskComments;
+    }
+
+    public List<Task> getDesignatedTasks() {
+        return designatedTasks;
+    }
+
+    public void setDesignatedTasks(List<Task> designatedTasks) {
+        this.designatedTasks = designatedTasks;
+
     }
 }
