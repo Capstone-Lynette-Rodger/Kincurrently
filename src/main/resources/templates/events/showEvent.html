@@ -16,7 +16,8 @@
 <div class="container">
     <div class="row">
         <h1>Comments</h1>
-        <div><span th:each="eventComment : ${event.eventComments}"><div th:text="${eventComment.commentBody}"></div></span></div>
+        <div><span th:each="eventComment : ${event.eventComments}"><div th:utext="${eventComment.commentBody}"></div>
+        <div>Posted by: <span th:text="${eventComment.user.getUsername()}"></span></div></span></div>
     </div>
 </div>
 
@@ -25,7 +26,7 @@
         <h1>Add Comments</h1>
         <form class="xs-offset-3 xs-col-6 center-block text-center" th:action="@{/events/comment}" method="post" th:object="${eventComment}">
             <label class="titleLabel">Comment:</label> <br />
-            <input class="createTitle" th:field="*{commentBody}" />
+            <textarea class="createTitle" th:field="*{commentBody}" ></textarea>
             <input type="hidden" name="eventId" th:value="${event.id}" />
             <br />
             <input type="submit" />

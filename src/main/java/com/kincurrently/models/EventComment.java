@@ -18,9 +18,15 @@ public class EventComment {
     @JoinColumn(name = "event_id")
     private Event event;
 
-    public EventComment(String commentBody, Event event) {
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public EventComment(String commentBody, Event event, User user) {
         this.commentBody = commentBody;
         this.event = event;
+        this.user = user;
     }
 
     public EventComment() {
@@ -48,5 +54,13 @@ public class EventComment {
 
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

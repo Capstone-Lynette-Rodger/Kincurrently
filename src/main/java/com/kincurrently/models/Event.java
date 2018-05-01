@@ -24,6 +24,9 @@ public class Event {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
     private List<EventComment> eventComments;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -67,7 +70,7 @@ public class Event {
     private java.util.Date end_time;
 
 
-    public Event(Family family, String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments, List<Category> categories) {
+    public Event(Family family, String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments, List<Category> categories, User user) {
         this.family = family;
         this.title = title;
         this.description = description;
@@ -78,9 +81,10 @@ public class Event {
         this.end_time = end_time;
         this.eventComments = eventComments;
         this.categories = categories;
+        this.user = user;
     }
 
-    public Event(String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments, List<Category> categories) {
+    public Event(String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments, List<Category> categories, User user) {
         this.title = title;
         this.description = description;
         this.location = location;
@@ -90,6 +94,7 @@ public class Event {
         this.end_time = end_time;
         this.eventComments = eventComments;
         this.categories = categories;
+        this.user = user;
     }
 
     public Event() {
@@ -182,4 +187,14 @@ public class Event {
     public void setEnd_date(Date end_date) {
         this.end_date = end_date;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 }

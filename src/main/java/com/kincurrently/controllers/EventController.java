@@ -90,7 +90,8 @@ public class EventController {
             event.setEnd_date(dtService.parseDate(endDate));
             event.setStart_time(dtService.parseTime(startTime));
             event.setEnd_time(dtService.parseTime(endTime));
-            event.setFamily(current.getFamily());
+
+
 
 
 
@@ -101,7 +102,8 @@ public class EventController {
             event.setEnd_date(null);
             event.setStart_time(dtService.parseTime(startTime));
             event.setEnd_time(dtService.parseTime(endTime));
-            event.setFamily(current.getFamily());
+
+
 
 
         }
@@ -109,6 +111,9 @@ public class EventController {
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
 
+        event.setFamily(current.getFamily());
+        event.setUser(current);
+        System.out.println("event.getUser() = " + current.getUsername());
         eventRepository.save(event);
 
         return "redirect:/events";
