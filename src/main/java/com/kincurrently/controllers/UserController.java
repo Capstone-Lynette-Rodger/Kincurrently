@@ -103,10 +103,17 @@ public class UserController {
     }
 
     @GetMapping("/dashboard")
-    public String showDashboard() {
+    public String showDashboard(Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("familyMembers", user.getFamily().getUsers());
         return "users/dashboard";
     }
 
+    @GetMapping("/register/child")
+    public String showRegisterChildForm(Model model){
+        model.addAttribute("user", new User());
+        return "users/register-child";
+    }
     @PostMapping("/register/child")
     public String saveChildUser(@Valid User user, Errors userErrors, Model model, @RequestParam String verifyPassword, @RequestParam String birthdate) {
         //validating user registration for email, username, and password validation
@@ -122,7 +129,7 @@ public class UserController {
         if(userErrors.hasErrors()) {
             model.addAttribute("errors", userErrors);
             model.addAttribute("user", user);
-            return "users/register";
+            return "users/register-child";
         }
 //      Need to parse birthdate string into date object
         user.setBirthdate(dtService.parseDate(birthdate));
@@ -134,6 +141,6 @@ public class UserController {
         userRepo.save(user);
 //      Need to assign all new users as having a 'Parent' role
         rolesRepo.save(new UserRole(user.getId(), "CHILD"));
-        return "redirect:/register";
+        return "redirect:/dashboard";
     }
 }

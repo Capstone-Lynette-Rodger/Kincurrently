@@ -6,6 +6,7 @@
 <div class="nav" th:fragment="navbar" >
     <div>
         <a sec:authorize="isAnonymous()" href="/register">Register</a>
+        <a sec:authorize="isAuthenticated()" href="/register/child">Register a Child</a>
         <form th:action="@{/logout}" th:method="post" sec:authorize="isAuthenticated()">
             <button>Logout</button>
         </form>

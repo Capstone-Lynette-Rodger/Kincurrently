@@ -43,6 +43,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login?logout") // append a query string value
+                /*Pages that require a specific role */
+                .and()
+                .authorizeRequests()
+                .antMatchers("/register/child")
+                .hasAuthority("ROLE_PARENT") // only author can disable comments
                 /* Pages that require athentication */
                 .and()
                 .authorizeRequests()
