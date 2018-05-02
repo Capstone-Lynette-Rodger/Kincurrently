@@ -53,10 +53,18 @@ public class Task {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "task")
     private List<TaskComment> comments;
 
+    @ManyToMany
+    @JoinTable(
+            name="tasks_categories",
+            joinColumns = {@JoinColumn(name="task_id")},
+            inverseJoinColumns = {@JoinColumn(name="category_id")}
+    )
+    private List<Category> categories;
+
     public Task() {
     }
 
-    public Task(String title, Date created_on, Date completed_by, String description, User creator, User designated_user, Status status, List<TaskComment> comments, Long id) {
+    public Task(String title, Date created_on, Date completed_by, String description, User creator, User designated_user, Status status, List<TaskComment> comments, Long id, List<Category> categories) {
         this.title = title;
         this.created_on = created_on;
         this.completed_by = completed_by;
@@ -66,9 +74,10 @@ public class Task {
         this.id = id;
         this.comments = comments;
         this.designated_user = designated_user;
+        this.categories = categories;
     }
 
-    public Task(String title, Date created_on, Date completed_by, String description, User creator, User designated_user, Status status, List<TaskComment> comments) {
+    public Task(String title, Date created_on, Date completed_by, String description, User creator, User designated_user, Status status, List<TaskComment> comments, List<Category> categories) {
         this.title = title;
         this.created_on = created_on;
         this.completed_by = completed_by;
@@ -77,6 +86,7 @@ public class Task {
         this.status = status;
         this.comments = comments;
         this.designated_user = designated_user;
+        this.categories = categories;
     }
 
     public long getId() {
@@ -149,5 +159,13 @@ public class Task {
 
     public void setDesignated_user(User designated_user) {
         this.designated_user = designated_user;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 }

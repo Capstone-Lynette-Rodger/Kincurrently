@@ -1,4 +1,17 @@
+let current = new Date();
+let monthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+let dayArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
+currentDate = dayArray[current.getUTCDay()] + ", " + monthArray[current.getUTCMonth()] + " " + current.getUTCDate() + ', ' + current.getUTCFullYear();
+$(".todaysDate").text(currentDate);
+
+$.each($(".changeDate"), (index, element) => {
+    let date = new Date(element.textContent);
+    element.innerHTML = dayArray[date.getUTCDay()] + ", " + monthArray[date.getUTCMonth()] + " " + date.getUTCDate();
+    if(current.getUTCFullYear() !== date.getUTCFullYear()) {
+        element.innerHTML += ', ' + date.getUTCFullYear();
+    }
+});
 
 $('#joinIfExisting').click(()=> {
     $('#joinIfExisting').attr('checked', function(index, attr){
@@ -12,12 +25,8 @@ $('#joinIfExisting').click(()=> {
 });
 
 let today = new Date().toISOString().split('T')[0];
-document.getElementsByName("completed_by")[0].setAttribute('min', today);
-// let editorArray = document.getElementsByClassName("nicEditor");
-// for (let i = 0; i < editorArray.length; ++i) {
-//     nicEditors.editors.push(
-//         new nicEditor().panelInstance(
-//             editorArray[i]
-//         )
-//     );
-// }
+$.each($('input[type="date"]'), (index, input) => {
+    if(input.name !== 'birthdate') {
+        input.setAttribute('min', today-1);
+    }
+});

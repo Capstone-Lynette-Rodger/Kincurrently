@@ -3,15 +3,35 @@
 <head th:replace="partials/header :: header('Kincurrently')"/>
 <body>
 <div th:replace="partials/navbar :: navbar"></div>
-
-<h1 th:if="${#authentication.principal.title}" th:text="${#authentication.principal.title}"></h1>
-<h1 th:if="${#authentication.principal.title == null}" th:text="${#authentication.principal.firstName}"></h1>
-<h1 th:text="${#authentication.principal.family.name}"></h1>
-<ul th:each="member : ${familyMembers}">
-    <li th:text="${member.firstName}"></li>
-</ul>
-
-
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="todaysDate text-center"></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 th:if="${#authentication.principal.title}" th:text="${#authentication.principal.title}"></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 th:if="${#authentication.principal.title == null}" th:text="${#authentication.principal.firstName}"></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 th:text="${#authentication.principal.family.name}"></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <ul th:each="member : ${familyMembers}">
+                <li th:text="${member.firstName}"></li>
+            </ul>
+        </div>
+    </div>
+</div>
 <div th:replace="partials/footer :: footer"></div>
 </body>
 </html>

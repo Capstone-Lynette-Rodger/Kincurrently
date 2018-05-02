@@ -3,25 +3,53 @@
 <head th:replace="header :: head" />
 <body>
 
-<div class="nav" th:fragment="navbar" >
-    <div>
-        <a sec:authorize="isAnonymous()" href="/register">Register</a>
-        <a sec:authorize="isAuthenticated()" href="/register/child">Register a Child</a>
-        <form th:action="@{/logout}" th:method="post" sec:authorize="isAuthenticated()">
-            <button>Logout</button>
-        </form>
-        <form th:action="@{/login}" method="POST" sec:authorize="isAnonymous()">
-            <input id="loginUser" type="text" name="username" placeholder="Username" />
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Kincurrently</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-            <input id="loginPass" name="password" type="password" placeholder="Password"/>
-            <div>
-                <p th:if="${param.error}">Invalid Username or Password.</p>
-            </div>
-            <input value="Login" type="submit"/>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item" sec:authorize="isAnonymous()">
+                <a class="nav-link" th:href="@{'/'}">Home</a>
+            </li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:href="@{'/dashboard'}">Home</a>
+            </li>
+            <li class="nav-item" sec:authorize="isAnonymous()">
+                <a class="nav-link" th:href="@{'/register'}">Register</a>
+            </li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:href="@{'/register/child'}">Register a Child</a>
+            </li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:href="@{'/events'}">View All Events</a>
+            </li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:href="@{'/tasks'}">View Tasks</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item" th:if="${param.logout}">
+                <div class="nav-link text-danger">You have been logged out.</div>
+            </li>
+            <li class="nav-item" th:if="${param.error}">
+                <div class="nav-link text-danger">Invalid Username or Password.</div>
+            </li>
+        </ul>
+        <!--<div class="text-danger" th:if="${param.error}"> Invalid Username or Password. </div>-->
+        <!--<div class="text-danger" th:if="${param.logout}"> You have been logged out. </div>-->
+        <form class="form-inline my-2 my-lg-0" th:action="@{/login}" method="POST" sec:authorize="isAnonymous()">
+            <input class="form-control mr-sm-2" id="loginUser" type="text" name="username" placeholder="Username"/>
+            <input class="form-control mr-sm-2" id="loginPass" name="password" type="password" placeholder="Password"/>
+            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Login</button>
         </form>
-        <p th:if="${param.logout}">You have been logged out.</p>
+        <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" th:method="post" sec:authorize="isAuthenticated()">
+            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Logout</button>
+        </form>
     </div>
-</div>
+</nav>
 
 </body>
 </html>
