@@ -5,20 +5,74 @@ let dayArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
 currentDate = dayArray[current.getUTCDay()] + ", " + monthArray[current.getUTCMonth()] + " " + current.getUTCDate() + ', ' + current.getUTCFullYear();
 $(".todaysDate").text(currentDate);
 
-$.each($(".changeDate"), (index, element) => {
-    console.log(element.textContent);
-    if (element.textContent == "") {
-        let parent = element.parentNode;
-    parent.parentNode.removeChild(parent);
-    } else {
+let addDays = (date, days) => {
+    let result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+};
 
-    let date = new Date(element.textContent);
-    element.innerHTML = dayArray[date.getUTCDay()] + ", " + monthArray[date.getUTCMonth()] + " " + date.getUTCDate();
-    if (current.getUTCFullYear() !== date.getUTCFullYear()) {
-        element.innerHTML += ', ' + date.getUTCFullYear();
-    }
-    }
+let changeView = () => {
+    $.each($('.date'), (index, element) => {
+        let date = new Date(element.textContent.replace(/-/g, '\/'));
+        switch($('#taskView').val()) {
+            case "day":
+                if(current.getUTCFullYear() !== date.getUTCFullYear() || current.getUTCMonth() !== date.getUTCMonth() || current.getUTCDate() !== date.getUTCDate()) {
+                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
+                }
+                break;
+            case "week":
+                if((current.getUTCFullYear() !== date.getUTCFullYear() || current.getUTCMonth() !== date.getUTCMonth() || current.getUTCDate() !== date.getUTCDate()) && (date >= addDays(current, 6)  || date < current)) {
+                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
+                    console.log(date);
+                    console.log(addDays(current, 6));
+                }
+                break;
+            case "month":
+                if(current.getUTCFullYear() !== date.getUTCFullYear() || date.getUTCMonth() !== current.getUTCMonth()) {
+                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
+                }
+                break;
+            case "all":
+                break;
+        }
+    });
+    // $.each($(".changeDate"), (index, element) => {
+    // console.log(element.textContent);
+    // if (element.textContent == "") {
+    //     let parent = element.parentNode;
+    // parent.parentNode.removeChild(parent);
+    // } else {
+    //
+    // let date = new Date(element.textContent);
+    // element.innerHTML = dayArray[date.getUTCDay()] + ", " + monthArray[date.getUTCMonth()] + " " + date.getUTCDate();
+    // if (current.getUTCFullYear() !== date.getUTCFullYear()) {
+    //     element.innerHTML += ', ' + date.getUTCFullYear();
+    // }
+    // }
+// });
+};
+changeView();
+$('#taskView').change(() => {
+    $.each($('.date'), (index, element) => {
+        element.parentNode.parentNode.removeAttribute("hidden");
+    });
+    changeView();
 });
+
+// $.each($(".changeDate"), (index, element) => {
+//     console.log(element.textContent);
+//     if (element.textContent == "") {
+//         let parent = element.parentNode;
+//     parent.parentNode.removeChild(parent);
+//     } else {
+//
+//     let date = new Date(element.textContent);
+//     element.innerHTML = dayArray[date.getUTCDay()] + ", " + monthArray[date.getUTCMonth()] + " " + date.getUTCDate();
+//     if (current.getUTCFullYear() !== date.getUTCFullYear()) {
+//         element.innerHTML += ', ' + date.getUTCFullYear();
+//     }
+//     }
+// });
 
 $('#joinIfExisting').click(()=> {
     $('#joinIfExisting').attr('checked', function(index, attr){
