@@ -4,6 +4,7 @@ import com.kincurrently.models.Status;
 import com.kincurrently.models.Task;
 import com.kincurrently.models.TaskComment;
 import com.kincurrently.models.User;
+import com.kincurrently.repositories.CategoryRepository;
 import com.kincurrently.repositories.StatusRepository;
 import com.kincurrently.repositories.TaskCommentRepository;
 import com.kincurrently.repositories.TaskRepository;
@@ -24,12 +25,14 @@ public class TaskController {
     private DateTimeService dtService;
     private StatusRepository statusRepo;
     private TaskCommentRepository tcRepo;
+    private CategoryRepository catRepo;
 
-    public TaskController(TaskRepository taskRepo, DateTimeService dtService, StatusRepository statusRepo, TaskCommentRepository tcRepo) {
+    public TaskController(TaskRepository taskRepo, DateTimeService dtService, StatusRepository statusRepo, TaskCommentRepository tcRepo, CategoryRepository catRepo) {
         this.taskRepo = taskRepo;
         this.dtService = dtService;
         this.statusRepo = statusRepo;
         this.tcRepo = tcRepo;
+        this.catRepo = catRepo;
     }
 
     @GetMapping("/tasks")
@@ -37,6 +40,7 @@ public class TaskController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("allTasks", taskRepo.findAll());
         model.addAttribute("myTasks", taskRepo.findByDesignatedUser(loggedInUser.getId()));
+        model.addAttribute("categories", catRepo.findAll());
         model.addAttribute("task", new Task());
         return "tasks/tasks";
     }

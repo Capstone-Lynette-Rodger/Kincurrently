@@ -17,9 +17,20 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     private List<Event> events;
 
-    public Category(String name, List<Event> events) {
+    @ManyToMany(mappedBy = "categories")
+    private List<Task> tasks;
+
+    public Category(String name, List<Event> events, List<Task> tasks) {
         this.name = name;
         this.events = events;
+        this.tasks = tasks;
+    }
+
+    public Category(Long id, String name, List<Event> events, List<Task> tasks) {
+        this.name = name;
+        this.events = events;
+        this.tasks = tasks;
+        this.id = id;
     }
 
     public Category() {
@@ -47,5 +58,13 @@ public class Category {
 
     public void setEvents(List<Event> events) {
         this.events = events;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }
