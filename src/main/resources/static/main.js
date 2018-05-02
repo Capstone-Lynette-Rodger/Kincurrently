@@ -13,36 +13,45 @@ $(".todaysDate").text(currentDate);
 //     }
 // });
 
+let addDays = (date, days) => {
+    let result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+}
+
 let changeView = () => {
     $.each($('.date'), (index, element) => {
-        let date = new Date(element.textContent);
-        console.log(element.textContent);
-        console.log(date);
+        let date = new Date(element.textContent.replace(/-/g, '\/'));
         switch($('#taskView').val()) {
             case "day":
                 if(current.getUTCFullYear() !== date.getUTCFullYear() || current.getUTCMonth() !== date.getUTCMonth() || current.getUTCDate() !== date.getUTCDate()) {
-                    let task = element.parentNode.parentNode;
-                    task.parentNode.setAttribute("hidden");
+                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
                 }
                 break;
             case "week":
-                console.log(current+7);
-                if(date > current + 7  || date < current) {
-                    let task = element.parentNode.parentNode;
-                    task.parentNode.removeChild(task);
+                if((current.getUTCFullYear() !== date.getUTCFullYear() || current.getUTCMonth() !== date.getUTCMonth() || current.getUTCDate() !== date.getUTCDate()) && (date >= addDays(current, 6)  || date < current)) {
+                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
+                    console.log(date);
+                    console.log(addDays(current, 6));
                 }
                 break;
             case "month":
                 if(current.getUTCFullYear() !== date.getUTCFullYear() || date.getUTCMonth() !== current.getUTCMonth()) {
-                    let task = element.parentNode.parentNode;
-                    task.parentNode.removeChild(task);
+                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
                 }
+                break;
+            case "all":
                 break;
         }
     });
 };
 changeView();
-$('#taskView').change(changeView());
+$('#taskView').change(() => {
+    $.each($('.date'), (index, element) => {
+      element.parentNode.parentNode.removeAttribute("hidden");
+    });
+    changeView();
+});
 
 $('#joinIfExisting').click(()=> {
     $('#joinIfExisting').attr('checked', function(index, attr){
