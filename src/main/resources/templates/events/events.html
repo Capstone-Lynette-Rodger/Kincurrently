@@ -10,9 +10,9 @@
         <div class="row">
             <div class="card"  th:each="event : ${events}">
                 <h2 th:text="${event.title}"></h2>
-                <h5>Start Date: <span th:text="${event.start_date}"></span></h5>
+                <h5>Start Date: <span class="changeDate" th:text="${event.start_date}"></span></h5>
                 <h5>Start Time: <span th:text="${event.start_time}"></span></h5>
-                <h5>End Date: <span th:text="${event.end_date}"></span></h5>
+                <h5>End Date: <span class="changeDate" th:text="${event.end_date}"></span></h5>
                 <h5>End Time: <span th:text="${event.end_time}"></span></h5>
                 <h5>Location: <span th:text="${event.location}">  </span></h5>
                 <p class="bodyText" th:text="${event.description}"></p>

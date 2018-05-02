@@ -6,10 +6,17 @@ currentDate = dayArray[current.getUTCDay()] + ", " + monthArray[current.getUTCMo
 $(".todaysDate").text(currentDate);
 
 $.each($(".changeDate"), (index, element) => {
+    console.log(element.textContent);
+    if (element.textContent == "") {
+        let parent = element.parentNode;
+    parent.parentNode.removeChild(parent);
+    } else {
+
     let date = new Date(element.textContent);
     element.innerHTML = dayArray[date.getUTCDay()] + ", " + monthArray[date.getUTCMonth()] + " " + date.getUTCDate();
-    if(current.getUTCFullYear() !== date.getUTCFullYear()) {
+    if (current.getUTCFullYear() !== date.getUTCFullYear()) {
         element.innerHTML += ', ' + date.getUTCFullYear();
+    }
     }
 });
 

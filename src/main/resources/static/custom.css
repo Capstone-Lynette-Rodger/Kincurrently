@@ -1,0 +1,25 @@
+body {
+    background-color: #2B2958;
+    color: white;
+}
+
+.homePageText {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 2.5em;
+    margin-top: 45px;
+    margin-bottom: 50px;
+}
+
+.iconHeader {
+    margin-top: 10px;
+}
+
+.indexIconDesc {
+    margin-top: 20px;
+}
+
+.iconBox {
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 40px;
+}
