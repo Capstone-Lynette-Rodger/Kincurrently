@@ -6,7 +6,7 @@
 
 <h1>Create an account</h1>
 <form th:action="@{/register}" method="POST">reating  new user-->
-    <input id="firstName" th:value="*{user.firstName}" name="firstName" placeholder="First Name" th:required="required">
+    <input id="firstName" th:value="*{user.firstName}" name="firstName" placeholder="First Name" th:required="required"/>
     <p class="text-danger" th:if="${#fields.hasErrors('user.firstName')}" th:errors="*{user.firstName}" />
 
     <input id="lastName" th:value="*{user.lastName}" name="lastName" placeholder="Last Name" th:required="required" />
