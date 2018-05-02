@@ -5,7 +5,7 @@
 <body>
 <div th:replace="partials/navbar :: navbar"></div>
 <h2>My Current Tasks</h2>
-<div class="container">
+<div class="container taskContainer">
     <div class="row">
         <div class="card">
             <h2 th:text="${task.title}"></h2>
@@ -28,7 +28,7 @@
         </div>
     </div>
 </div>
-<div class="container">
+<div class="container taskContainer">
     <div class="row">
         <h2>Comments</h2>
         <div th:each="taskComment: ${comments}">

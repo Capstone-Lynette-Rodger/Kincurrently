@@ -58,13 +58,13 @@ public class UserController {
                            @RequestParam String verifyPassword, @RequestParam String birthdate, @RequestParam(required=false) boolean joinFamily) {
         //validating user registration for email, username, and password validation
         userErrors = userService.checkRegistration(user, userErrors);
-        if(!user.getPassword().equals(verifyPassword)) {
-            userErrors.rejectValue(
-                    "password",
-                    "user.password",
-                    "Passwords do not match."
-            );
-        }
+//        if(!user.getPassword().equals(verifyPassword)) {
+//            userErrors.rejectValue(
+//                    "password",
+//                    "user.password",
+//                    "Passwords do not match."
+//            );
+//        }
         //needed here to check if joinFamily is checked, do not show error
         if(!joinFamily && family.getName().trim().equals("")) {
             familyErrors.rejectValue(

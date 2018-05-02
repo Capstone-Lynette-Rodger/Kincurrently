@@ -4,42 +4,69 @@
 <body>
 <div th:replace="partials/navbar :: navbar"></div>
 
-<h1>Create an account</h1>
-<form th:action="@{/register/child}" method="POST" th:object="${user}">
-    <input id="childFirstName" th:field="*{firstName}" name="firstName" placeholder="First Name" th:required="required" />
-    <div>
-        <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" />
-    </div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class = "col-md-6 col-md-offset-3 regFormContainer">
 
-    <input id="childLastName" th:field="*{lastName}" name="lastName" placeholder="Last Name" th:required="required" />
-    <div>
-        <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" />
-    </div>
+            <h2 class="text-center">Add A Child</h2>
+            <hr />
+            <form th:action="@{/register/child}" method="POST" th:object="${user}">
+                <div class="row">
 
-    <input id="childTitle" th:field="*{title}" name="title" placeholder="What name do you like to go by? i.e. Mom, Dad, Mommy, etc." />
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="childFirstName">First Name</label><br />
+                        <input class="registrationInputs" id="childFirstName" th:field="*{firstName}" name="firstName" th:required="required" /><br/>
+                        <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" />
+                    </div>
 
-    <input type="date" name="birthdate" th:required="required" />
-    <div>
-        <p th:if="${#fields.hasErrors('birthdate')}" th:errors="*{birthdate}" />
-    </div>
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="childLastName">Last Name</label><br />
+                        <input class="registrationInputs" id="childLastName" th:field="*{lastName}" name="lastName" th:required="required" /><br/>
+                        <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" />
+                    </div>
 
-    <input id="childUsername" th:field="*{username}" name="username" placeholder="Username" th:required="required" />
-    <div>
-        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" />
-    </div>
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="childTitle">Title</label><br />
+                        <input class="registrationInputs" id="childTitle" th:field="*{title}" name="title" placeholder="e.g. TimTam, Sallybear, etc." /><br/>
+                    </div>
 
-    <input id="childEmail" th:field="*{email}" name="email" placeholder="Email" th:required="required" />
-    <div>
-        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" />
-    </div>
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="childBirthdate">Birthday</label><br />
+                        <input class="registrationInputs" type="date" name="birthdate" id="childBirthdate" th:required="required" /><br/>
+                        <p th:if="${#fields.hasErrors('birthdate')}" th:errors="*{birthdate}" />
+                    </div>
 
-    <input id="childPassword" type="password" th:field="*{password}" name="password" placeholder="Password" th:required="required" />
-    <input id="childVerifyPassword" type="password" name="verifyPassword" placeholder="Verify Password" th:required="required"/>
-    <div>
-        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" />
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="childUsername">Username</label><br />
+                        <input class="registrationInputs" id="childUsername" th:field="*{username}" name="username" th:required="required" /><br/>
+                        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="childEmail">Email</label><br />
+                        <input class="registrationInputs" id="childEmail" th:field="*{email}" name="email" placeholder="Email" th:required="required" /><br/>
+                        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="childPassword">Password</label><br />
+                        <input class="registrationInputs" id="childPassword" type="password" th:field="*{password}" name="password" th:required="required" /><br/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="childVerifyPassword">Verify Password</label><br />
+                        <input class="registrationInputs" id="childVerifyPassword" type="password" name="verifyPassword" th:required="required"/><br/>
+                        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" />
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <input class="registrationButton col-md-4 col-md-offset-4" value="Register Child!" type="submit"/>
+                </div>
+            </form>
+
+        </div>
     </div>
-    <input value="Register Child" type="submit"/>
-</form>
+</div>
 
 <div th:replace="partials/footer :: footer"></div>
 </body>

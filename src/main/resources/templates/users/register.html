@@ -13,19 +13,19 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label class="registrationLabels" for="firstName">First Name</label><br />
-                            <input class="registrationInputs" id="firstName" th:value="*{user.firstName}" name="firstName" placeholder="First Name" th:required="required"/> <br/>
+                            <input class="registrationInputs" id="firstName" th:value="*{user.firstName}" name="firstName" th:required="required"/> <br/>
                         <p class="text-danger" th:if="${#fields.hasErrors('user.firstName')}" th:errors="*{user.firstName}" />
                         </div>
 
                         <div class="col-md-6">
                             <label class="registrationLabels" for="lastName">Last Name</label><br />
-                            <input class="registrationInputs" id="lastName" th:value="*{user.lastName}" name="lastName" placeholder="Last Name" th:required="required" /> <br/>
+                            <input class="registrationInputs" id="lastName" th:value="*{user.lastName}" name="lastName" th:required="required" /> <br/>
                         <p class="text-danger" th:if="${#fields.hasErrors('user.lastName')}" th:errors="*{user.lastName}" />
                         </div>
 
                         <div class="col-md-6">
                             <label class="registrationLabels" for="title">Family Title</label><br />
-                            <input class="registrationInputs" id="title" th:value="*{user.title}" name="title" placeholder="e.g., Mom, Dad, Mommy, etc." /> <br/>
+                            <input class="registrationInputs" id="title" th:value="*{user.title}" name="title" placeholder="e.g., Mom, Daddy, etc." /> <br/>
                         </div>
 
                         <div class="col-md-6">
@@ -36,46 +36,47 @@
 
                         <div class="col-md-6">
                             <label class="registrationLabels" for="username">Username</label><br/>
-                            <input class="registrationInputs" id="username" th:value="*{user.username}" name="username" placeholder="Username" th:required="required" /><br/>
+                            <input class="registrationInputs" id="username" th:value="*{user.username}" name="username" th:required="required" /><br/>
                         <p class="text-danger" th:if="${#fields.hasErrors('user.username')}" th:errors="*{user.username}" />
                         </div>
 
                         <div class="col-md-6">
                             <label class="registrationLabels" for="email">Email</label><br/>
-                            <input class="registrationInputs" id="email" th:value="*{user.email}" name="email" placeholder="Email" th:required="required" /><br/>
+                            <input class="registrationInputs" id="email" th:value="*{user.email}" name="email" th:required="required" /><br/>
                             <p class="text-danger" th:if="${#fields.hasErrors('user.email')}" th:errors="*{user.email}" />
                         </div>
 
                         <div class="col-md-6">
                             <label class="registrationLabels" for="password">Password</label><br/>
-                            <input class="registrationInputs" id="password" type="password" th:value="*{user.password}" name="password" placeholder="Password" th:required="required" /><br/>
+                            <input class="registrationInputs" id="password" type="password" th:value="*{user.password}" name="Password" th:required="required" /><br/>
                         </div>
 
                         <div class="col-md-6">
                             <label class="registrationLabels" for="verifyPassword">Verify Password</label><br/>
-                            <input class="registrationInputs" id="verifyPassword" type="password" name="verifyPassword" placeholder="Verify Password" th:required="required"/>
+                            <input class="registrationInputs" id="verifyPassword" type="password" name="verifyPassword" th:required="required"/>
                             <p class="text-danger" th:if="${#fields.hasErrors('user.password')}" th:errors="*{user.password}" />
                         </div>
                     </div>
                     <div class="row">
                         <!--Creating or Joining a Family-->
-                        <label class="registrationLabels" for="joinIfExisting">Join an existing family?</label>
-                            <input class="registrationInputs" type="checkbox" name="joinFamily" id="joinIfExisting"/><br/>
+                        <div class="col-md-12">
+                            <label class="registrationLabels" for="joinIfExisting">Join an existing family?<input class="registrationInputs" type="checkbox" name="joinFamily" id="joinIfExisting"/></label><br/>
+                        </div>
 
                         <div id="showForNewFamily" class="col-md-6">
                             <label class="registrationLabels" for="family">Family Name</label><br/>
-                            <input class="registrationInputs" id="family" th:value="*{family.name}" name="name" placeholder="What would you like to name your family?" />
+                            <input class="registrationInputs" id="family" th:value="*{family.name}" name="name" placeholder="e.g., Smith, Sanchez, etc." />
                             <p class="text-danger" th:if="${#fields.hasErrors('family.name')}" th:errors="*{family.name}" />
                         </div>
 
                         <div class="col-md-6">
                             <label class="registrationLabels code" for="password">FamilyCode</label><br/>
-                            <input class="registrationInputs" id="code" th:value="*{family.code}" name="code" placeholder="Create a Unique Family Code." /> <br/>
+                            <input class="registrationInputs" id="code" th:value="*{family.code}" name="code" placeholder="Secret Family Code." /> <br/>
                             <p class="text-danger" th:if="${#fields.hasErrors('family.code')}" th:errors="*{family.code}" />
                         </div>
                     </div>
                     <div class="row justify-content-center">
-                        <input class="registrationButton col-md-6 col-md-offset-3" value="Sign me up!" type="submit"/>
+                        <input class="registrationButton col-md-4 col-md-offset-4" value="Sign me up!" type="submit"/>
                     </div>
 
                 </form>

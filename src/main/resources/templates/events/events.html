@@ -6,7 +6,7 @@
 
     <div th:replace="partials/navbar :: navbar"></div>
 
-    <div class="container">
+    <div class="container eventContainer">
         <div class="row">
             <div class="card"  th:each="event : ${events}">
                 <h2 th:text="${event.title}"></h2>
@@ -26,7 +26,7 @@
 
     </div>
 
-    <div class="container">
+    <div class="container eventContainer">
         <div class="row">
             <form class="form" th:action="@{/events/create}" method="POST" th:object="${event}">
                 <label>Title: </label>

@@ -44,6 +44,16 @@ body {
 
 .registrationButton {
     width: 60%;
+    background-color: #A1FBFD;
+    color: #2B2958;
     border-radius: 5px;
     margin-bottom: 10px;
+}
+
+.taskContainer {
+    color: black;
+}
+
+.eventContainer {
+    color: black;
 }

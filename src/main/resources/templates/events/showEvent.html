@@ -6,14 +6,14 @@
 
 <div th:replace="partials/navbar :: navbar"></div>
 
-<div class="card">
+<div class="card eventContainer">
     <h2 th:text="${event.title}"></h2>
     <p th:text="${event.description}"></p>
     <div><span th:each="category : ${event.categories}"><button class="btn btn-primary" th:text="${category.name}"></button></span></div>
 </div>
 <hr />
 
-<div class="container">
+<div class="container eventContainer">
     <div class="row">
         <h1>Comments</h1>
         <div><span th:each="eventComment : ${event.eventComments}"><div th:utext="${eventComment.commentBody}"></div>
@@ -21,7 +21,7 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container eventContainer">
     <div class="row">
         <h1>Add Comments</h1>
         <form class="xs-offset-3 xs-col-6 center-block text-center" th:action="@{/events/comment}" method="post" th:object="${eventComment}">
