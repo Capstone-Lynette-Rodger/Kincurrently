@@ -6,7 +6,7 @@
 
 <div th:replace="partials/navbar :: navbar"></div>
 
-<div class="container" sec:authorize="hasRole('ROLE_PARENT')">
+<div class="container taskContainer" sec:authorize="hasRole('ROLE_PARENT')">
     <div class="row">
         <form class="form" th:action="@{tasks/create}" method="POST" th:object="${task}">
             <label>Title: </label>
@@ -36,7 +36,7 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container taskContainer">
     <div class="row">
         <label for="taskView"></label>
         <select name="taskView" id="taskView">
