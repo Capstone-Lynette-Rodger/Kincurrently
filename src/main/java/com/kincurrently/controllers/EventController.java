@@ -45,13 +45,24 @@ public class EventController {
     @GetMapping("/events")
     public String eventsIndex (Model model) {
         User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("events", eventRepository.findByFamilyId(current.getFamily().getId()));
+//        model.addAttribute("event", new Event());
+//        Iterable<Category> categories = categoryRepository.findAll();
+//        model.addAttribute("categories", categories);
 
+        return "/events/events";
+    }
+
+    @GetMapping("/events/create")
+    public String eventsCreate (Model model) {
+        User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("events", eventRepository.findByFamilyId(current.getFamily().getId()));
         model.addAttribute("events", dtService.sortEventsByDate(eventRepository.findByFamilyId(current.getFamily().getId())));
         model.addAttribute("event", new Event());
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
 
-        return "/events/events";
+        return "/events/createEvent";
     }
 
 
