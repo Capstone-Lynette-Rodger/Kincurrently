@@ -14,4 +14,7 @@ public interface TaskRepository extends CrudRepository<Task, Long>{
 
     @Query(value="select * from tasks where designated_user_id=?1", nativeQuery = true)
     List<Task> findByDesignatedUser(Long id);
+
+    @Query(value="select * from tasks where creator_id=?1", nativeQuery = true)
+    List<Task> findByCreatedUser(Long id);
 }

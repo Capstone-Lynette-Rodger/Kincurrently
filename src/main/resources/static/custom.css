@@ -51,9 +51,18 @@ body {
 }
 
 .taskContainer {
-    color: black;
+    border: 1px solid #A1FBFD;
 }
 
 .eventContainer {
-    color: black;
+    border: 1px solid #A1FBFD;
+}
+
+
+.familyContainer {
+    border: 1px solid #A1FBFD;
+}
+
+.card {
+    background-color: #2B2958;
 }
