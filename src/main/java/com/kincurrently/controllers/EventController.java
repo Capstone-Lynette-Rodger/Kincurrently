@@ -82,7 +82,6 @@ public class EventController {
             return "/events/events";
         }
 
-        System.out.println(endDate);
         dateSet(event, startDate, endDate, startTime, endTime);
 
         Iterable<Category> categories = categoryRepository.findAll();
@@ -90,7 +89,6 @@ public class EventController {
 
         event.setFamily(current.getFamily());
         event.setUser(current);
-        System.out.println("event.getUser() = " + current.getUsername());
         eventRepository.save(event);
 
         return "redirect:/events";
@@ -122,7 +120,6 @@ public class EventController {
             return "/events/events";
         }
 
-        System.out.println(endDate);
         dateSet(editEvent, startDate, endDate, startTime, endTime);
 
         Iterable<Category> categories = categoryRepository.findAll();
@@ -130,7 +127,6 @@ public class EventController {
 
         editEvent.setFamily(current.getFamily());
         editEvent.setUser(current);
-        System.out.println("event.getUser() = " + current.getUsername());
         eventRepository.save(editEvent);
 
         return "redirect:/events";

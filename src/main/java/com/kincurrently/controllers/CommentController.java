@@ -1,5 +1,6 @@
 package com.kincurrently.controllers;
 
+import com.kincurrently.models.Event;
 import com.kincurrently.models.EventComment;
 import com.kincurrently.models.User;
 import com.kincurrently.repositories.EventCommentRepository;
@@ -43,21 +44,20 @@ public class CommentController {
     }
 
     @PostMapping("/events/comment/edit")
-    public String updateEventComment (@ModelAttribute EventComment editComment) {
+    public String updateEventComment (EventComment editComment, @RequestParam(name = "eventId") long id) {
         User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         editComment.setUser(current);
-        editComment.setEvent(editComment.getEvent());
+        editComment.setEvent(eventRepository.findById(id));
         eventCommentRepository.save(editComment);
-
-        return "redirect:/dashboard";
+        return "redirect:/events/" + id;
     }
 
 
 
     @PostMapping("/events/comment/delete")
-    public String deleteEventComment (@RequestParam long id) {
+    public String deleteEventComment (@RequestParam long id, @RequestParam(name = "eventId") long idd) {
         eventCommentRepository.delete(id);
 
-        return "redirect:/dashboard";
+        return "redirect:/events/" + idd;
     }
 }
