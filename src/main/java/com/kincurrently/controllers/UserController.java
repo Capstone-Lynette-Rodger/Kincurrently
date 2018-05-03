@@ -3,9 +3,7 @@ package com.kincurrently.controllers;
 import com.kincurrently.models.Family;
 import com.kincurrently.models.User;
 import com.kincurrently.models.UserRole;
-import com.kincurrently.repositories.FamilyRepository;
-import com.kincurrently.repositories.Roles;
-import com.kincurrently.repositories.UserRepository;
+import com.kincurrently.repositories.*;
 import com.kincurrently.services.DateTimeService;
 import com.kincurrently.services.UserDetailsLoader;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,14 +28,20 @@ public class UserController {
     private Roles rolesRepo;
     private FamilyRepository familyRepo;
     private DateTimeService dtService;
+    private EventRepository eventRepository;
+    private TaskRepository taskRepository;
 
-    public UserController(UserRepository userRepo, PasswordEncoder passwordEncoder, UserDetailsLoader userService, Roles rolesRepo, FamilyRepository familyRepo, DateTimeService dtSservice) {
+    public UserController(UserRepository userRepo, PasswordEncoder passwordEncoder,
+                          UserDetailsLoader userService, Roles rolesRepo, FamilyRepository familyRepo,
+                          DateTimeService dtService, EventRepository eventRepository, TaskRepository taskRepository) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
         this.rolesRepo = rolesRepo;
         this.familyRepo = familyRepo;
-        this.dtService = dtSservice;
+        this.dtService = dtService;
+        this.eventRepository = eventRepository;
+        this.taskRepository = taskRepository;
     }
 
     @GetMapping("/")
@@ -109,6 +113,10 @@ public class UserController {
     public String showDashboard(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("familyMembers", user.getFamily().getUsers());
+        model.addAttribute("events", eventRepository.findByFamilyId(user.getFamily().getId()) );
+        model.addAttribute("tasksCreated", taskRepository.findByCreatedUser(user.getFamily().getId()));
+        model.addAttribute("tasksDesignated", taskRepository.findByDesignatedUser(user.getFamily().getId()));
+//
         return "users/dashboard";
     }
 
