@@ -56,7 +56,7 @@ public class EventController {
 
 
     @GetMapping("events/{id}")
-    public String indPostView(@PathVariable long id, Model model) {
+    public String indEventView(@PathVariable long id, Model model) {
 
         model.addAttribute("event", eventRepository.findOne(id));
         Iterable<Category> categories = categoryRepository.findAll();
@@ -67,7 +67,7 @@ public class EventController {
     }
 
     @PostMapping("/events/create")
-    public String postEvent (@Valid Event event, Errors validation, Model model,
+    public String createEvent (@Valid Event event, Errors validation, Model model,
                              @RequestParam String startDate,
                              @RequestParam String endDate,
                              @RequestParam String startTime,
@@ -97,7 +97,7 @@ public class EventController {
     }
 
     @GetMapping("/events/{id}/edit")
-    public String editPost (Model model, @PathVariable long id) {
+    public String editEvent (Model model, @PathVariable long id) {
         model.addAttribute("event", eventRepository.findOne(id));
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
@@ -106,7 +106,7 @@ public class EventController {
     }
 
     @PostMapping("/events/edit")
-    public String makeEdit(@Valid Event editEvent, Errors validation, Model model,
+    public String makeEventEdit(@Valid Event editEvent, Errors validation, Model model,
                            @RequestParam String startDate,
                            @RequestParam String endDate,
                            @RequestParam String startTime,
