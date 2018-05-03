@@ -61,6 +61,7 @@ public class TaskController {
 
         return "redirect:/tasks";
     }
+
     @PostMapping("/tasks/update")
     public String changeTaskStatus(@RequestParam Long taskId) {
         Task task = taskRepo.findById(taskId);
