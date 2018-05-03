@@ -83,21 +83,7 @@ public class EventController {
         }
 
         System.out.println(endDate);
-        if (!endDate.equalsIgnoreCase("")) {
-
-            event.setStart_date(dtService.parseDate(startDate));
-            event.setEnd_date(dtService.parseDate(endDate));
-            event.setStart_time(dtService.parseTime(startTime));
-            event.setEnd_time(dtService.parseTime(endTime));
-
-        } else if (endDate.equalsIgnoreCase("")) {
-
-            event.setStart_date(dtService.parseDate(startDate));
-            event.setEnd_date(null);
-            event.setStart_time(dtService.parseTime(startTime));
-            event.setEnd_time(dtService.parseTime(endTime));
-
-        }
+        dateSet(event, startDate, endDate, startTime, endTime);
 
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
@@ -125,17 +111,7 @@ public class EventController {
                            @RequestParam String endDate,
                            @RequestParam String startTime,
                            @RequestParam String endTime){
-//        if (validation.hasErrors()) {
-//            model.addAttribute("editEvent", editEvent);
-//            Iterable<Category> categories = categoryRepository.findAll();
-//            model.addAttribute("categories", categories);
-//            return "posts/edit";
-//        }
-//
-//        User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        editEvent.setUser(current);
-//        eventRepository.save(editEvent);
-//        return "redirect:/";
+
         User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (validation.hasErrors()) {
@@ -147,6 +123,20 @@ public class EventController {
         }
 
         System.out.println(endDate);
+        dateSet(editEvent, startDate, endDate, startTime, endTime);
+
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
+
+        editEvent.setFamily(current.getFamily());
+        editEvent.setUser(current);
+        System.out.println("event.getUser() = " + current.getUsername());
+        eventRepository.save(editEvent);
+
+        return "redirect:/events";
+    }
+
+    private void dateSet(@Valid Event editEvent, @RequestParam String startDate, @RequestParam String endDate, @RequestParam String startTime, @RequestParam String endTime) {
         if (!endDate.equalsIgnoreCase("")) {
 
             editEvent.setStart_date(dtService.parseDate(startDate));
@@ -162,16 +152,6 @@ public class EventController {
             editEvent.setEnd_time(dtService.parseTime(endTime));
 
         }
-
-        Iterable<Category> categories = categoryRepository.findAll();
-        model.addAttribute("categories", categories);
-
-        editEvent.setFamily(current.getFamily());
-        editEvent.setUser(current);
-        System.out.println("event.getUser() = " + current.getUsername());
-        eventRepository.save(editEvent);
-
-        return "redirect:/events";
     }
 
     @PostMapping("/events/delete")
