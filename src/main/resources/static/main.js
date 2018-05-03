@@ -1,6 +1,8 @@
 let current = new Date();
 let monthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 let dayArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+let abbMonthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+let abbDayArray = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
 
 currentDate = dayArray[current.getDay()] + ", " + monthArray[current.getMonth()] + " " + current.getDate() + ', ' + current.getFullYear();
 $(".todaysDate").text(currentDate);
@@ -48,12 +50,11 @@ $.each($(".changeDate"), (index, element) => {
         let parent = element.parentNode;
     parent.parentNode.removeChild(parent);
     } else {
-
-    let date = new Date(element.textContent);
-    element.innerHTML = dayArray[date.getUTCDay()] + ", " + monthArray[date.getUTCMonth()] + " " + date.getUTCDate();
-    if (current.getUTCFullYear() == date.getUTCFullYear()) {
-        element.innerHTML += ', ' + date.getUTCFullYear();
-    }
+        let date = new Date(element.textContent);
+        element.innerHTML = abbDayArray[date.getUTCDay()] + ", " + abbMonthArray[date.getUTCMonth()] + " " + date.getUTCDate();
+        if (current.getUTCFullYear() !== date.getUTCFullYear()) {
+            element.innerHTML += ', ' + date.getUTCFullYear();
+        }
     }
 });
 
@@ -74,9 +75,11 @@ today = today.toISOString().split('T')[0];
 $.each($('input[type="date"]'), (index, input) => {
     if(input.name !== 'birthdate') {
         input.setAttribute('min', today);
-        input.setAttribute('value', today);
-    } else {
+    }  else {
         input.setAttribute('max', today);
+    }
+    if (input.value === undefined) {
+        input.setAttribute('value', today)
     }
 });
 

@@ -25,11 +25,11 @@ public class TaskComment {
     @NotBlank(message = "Comment cannot be blank.")
     private String commentBody;
 
-    @ManyToOne (optional = false)
+    @ManyToOne
     @JoinColumn (name = "task_id")
     private Task task;
 
-    @ManyToOne (optional = false)
+    @ManyToOne
     @JoinColumn (name = "user_id")
     private User user;
 

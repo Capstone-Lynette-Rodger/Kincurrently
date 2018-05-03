@@ -58,6 +58,11 @@
                         <p class="text-danger" th:if="${#fields.hasErrors('user.password')}" th:errors="*{user.password}" />
                     </div>
 
+                    <div class="col-md-12 text-center">
+                        <p>Share your family code to stay current with family members!</p>
+                        <p class="font-weight-bold" th:text="${family.code}"></p>
+                    </div>
+
                 </div>
                 <div class="row justify-content-center">
                     <input type="hidden" th:value="*{user.id}" name="id"/>

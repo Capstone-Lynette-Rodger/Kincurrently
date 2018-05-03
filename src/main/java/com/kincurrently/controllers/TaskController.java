@@ -4,10 +4,7 @@ import com.kincurrently.models.Status;
 import com.kincurrently.models.Task;
 import com.kincurrently.models.TaskComment;
 import com.kincurrently.models.User;
-import com.kincurrently.repositories.CategoryRepository;
-import com.kincurrently.repositories.StatusRepository;
-import com.kincurrently.repositories.TaskCommentRepository;
-import com.kincurrently.repositories.TaskRepository;
+import com.kincurrently.repositories.*;
 import com.kincurrently.services.DateTimeService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -26,18 +23,21 @@ public class TaskController {
     private StatusRepository statusRepo;
     private TaskCommentRepository tcRepo;
     private CategoryRepository catRepo;
+    private FamilyRepository familyRepo;
 
-    public TaskController(TaskRepository taskRepo, DateTimeService dtService, StatusRepository statusRepo, TaskCommentRepository tcRepo, CategoryRepository catRepo) {
+    public TaskController(TaskRepository taskRepo, DateTimeService dtService, StatusRepository statusRepo, TaskCommentRepository tcRepo, CategoryRepository catRepo, FamilyRepository familyRepo) {
         this.taskRepo = taskRepo;
         this.dtService = dtService;
         this.statusRepo = statusRepo;
         this.tcRepo = tcRepo;
         this.catRepo = catRepo;
+        this.familyRepo = familyRepo;
     }
 
     @GetMapping("/tasks")
     public String showTaskForm(Model model){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("family", familyRepo.findOne(loggedInUser.getFamily().getId()));
         model.addAttribute("allTasks", taskRepo.findAll());
         model.addAttribute("myTasks", taskRepo.findByDesignatedUser(loggedInUser.getId()));
         model.addAttribute("categories", catRepo.findAll());
@@ -95,5 +95,34 @@ public class TaskController {
         tcRepo.save(newComment);
 
         return "redirect:/tasks/" + taskId;
+    }
+
+    @GetMapping("/tasks/{id}/edit")
+    public String viewEditTaskForm(@PathVariable Long id, Model model){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Task task = taskRepo.findOne(id);
+        if(user.getId() == task.getCreator().getId()) {
+            model.addAttribute(task);
+            return "tasks/edit_task";
+        }
+        return "redirect:/tasks";
+    }
+
+    @PostMapping("/tasks/edit")
+    public String editTask(@ModelAttribute Task task, Errors errors, Model model, @RequestParam String completed_by, @RequestParam Long statusId){
+        if (errors.hasErrors()) {
+            model.addAttribute("errors", errors);
+            model.addAttribute("task", task);
+            return "tasks/edit_task";
+        }
+        task.setStatus(statusRepo.findOne(statusId));
+        task.setCompleted_by(dtService.parseDate(completed_by));
+        taskRepo.save(task);
+        return "redirect:/tasks/" + task.getId();
+    }
+    @PostMapping("/tasks/delete")
+    public String deleteTask(@RequestParam Long taskId){
+        taskRepo.delete(taskId);
+        return "redirect:/dashboard";
     }
 }

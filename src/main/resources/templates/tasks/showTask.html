@@ -25,6 +25,7 @@
                 <button th:if="${task.status.id == 1}">Mark As In Progress</button>
                 <button th:if="${task.status.id == 2}">Mark As Completed</button>
             </form>
+            <a th:if="${#authentication.principal.id == task.creator.id}" th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit Task</a>
         </div>
     </div>
 </div>
