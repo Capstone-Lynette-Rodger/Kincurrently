@@ -98,4 +98,30 @@ public class UserDetailsLoader implements UserDetailsService {
         }
         return errors;
     }
+
+    public Errors checkUpdate(User user, Errors errors, User dbUser) {
+        System.out.println(dbUser);
+        if (userRepo.findByUsername(user.getUsername()) != null && !user.getUsername().equals(dbUser.getUsername())) {
+            errors.rejectValue(
+                    "username",
+                    "user.username",
+                    "Username already exists."
+            );
+        }
+        if (userRepo.findByEmail(user.getEmail()) != null && !user.getEmail().equals(dbUser.getEmail())) {
+            errors.rejectValue(
+                    "email",
+                    "user.email",
+                    "There is already an account with this email."
+            );
+        }
+        if(!(user.getEmail().contains("@") && user.getEmail().contains("."))) {
+            errors.rejectValue(
+                    "email",
+                    "user.email",
+                    "Please enter a valid email."
+            );
+        }
+        return errors;
+    }
 }

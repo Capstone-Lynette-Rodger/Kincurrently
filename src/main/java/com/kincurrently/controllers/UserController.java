@@ -61,7 +61,6 @@ public class UserController {
     @PostMapping("/register")
     public String saveUser(@Valid User user, Errors userErrors, Model model, @Valid Family family, Errors familyErrors,
                            @RequestParam String verifyPassword, @RequestParam String birthdate, @RequestParam(required=false) boolean joinFamily) {
-        //validating user registration for email, username, and password validation
         userErrors = userService.checkRegistration(user, userErrors);
         if(!user.getPassword().equals(verifyPassword)) {
             userErrors.rejectValue(
@@ -70,7 +69,6 @@ public class UserController {
                     "Passwords do not match."
             );
         }
-        //needed here to check if joinFamily is checked, do not show error
         if(!joinFamily && family.getName().trim().equals("")) {
             familyErrors.rejectValue(
                     "name",
@@ -83,13 +81,10 @@ public class UserController {
             model.addAttribute("user", user);
             return "users/register";
         }
-//      Need to parse birthdate string into date object
         user.setBirthdate(dtService.parseDate(birthdate));
-//      Need to encode password before storing in database
         String hash = passwordEncoder.encode(user.getPassword());
         user.setPassword(hash);
         user.setFamily(family);
-//      Save family, user, and user role
         if(!joinFamily) {
             familyRepo.save(family);
         } else {
@@ -100,7 +95,6 @@ public class UserController {
             user.setTitle(null);
         }
         userRepo.save(user);
-//      Need to assign all new users as having a 'Parent' role
         rolesRepo.save(new UserRole(user.getId(), "PARENT"));
         return "redirect:/";
     }
@@ -112,14 +106,14 @@ public class UserController {
 
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepo.findById(loggedInUser.getId());
         Family family = familyRepo.findByCode(user.getFamily().getCode());
-        model.addAttribute("familyMembers", family.getUsers());
-        model.addAttribute("events", eventRepository.findByFamilyId(user.getFamily().getId()) );
-        model.addAttribute("tasksCreated", taskRepository.findByCreatedUser(user.getFamily().getId()));
-        model.addAttribute("tasksDesignated", taskRepository.findByDesignatedUser(user.getFamily().getId()));
-
+        model.addAttribute("user", user);
+        model.addAttribute("family", family);
+        model.addAttribute("events", eventRepository.findByFamilyId(family.getId()) );
+        model.addAttribute("tasksCreated", taskRepository.findByCreatedUser(family.getId()));
+        model.addAttribute("tasksDesignated", taskRepository.findByDesignatedUser(family.getId()));
         return "users/dashboard";
     }
 
@@ -131,7 +125,6 @@ public class UserController {
 
     @PostMapping("/register/child")
     public String saveChildUser(@Valid User user, Errors userErrors, Model model, @RequestParam String verifyPassword, @RequestParam String birthdate) {
-        //validating user registration for email, username, and password validation
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         userErrors = userService.checkRegistration(user, userErrors);
         if(!user.getPassword().equals(verifyPassword)) {
@@ -146,18 +139,14 @@ public class UserController {
             model.addAttribute("user", user);
             return "users/register-child";
         }
-//      Need to parse birthdate string into date object
         user.setBirthdate(dtService.parseDate(birthdate));
-//      Need to encode password before storing in database
         String hash = passwordEncoder.encode(user.getPassword());
         user.setPassword(hash);
         user.setFamily(loggedInUser.getFamily());
         if(user.getTitle().trim().equals("")){
             user.setTitle(null);
         }
-//      Save child user and user role
         userRepo.save(user);
-//      Need to assign all new users as having a 'Parent' role
         rolesRepo.save(new UserRole(user.getId(), "CHILD"));
         return "redirect:/dashboard";
     }
@@ -165,21 +154,38 @@ public class UserController {
     @GetMapping("/update/profile")
     public String updateProfileForm(Model model){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("user", loggedInUser);
+        model.addAttribute("user", userRepo.findById(loggedInUser.getId()));
         model.addAttribute("family", familyRepo.findByCode(loggedInUser.getFamily().getCode()));
         return "users/edit";
     }
 
     @PostMapping("/update/profile")
-    public String updateProfile(@Valid User user, Errors userErrors, Model model, @Valid Family family, Errors familyErrors){
-        userErrors = userService.checkRegistration(user, userErrors);
+    public String updateProfile(@Valid User user, Errors userErrors, Model model, @Valid Family family, Errors familyErrors,
+                                @RequestParam String password, @RequestParam String birthdate){
+        User dbUser = userRepo.findById(user.getId());
+        Family dbFam = familyRepo.findOne(family.getId());
+        dbFam.setName(family.getName());
+        userErrors = userService.checkUpdate(user, userErrors, dbUser);
+        user.setBirthdate(dtService.parseDate(birthdate));
+        user.setFamily(dbFam);
+        if(!passwordEncoder.matches(password, dbUser.getPassword())) {
+            userErrors.rejectValue(
+                    "password",
+                    "user.password",
+                    "Incorrect password. Could not update profile."
+            );
+        }
         if(userErrors.hasErrors()) {
             model.addAttribute("errors", userErrors);
             model.addAttribute("user", user);
             return "users/edit";
         }
-//        userRepo.save(user);
-//        familyRepo.save(family);
+        if(user.getTitle().trim().equals("")){
+            user.setTitle(null);
+        }
+        user.setPassword(dbUser.getPassword());
+        userRepo.save(user);
+        familyRepo.save(dbFam);
         return "redirect:/dashboard";
     }
 

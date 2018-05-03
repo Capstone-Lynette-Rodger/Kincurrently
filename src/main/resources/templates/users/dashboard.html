@@ -11,23 +11,19 @@
     </div>
     <div class="row">
         <div class="col">
-            <h1>Welcome, <span th:if="${#authentication.principal.title}" th:text="${#authentication.principal.title}"></span>!</h1>
+            <h1 th:if="${user.title}">Welcome, <span th:text="${user.title}"></span>!</h1>
+            <h1 th:if="${user.title == null}">Welcome, <span th:text="${user.firstName}"></span>!</h1>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <h1><span th:if="${#authentication.principal.title == null}" th:text="${#authentication.principal.firstName}"></span></h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h3>Check out the <span th:text="${#authentication.principal.family.name}"></span> family happenings.</h3>
+            <h3>Check out the <span th:text="${family.name}"></span> family happenings.</h3>
         </div>
     </div>
     <div class="row">
         <div class="col-md-3 familyContainer">
             <h4>Family Members</h4>
-            <ul th:each="member : ${familyMembers}">
+            <ul th:each="member : ${family.users}">
                 <li th:text="${member.firstName}"></li>
             </ul>
         </div>

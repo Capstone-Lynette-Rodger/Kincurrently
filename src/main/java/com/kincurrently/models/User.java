@@ -53,17 +53,17 @@ public class User {
     @NotNull(message = "Birthdate field cannot be blank.")
     private Date birthdate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creator")
+    @OneToMany(mappedBy = "creator")
     private List<Task> tasksCreated;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "designated_user")
+    @OneToMany(mappedBy = "designated_user")
     private List<Task> designatedTasks;
 
     @ManyToOne(optional = false)
     @JoinColumn (name = "family_id")
     private Family family;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(mappedBy = "user")
     private List<TaskComment> taskComments;
 
     public User() {

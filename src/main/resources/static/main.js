@@ -74,9 +74,9 @@ today = today.toISOString().split('T')[0];
 $.each($('input[type="date"]'), (index, input) => {
     if(input.name !== 'birthdate') {
         input.setAttribute('min', today);
+        input.setAttribute('value', today);
     } else {
         input.setAttribute('max', today);
-        input.setAttribute('value', today);
     }
 });
 
