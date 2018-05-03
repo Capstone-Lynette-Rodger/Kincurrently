@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -62,13 +63,13 @@ public class UserController {
                            @RequestParam String verifyPassword, @RequestParam String birthdate, @RequestParam(required=false) boolean joinFamily) {
         //validating user registration for email, username, and password validation
         userErrors = userService.checkRegistration(user, userErrors);
-//        if(!user.getPassword().equals(verifyPassword)) {
-//            userErrors.rejectValue(
-//                    "password",
-//                    "user.password",
-//                    "Passwords do not match."
-//            );
-//        }
+        if(!user.getPassword().equals(verifyPassword)) {
+            userErrors.rejectValue(
+                    "password",
+                    "user.password",
+                    "Passwords do not match."
+            );
+        }
         //needed here to check if joinFamily is checked, do not show error
         if(!joinFamily && family.getName().trim().equals("")) {
             familyErrors.rejectValue(
@@ -112,11 +113,13 @@ public class UserController {
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("familyMembers", user.getFamily().getUsers());
+
+        Family family = familyRepo.findByCode(user.getFamily().getCode());
+        model.addAttribute("familyMembers", family.getUsers());
         model.addAttribute("events", eventRepository.findByFamilyId(user.getFamily().getId()) );
         model.addAttribute("tasksCreated", taskRepository.findByCreatedUser(user.getFamily().getId()));
         model.addAttribute("tasksDesignated", taskRepository.findByDesignatedUser(user.getFamily().getId()));
-//
+
         return "users/dashboard";
     }
 
@@ -125,6 +128,7 @@ public class UserController {
         model.addAttribute("user", new User());
         return "users/register-child";
     }
+
     @PostMapping("/register/child")
     public String saveChildUser(@Valid User user, Errors userErrors, Model model, @RequestParam String verifyPassword, @RequestParam String birthdate) {
         //validating user registration for email, username, and password validation
@@ -156,5 +160,34 @@ public class UserController {
 //      Need to assign all new users as having a 'Parent' role
         rolesRepo.save(new UserRole(user.getId(), "CHILD"));
         return "redirect:/dashboard";
+    }
+
+    @GetMapping("/update/profile")
+    public String updateProfileForm(Model model){
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user", loggedInUser);
+        model.addAttribute("family", familyRepo.findByCode(loggedInUser.getFamily().getCode()));
+        return "users/edit";
+    }
+
+    @PostMapping("/update/profile")
+    public String updateProfile(@Valid User user, Errors userErrors, Model model, @Valid Family family, Errors familyErrors){
+        userErrors = userService.checkRegistration(user, userErrors);
+        if(userErrors.hasErrors()) {
+            model.addAttribute("errors", userErrors);
+            model.addAttribute("user", user);
+            return "users/edit";
+        }
+//        userRepo.save(user);
+//        familyRepo.save(family);
+        return "redirect:/dashboard";
+    }
+
+    @PostMapping("/update/profile/delete")
+    public String deleteUser(@RequestParam Long id){
+        User user = userRepo.findById(id);
+        SecurityContextHolder.clearContext();
+        userRepo.delete(user);
+        return "redirect:/";
     }
 }
