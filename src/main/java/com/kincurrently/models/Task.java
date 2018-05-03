@@ -50,7 +50,7 @@ public class Task {
     @OneToOne
     private Status status;
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "task")
     private List<TaskComment> comments;
 
     @ManyToMany

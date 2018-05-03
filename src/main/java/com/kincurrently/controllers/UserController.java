@@ -76,9 +76,18 @@ public class UserController {
                     "Family name cannot be blank."
             );
         }
-        if(userErrors.hasErrors()) {
+        if(familyRepo.findByCode(family.getCode()) != null) {
+            familyErrors.rejectValue(
+                    "code",
+                    "family.code",
+                    "This code is already in use by another family."
+            );
+        }
+        if(userErrors.hasErrors() || familyErrors.hasErrors()) {
             model.addAttribute("errors", userErrors);
+            model.addAttribute("errors", familyErrors);
             model.addAttribute("user", user);
+            model.addAttribute("family", family);
             return "users/register";
         }
         user.setBirthdate(dtService.parseDate(birthdate));

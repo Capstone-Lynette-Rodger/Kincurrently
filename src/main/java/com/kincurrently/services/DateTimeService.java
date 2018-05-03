@@ -1,10 +1,15 @@
 package com.kincurrently.services;
 
+import com.kincurrently.models.Event;
+import com.kincurrently.models.Task;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class DateTimeService {
@@ -29,5 +34,14 @@ public class DateTimeService {
         return date;
     }
 
+    public List<Task> sortTasksByDate(List<Task> tasks) {
+        tasks.sort(Comparator.comparing(o -> o.getCompleted_by()));
+        return tasks;
+    }
+
+    public List<Event> sortEventsByDate(List<Event> events) {
+        events.sort(Comparator.comparing(Event::getStart_date).thenComparing(Event::getStart_time));
+        return events;
+    }
 
 }
