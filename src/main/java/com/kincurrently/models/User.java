@@ -1,5 +1,6 @@
 package com.kincurrently.models;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 

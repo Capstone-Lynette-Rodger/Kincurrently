@@ -25,6 +25,7 @@
                 <button th:if="${task.status.id == 1}">Mark As In Progress</button>
                 <button th:if="${task.status.id == 2}">Mark As Completed</button>
             </form>
+            <a th:if="${#authentication.principal.id == task.creator.id}" th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit Task</a>
         </div>
     </div>
 </div>
@@ -32,7 +33,7 @@
     <div class="row">
         <h2>Comments</h2>
         <div th:each="taskComment: ${comments}">
-            <p th:text="${taskComment.commentBody}"></p>
+            <p th:utext="${taskComment.commentBody}"></p>
             <p th:if="${taskComment.user.title == null}" th:text="${taskComment.user.firstName}"></p>
             <p th:if="${taskComment.user.title}" th:text="${taskComment.user.title}"></p>
             <br/>

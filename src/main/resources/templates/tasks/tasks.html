@@ -19,7 +19,7 @@
             <input type="text" th:field="*{description}" />
             <p class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}" />
             <select th:field="*{designated_user}">
-                <div th:each="member : ${#authentication.principal.family.users}">
+                <div th:each="member : ${family.users}">
                     <option th:if="${member.title == null}" th:value="${member.id}" th:text="${member.firstName}"></option>
                     <option th:if="${member.title}" th:value="${member.id}" th:text="${member.title}"></option>
                 </div>
@@ -51,7 +51,7 @@
         <div sec:authorize="hasRole('ROLE_PARENT')">
             <div class="card"  th:if="${task.status.id != 4}" th:each="task : ${allTasks}">
                 <h2 th:text="${task.title}"></h2>
-                <h5>Completion Deadline: <span th:text="${task.completed_by}" class="date changeDate"></span></h5>
+                <h5>Completion Deadline: <span th:text="${task.completed_by}" class="changeDate"></span><span th:text="${task.completed_by}" hidden="hidden" class="date"></span></h5>
                 <h5>Status: <span th:text="${task.status.status}"></span></h5>
                 <h5 th:if="${task.creator.title}">Assigned By: <span th:text="${task.creator.title}"></span></h5>
                 <h5 th:if="${task.creator.title == null}">Assigned By: <span th:text="${task.creator.firstName}"></span></h5>
@@ -59,7 +59,7 @@
                 <h5 th:if="${task.designated_user.title == null}">Assigned To: <span th:text="${task.designated_user.firstName}"></span></h5>
                 <h5>Date Assigned: <span th:text="${task.created_on}" class="changeDate">  </span></h5>
                 <a th:href="@{/tasks/{id}(id = ${task.id})}"> View More Info</a>
-                <form th:if="${#authentication.principal.id == task.creator.id and task.status.getId() == 3}" th:action="@{/tasks/update}" method="POST">
+                <form th:if="${#authentication.principal.id == task.creator.id and task.status.id == 3}" th:action="@{/tasks/update}" method="POST">
                     <input  type="hidden" name="taskId" th:value="${task.id}"/>
                     <button th:if="${task.status.id == 3}">Mark As Closed</button>
                 </form>
@@ -69,28 +69,7 @@
         <div class="row" sec:authorize="hasRole('ROLE_PARENT')">
             <div class="card"  th:if="${task.status.id != 4}" th:each="task : ${myTasks}">
                 <h2 th:text="${task.title}"></h2>
-                <h5>Completion Deadline: <span th:text="${task.completed_by}" class="date changeDate"></span></h5>
-                <h5>Status: <span th:text="${task.status.status}"></span></h5>
-                <h5 th:if="${task.creator.title}">Assigned By: <span th:text="${task.creator.title}"></span></h5>
-                <h5 th:if="${task.creator.title == null}">Assigned By: <span th:text="${task.creator.firstName}"></span></h5>
-                <h5 th:if="${task.designated_user.title}">Assigned To: <span th:text="${task.designated_user.title}"></span></h5>
-                <h5 th:if="${task.designated_user.title == null}">Assigned To: <span th:text="${task.designated_user.firstName}"></span></h5>
-                <h5>Date Assigned: <span th:text="${task.created_on}" class="changeDate">  </span></h5>
-                <a th:href="@{/tasks/{id}(id = ${task.id})}"> View More Info</a>
-                <form th:action="@{/tasks/update}" method="POST">
-                    <input  type="hidden" name="taskId" th:value="${task.id}"/>
-                    <button th:if="${task.status.id == 1}">Mark As In Progress</button>
-                    <button th:if="${task.status.id == 2}">Mark As Completed</button>
-                </form>
-            </div>
-            <div class="card"  th:if="${myTasks.size() == 0}">
-                <p>No Tasks Currently Assigned</p>
-            </div>
-        </div>
-        <div class="row" sec:authorize="hasRole('ROLE_CHILD')">
-            <div class="card"  th:if="${task.status.id != 4}" th:each="task : ${myTasks}">
-                <h2 th:text="${task.title}"></h2>
-                <h5>Completion Deadline: <span th:text="${task.completed_by}" class="date changeDate"></span></h5>
+                <h5>Completion Deadline: <span th:text="${task.completed_by}" class="changeDate"></span><span th:text="${task.completed_by}" hidden="hidden" class="date"></span></h5>
                 <h5>Status: <span th:text="${task.status.status}"></span></h5>
                 <h5 th:if="${task.creator.title}">Assigned By: <span th:text="${task.creator.title}"></span></h5>
                 <h5 th:if="${task.creator.title == null}">Assigned By: <span th:text="${task.creator.firstName}"></span></h5>

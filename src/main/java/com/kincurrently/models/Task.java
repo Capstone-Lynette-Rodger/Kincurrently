@@ -39,18 +39,18 @@ public class Task {
     @Size(max=750, message = "Description cannot be more than 750 characters.")
     private String description;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn (name = "creator_id")
     private User creator;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn (name = "designated_user_id")
     private User designated_user;
 
     @OneToOne
     private Status status;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "task")
+    @OneToMany(mappedBy = "task")
     private List<TaskComment> comments;
 
     @ManyToMany
