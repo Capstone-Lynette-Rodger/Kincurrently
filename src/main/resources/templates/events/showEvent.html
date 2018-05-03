@@ -6,36 +6,49 @@
 
 <div th:replace="partials/navbar :: navbar"></div>
 
-<div class="card eventContainer">
-    <h2 th:text="${event.title}"></h2>
-    <p th:text="${event.description}"></p>
-    <div><span th:each="category : ${event.categories}"><button class="btn btn-primary" th:text="${category.name}"></button></span></div>
-    <div th:if="${event.user.id == #authentication.principal.id}">
-        <a th:href="@{/events/{id}/edit(id=${event.id})}">Edit</a>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-md-offset-3 text-center">
+            <h1 class="homePageText">Check Out and Comment on A Single Event!</h1>
+        </div>
     </div>
 </div>
-<hr />
 
-<div class="container eventContainer">
-    <div class="row">
-        <h1>Comments</h1>
-        <div th:each="eventComment : ${event.eventComments}">
-            <div><p th:utext="${eventComment.commentBody}"></p> </div>
-            <div>Posted by: <span th:text="${eventComment.user.getUsername()}"></span></div>
-            <div th:if="${eventComment.user.id == #authentication.principal.id}">
-                <a th:href="@{/events/comment/{id}/edit(id=${eventComment.id})}">Edit</a>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-md-offset-3 eventContainer">
+            <h2 th:text="${event.title}"></h2>
+            <p th:text="${event.description}"></p>
+            <div><span th:each="category : ${event.categories}"><button class="btn btn-primary" th:text="${category.name}"></button></span></div>
+            <div th:if="${event.user.id == #authentication.principal.id}">
+                <a th:href="@{/events/{id}/edit(id=${event.id})}">Edit</a>
             </div>
         </div>
+    </div>
 
+</div>
+
+<hr />
+
+<div class="container">
+    <h1>Comments</h1>
+    <div class="row justify-content-center">
+        <div class="col" th:each="eventComment : ${event.eventComments}">
+            <h5 th:utext="${eventComment.commentBody}"></h5>
+            <h5>Posted by: <span th:text="${eventComment.user.getUsername()}"></span></h5>
+            <h5 th:if="${eventComment.user.id == #authentication.principal.id}">
+                <a th:href="@{/events/comment/{id}/edit(id=${eventComment.id})}">Edit</a>
+            </h5>
+        </div>
     </div>
 </div>
 
+
 <div class="container eventContainer">
-    <div class="row">
-        <h1>Add Comments</h1>
-        <form class="xs-offset-3 xs-col-6 center-block text-center" th:action="@{/events/comment}" method="post" th:object="${eventComment}">
-            <label class="titleLabel">Comment:</label> <br />
-            <textarea class="createTitle" th:field="*{commentBody}" ></textarea>
+    <div class="row justify-content-center">
+        <form class="text-center" th:action="@{/events/comment}" method="post" th:object="${eventComment}">
+            <label class="titleLabel">Add Comment:</label> <br />
+            <textarea class="createTitle" style="width: 550px; height: 300px;" th:field="*{commentBody}" ></textarea>
             <input type="hidden" name="eventId" th:value="${event.id}" />
             <br />
             <input type="submit" />

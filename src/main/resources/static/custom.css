@@ -66,3 +66,8 @@ body {
 .card {
     background-color: #2B2958;
 }
+
+textarea {
+    width: 90%;
+    height: auto;
+}
