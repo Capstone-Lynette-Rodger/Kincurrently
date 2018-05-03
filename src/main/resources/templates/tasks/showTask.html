@@ -33,7 +33,7 @@
     <div class="row">
         <h2>Comments</h2>
         <div th:each="taskComment: ${comments}">
-            <p th:text="${taskComment.commentBody}"></p>
+            <p th:utext="${taskComment.commentBody}"></p>
             <p th:if="${taskComment.user.title == null}" th:text="${taskComment.user.firstName}"></p>
             <p th:if="${taskComment.user.title}" th:text="${taskComment.user.title}"></p>
             <br/>
