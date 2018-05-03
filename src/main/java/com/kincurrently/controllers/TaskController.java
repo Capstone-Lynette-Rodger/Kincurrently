@@ -1,6 +1,5 @@
 package com.kincurrently.controllers;
 
-import com.kincurrently.models.Status;
 import com.kincurrently.models.Task;
 import com.kincurrently.models.TaskComment;
 import com.kincurrently.models.User;
@@ -82,29 +81,13 @@ public class TaskController {
         return "tasks/showTask";
     }
 
-    @PostMapping("/taskcomment")
-    public String saveTaskComment(@Valid TaskComment newComment, Errors errors, Model model, @RequestParam Long taskId){
-        if(errors.hasErrors()) {
-            model.addAttribute("errors", errors);
-            model.addAttribute("newComment", newComment);
-            return "tasks/showTask";
-        }
-        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        newComment.setCreated_on(new Date());
-        newComment.setTask(taskRepo.findById(taskId));
-        newComment.setUser(loggedInUser);
-        tcRepo.save(newComment);
-
-        return "redirect:/tasks/" + taskId;
-    }
-
     @GetMapping("/tasks/{id}/edit")
     public String viewEditTaskForm(@PathVariable Long id, Model model){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Task task = taskRepo.findOne(id);
         if(user.getId() == task.getCreator().getId()) {
             model.addAttribute(task);
-            return "tasks/edit_task";
+            return "tasks/editTask";
         }
         return "redirect:/tasks";
     }
@@ -114,7 +97,7 @@ public class TaskController {
         if (errors.hasErrors()) {
             model.addAttribute("errors", errors);
             model.addAttribute("task", task);
-            return "tasks/edit_task";
+            return "editTask";
         }
         task.setStatus(statusRepo.findOne(statusId));
         task.setCompleted_by(dtService.parseDate(completed_by));

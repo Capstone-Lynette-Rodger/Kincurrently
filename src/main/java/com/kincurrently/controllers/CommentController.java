@@ -2,16 +2,17 @@ package com.kincurrently.controllers;
 
 import com.kincurrently.models.Event;
 import com.kincurrently.models.EventComment;
+import com.kincurrently.models.TaskComment;
 import com.kincurrently.models.User;
-import com.kincurrently.repositories.EventCommentRepository;
-import com.kincurrently.repositories.EventRepository;
-import com.kincurrently.repositories.UserRepository;
+import com.kincurrently.repositories.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @Controller
 public class CommentController {
@@ -19,11 +20,15 @@ public class CommentController {
     private final EventRepository eventRepository;
     private final EventCommentRepository eventCommentRepository;
     private final UserRepository userRepository;
+    private final TaskCommentRepository tcRepo;
+    private final TaskRepository taskRepo;
 
-    public CommentController(EventRepository eventRepository, EventCommentRepository eventCommentRepository, UserRepository userRepository) {
+    public CommentController(EventRepository eventRepository, EventCommentRepository eventCommentRepository, UserRepository userRepository, TaskRepository taskRepo, TaskCommentRepository tcRepo) {
         this.eventRepository = eventRepository;
         this.eventCommentRepository = eventCommentRepository;
         this.userRepository = userRepository;
+        this.taskRepo = taskRepo;
+        this.tcRepo = tcRepo;
     }
 
     @PostMapping("/events/comment")
@@ -59,5 +64,21 @@ public class CommentController {
         eventCommentRepository.delete(id);
 
         return "redirect:/events/" + idd;
+    }
+
+    @PostMapping("/taskcomment")
+    public String saveTaskComment(@Valid TaskComment newComment, Errors errors, Model model, @RequestParam Long taskId){
+        if(errors.hasErrors()) {
+            model.addAttribute("errors", errors);
+            model.addAttribute("newComment", newComment);
+            return "tasks/showTask";
+        }
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        newComment.setCreated_on(new Date());
+        newComment.setTask(taskRepo.findById(taskId));
+        newComment.setUser(loggedInUser);
+        tcRepo.save(newComment);
+
+        return "redirect:/tasks/" + taskId;
     }
 }

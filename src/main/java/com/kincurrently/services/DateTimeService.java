@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -39,7 +40,7 @@ public class DateTimeService {
     }
 
     public List<Event> sortEventsByDate(List<Event> events) {
-        events.sort(Comparator.comparing(o -> o.getStart_date()));
+        events.sort(Comparator.comparing(Event::getStart_date).thenComparing(Event::getStart_time));
         return events;
     }
 

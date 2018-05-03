@@ -78,7 +78,7 @@ $.each($('input[type="date"]'), (index, input) => {
     }  else {
         input.setAttribute('max', today);
     }
-    if (input.value === undefined) {
+    if (!input.value) {
         input.setAttribute('value', today)
     }
 });
