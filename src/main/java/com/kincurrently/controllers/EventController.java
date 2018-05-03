@@ -56,7 +56,7 @@ public class EventController {
 
 
     @GetMapping("events/{id}")
-    public String indPostView(@PathVariable long id, Model model) {
+    public String indEventView(@PathVariable long id, Model model) {
 
         model.addAttribute("event", eventRepository.findOne(id));
         Iterable<Category> categories = categoryRepository.findAll();
@@ -67,7 +67,7 @@ public class EventController {
     }
 
     @PostMapping("/events/create")
-    public String postEvent (@Valid Event event, Errors validation, Model model,
+    public String createEvent (@Valid Event event, Errors validation, Model model,
                              @RequestParam String startDate,
                              @RequestParam String endDate,
                              @RequestParam String startTime,
@@ -82,40 +82,78 @@ public class EventController {
             return "/events/events";
         }
 
-        System.out.println(endDate);
-        if (!endDate.equalsIgnoreCase("")) {
-
-
-            event.setStart_date(dtService.parseDate(startDate));
-            event.setEnd_date(dtService.parseDate(endDate));
-            event.setStart_time(dtService.parseTime(startTime));
-            event.setEnd_time(dtService.parseTime(endTime));
-
-
-
-
-
-
-        } else if (endDate.equalsIgnoreCase("")) {
-
-            event.setStart_date(dtService.parseDate(startDate));
-            event.setEnd_date(null);
-            event.setStart_time(dtService.parseTime(startTime));
-            event.setEnd_time(dtService.parseTime(endTime));
-
-
-
-
-        }
+        dateSet(event, startDate, endDate, startTime, endTime);
 
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
 
         event.setFamily(current.getFamily());
         event.setUser(current);
-        System.out.println("event.getUser() = " + current.getUsername());
         eventRepository.save(event);
 
         return "redirect:/events";
+    }
+
+    @GetMapping("/events/{id}/edit")
+    public String editEvent (Model model, @PathVariable long id) {
+        model.addAttribute("event", eventRepository.findOne(id));
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
+
+        return "/events/edit";
+    }
+
+    @PostMapping("/events/edit")
+    public String makeEventEdit(@Valid Event editEvent, Errors validation, Model model,
+                           @RequestParam String startDate,
+                           @RequestParam String endDate,
+                           @RequestParam String startTime,
+                           @RequestParam String endTime){
+
+        User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (validation.hasErrors()) {
+            model.addAttribute("editEvent", editEvent);
+            model.addAttribute("validation", validation);
+            Iterable<Category> categories = categoryRepository.findAll();
+            model.addAttribute("categories", categories);
+            return "/events/events";
+        }
+
+        dateSet(editEvent, startDate, endDate, startTime, endTime);
+
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
+
+        editEvent.setFamily(current.getFamily());
+        editEvent.setUser(current);
+        eventRepository.save(editEvent);
+
+        return "redirect:/events";
+    }
+
+    private void dateSet(@Valid Event editEvent, @RequestParam String startDate, @RequestParam String endDate, @RequestParam String startTime, @RequestParam String endTime) {
+        if (!endDate.equalsIgnoreCase("")) {
+
+            editEvent.setStart_date(dtService.parseDate(startDate));
+            editEvent.setEnd_date(dtService.parseDate(endDate));
+            editEvent.setStart_time(dtService.parseTime(startTime));
+            editEvent.setEnd_time(dtService.parseTime(endTime));
+
+        } else if (endDate.equalsIgnoreCase("")) {
+
+            editEvent.setStart_date(dtService.parseDate(startDate));
+            editEvent.setEnd_date(null);
+            editEvent.setStart_time(dtService.parseTime(startTime));
+            editEvent.setEnd_time(dtService.parseTime(endTime));
+
+        }
+    }
+
+    @PostMapping("/events/delete")
+    public String deleteEvent (@RequestParam long id) {
+    eventRepository.delete(id);
+
+    return "redirect:/dashboard";
     }
 }

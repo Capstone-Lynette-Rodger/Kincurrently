@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/header :: header (Events)"></head>
+<body>
+
+<div th:replace="partials/navbar :: navbar"></div>
+
+<div class="container eventContainer">
+    <div class="row">
+        <h1>Edit Comment</h1>
+        <form class="xs-offset-3 xs-col-6 center-block text-center" th:action="@{/events/comment/edit}" method="post" th:object="${editComment}">
+            <label class="titleLabel">Comment:</label> <br />
+            <textarea class="createTitle" th:field="*{commentBody}" th:value="${commentBody}" ></textarea>
+            <input type="hidden" name="commentId" th:field="*{id}" th:value="${id}" />
+            <input type="hidden" name="eventId" th:value="${editComment.event.id}" />
+            <br />
+            <button>Submit Edit</button>
+        </form>
+    </div>
+    <div class="row">
+        <form class="xs-offset-3 xs-col-6 center-block text-center" th:action="@{/events/comment/delete}" th:method="post" th:object="${editComment}">
+            <input type="hidden" th:field="*{id}" th:value="${id}" />
+            <input type="hidden" name="eventId" th:value="${editComment.event.id}" />
+            <button id="delete">Delete</button>
+        </form>
+    </div>
+</div>
+
+
+
+<footer th:replace="partials/footer :: footer"></footer>
+
+</body>
+</html>

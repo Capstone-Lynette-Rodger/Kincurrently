@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface EventRepository extends CrudRepository<Event, Long> {
 
-    public List<Event> findById(Long id);
+    public Event findById(Long id);
     public List<Event> findByFamilyId(Long id);
 }
