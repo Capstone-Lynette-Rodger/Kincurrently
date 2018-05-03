@@ -38,10 +38,11 @@ public class TaskController {
     public String showTaskForm(Model model){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("family", familyRepo.findOne(loggedInUser.getFamily().getId()));
-        model.addAttribute("allTasks", taskRepo.findAll());
-        model.addAttribute("myTasks", taskRepo.findByDesignatedUser(loggedInUser.getId()));
+        model.addAttribute("allTasks", dtService.sortTasksByDate((List<Task>)taskRepo.findAll()));
+        model.addAttribute("myTasks", dtService.sortTasksByDate(taskRepo.findByDesignatedUser(loggedInUser.getId())));
         model.addAttribute("categories", catRepo.findAll());
         model.addAttribute("task", new Task());
+
         return "tasks/tasks";
     }
 
