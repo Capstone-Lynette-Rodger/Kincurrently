@@ -118,4 +118,11 @@ public class EventController {
 
         return "redirect:/events";
     }
+
+    @PostMapping("/events/delete")
+    public String deleteEvent (@RequestParam long id) {
+    eventRepository.delete(id);
+
+    return "redirect:/dashboard";
+    }
 }

@@ -28,7 +28,7 @@ public class Event {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(
             name="events_categories",
             joinColumns = {@JoinColumn(name="event_id")},
