@@ -123,8 +123,8 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("family", family);
         model.addAttribute("events", eventRepository.findByFamilyId(family.getId()) );
-        model.addAttribute("tasksCreated", taskRepository.findByCreatedUser(family.getId()));
-        model.addAttribute("tasksDesignated", taskRepository.findByDesignatedUser(family.getId()));
+        model.addAttribute("tasksCreated", dtService.sortTasksByDate(taskRepository.findByCreatedUser(loggedInUser.getId())));
+        model.addAttribute("tasksDesignated", dtService.sortTasksByDate(taskRepository.findByDesignatedUser(loggedInUser.getId())));
         return "users/dashboard";
     }
 
