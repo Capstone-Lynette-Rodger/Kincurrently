@@ -102,3 +102,8 @@ $.each($('input[type="date"]'), (index, input) => {
 $("#showDeleteForm").click(() => {
    $("#deleteModal").modal('show');
 });
+
+$(document).ready(() => {
+    $('li.active').removeClass('active');
+    $('a[href="' + location.pathname + '"]').closest('li').addClass('active');
+});
