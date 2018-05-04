@@ -11,13 +11,13 @@
                 <label for="searchTerm">Search:</label>
                 <input type="text" id="searchTerm" name="searchTerm" placeholder="Keyword(s)" />
 
-                <label>Events<input type="checkbox" id="searchEvents" name="searchEvents" value="1" /></label>
-                <label for="searchTasks">Tasks<input type="checkbox" id="searchTasks" name="searchTasks" value="1" /></label>
+                <label>Events<input type="checkbox" id="searchEvents" name="searchEvents" /></label>
+                <label for="searchTasks">Tasks<input type="checkbox" id="searchTasks" name="searchTasks" /></label>
 
-                <select id="searchCategories">
-                    <option name="searchCategories" value="Chore">Chore</option>
-                    <option name="searchCategories" value="Party">Party</option>
-                    <option name="searchCategories" value="Other">Other</option>
+                <select id="searchCategories" name="searchCategories">
+                    <option label=" "></option>
+                    <option value="CHORE">Chore</option>
+                    <option value="PARTY">Party</option>
                 </select>
                 <button>Submit</button>
             </form>

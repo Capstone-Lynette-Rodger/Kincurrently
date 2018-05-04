@@ -27,21 +27,34 @@ public class SearchController {
 
     @GetMapping("/search/results")
     public String showSearchResults (Model model, @RequestParam(name="searchTerm") String search,
-                                     @RequestParam(value="searchTasks") long st,
-                                     @RequestParam(value="searchEvents") long se) {
+                                     @RequestParam(value="searchTasks", required = false) String st,
+                                     @RequestParam(value="searchEvents", required = false) String se,
+                                     @RequestParam(value="searchCategories") String searchCategory) {
 
         System.out.println("st = " + st);
         System.out.println("se = " + se);
-        if (st == 1 && se == 1) {
+        if (st != null && se != null) {
             model.addAttribute("events", eventRepository.findBySearchTerm(search));
             model.addAttribute("allTasks", taskRepository.findBySearchTerm(search));
+            if (!searchCategory.equalsIgnoreCase(" ")) {
+                model.addAttribute("searchCat", searchCategory);
+            }
+            System.out.println("searchCategory = " + searchCategory);
         }
 
-        if (st == 1) {
+        if (se != null) {
             model.addAttribute("events", eventRepository.findBySearchTerm(search));
+            if (!searchCategory.equalsIgnoreCase(" ")) {
+                model.addAttribute("searchCat", searchCategory);
+            }
+            System.out.println("searchCategory = " + searchCategory);
         }
-        if (se == 1) {
+        if (st != null) {
             model.addAttribute("allTasks", taskRepository.findBySearchTerm(search));
+            if (!searchCategory.equalsIgnoreCase(" ")) {
+                model.addAttribute("searchCat", searchCategory);
+            }
+            System.out.println("searchCategory = " + searchCategory);
         }
 
         return "/search/searchResults";
