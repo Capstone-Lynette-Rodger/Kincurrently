@@ -62,6 +62,14 @@
                         <div class="col-md-12">
                             <label class="registrationLabels" for="joinIfExisting">Join an existing family?<input class="registrationInputs" type="checkbox" name="joinFamily" id="joinIfExisting"/></label><br/>
                         </div>
+                        <div class="col-md-12">
+                            <label for="chooseRole">Kin Relationship: </label>
+                            <select name="chooseRole" id="chooseRole">
+                                <option value="PARENT" selected="selected">Adult Member</option>
+                                <option value="CHILD">Child Member</option>
+                                <option value="CARETAKER">Caretaker</option>
+                            </select>
+                        </div>
 
                         <div id="showForNewFamily" class="col-md-6">
                             <label class="registrationLabels" for="family">Family Name</label><br/>
