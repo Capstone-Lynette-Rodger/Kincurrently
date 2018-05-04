@@ -26,8 +26,23 @@ public class SearchController {
 
 
     @GetMapping("/search/results")
-    public String showSearchResults (Model model, @RequestParam(name="searchTerm") String search) {
-        model.addAttribute("events", eventRepository.findBySearchTerm(search));
+    public String showSearchResults (Model model, @RequestParam(name="searchTerm") String search,
+                                     @RequestParam(value="searchTasks") long st,
+                                     @RequestParam(value="searchEvents") long se) {
+
+        System.out.println("st = " + st);
+        System.out.println("se = " + se);
+        if (st == 1 && se == 1) {
+            model.addAttribute("events", eventRepository.findBySearchTerm(search));
+            model.addAttribute("allTasks", taskRepository.findBySearchTerm(search));
+        }
+
+        if (st == 1) {
+            model.addAttribute("events", eventRepository.findBySearchTerm(search));
+        }
+        if (se == 1) {
+            model.addAttribute("allTasks", taskRepository.findBySearchTerm(search));
+        }
 
         return "/search/searchResults";
     }
