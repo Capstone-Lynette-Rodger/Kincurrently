@@ -30,51 +30,52 @@ public class UserDetailsLoader implements UserDetailsService {
         return new UserWithRoles(user, roles.ofUserWith(username));
     }
 
-
-
+    public Errors checkPassword(User user, Errors errors) {
+        if (!user.getPassword().matches(".{6,}")) {
+            errors.rejectValue(
+                    "password",
+                    "user.password",
+                    "Password must be at least 6 characters in length."
+            );
+        }
+        if (!user.getPassword().matches("\\S+$")) {
+            errors.rejectValue(
+                    "password",
+                    "user.password",
+                    "Password must not contain any whitespace."
+            );
+        }
+        if (!user.getPassword().matches("(.*[a-z].*)")) {
+            errors.rejectValue(
+                    "password",
+                    "user.password",
+                    "Password must include a lower case letter."
+            );
+        }
+        if (!user.getPassword().matches("(.*[A-Z].*)")) {
+            errors.rejectValue(
+                    "password",
+                    "user.password",
+                    "Password must include an upper case letter."
+            );
+        }
+        if (!user.getPassword().matches("(.*[0-9].*)")) {
+            errors.rejectValue(
+                    "password",
+                    "user.password",
+                    "Password must include a number."
+            );
+        }
+        if (!user.getPassword().matches("(.*[!@#$%^&+=].*)")) {
+            errors.rejectValue(
+                    "password",
+                    "user.password",
+                    "Password must include a special character."
+            );
+        }
+        return errors;
+    }
     public Errors checkRegistration(User user, Errors errors) {
-//        if (!user.getPassword().matches(".{6,}")) {
-//            errors.rejectValue(
-//                    "password",
-//                    "user.password",
-//                    "Password must be at least 6 characters in length."
-//            );
-//        }
-//        if (!user.getPassword().matches("\\S+$")) {
-//            errors.rejectValue(
-//                    "password",
-//                    "user.password",
-//                    "Password must not contain any whitespace."
-//            );
-//        }
-//        if (!user.getPassword().matches("(.*[a-z].*)")) {
-//            errors.rejectValue(
-//                    "password",
-//                    "user.password",
-//                    "Password must include a lower case letter."
-//            );
-//        }
-//        if (!user.getPassword().matches("(.*[A-Z].*)")) {
-//            errors.rejectValue(
-//                    "password",
-//                    "user.password",
-//                    "Password must include an upper case letter."
-//            );
-//        }
-//        if (!user.getPassword().matches("(.*[0-9].*)")) {
-//            errors.rejectValue(
-//                    "password",
-//                    "user.password",
-//                    "Password must include a number."
-//            );
-//        }
-//        if (!user.getPassword().matches("(.*[!@#$%^&+=].*)")) {
-//            errors.rejectValue(
-//                    "password",
-//                    "user.password",
-//                    "Password must include a special character."
-//            );
-//        }
         if (userRepo.findByUsername(user.getUsername()) != null) {
             errors.rejectValue(
                     "username",

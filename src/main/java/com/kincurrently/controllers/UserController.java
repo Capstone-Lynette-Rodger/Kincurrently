@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -76,7 +77,7 @@ public class UserController {
                     "Family name cannot be blank."
             );
         }
-        if(familyRepo.findByCode(family.getCode()) != null) {
+        if(familyRepo.findByCode(family.getCode()) != null && !joinFamily) {
             familyErrors.rejectValue(
                     "code",
                     "family.code",
@@ -160,15 +161,16 @@ public class UserController {
         return "redirect:/dashboard";
     }
 
-    @GetMapping("/update/profile")
+    @GetMapping("/profile/update")
     public String updateProfileForm(Model model){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", userRepo.findById(loggedInUser.getId()));
+        model.addAttribute("userNewPass", userRepo.findById(loggedInUser.getId()));
         model.addAttribute("family", familyRepo.findByCode(loggedInUser.getFamily().getCode()));
         return "users/edit";
     }
 
-    @PostMapping("/update/profile")
+    @PostMapping("/profile/update")
     public String updateProfile(@Valid User user, Errors userErrors, Model model, @Valid Family family, Errors familyErrors,
                                 @RequestParam String password, @RequestParam String birthdate){
         User dbUser = userRepo.findById(user.getId());
@@ -187,6 +189,7 @@ public class UserController {
         if(userErrors.hasErrors()) {
             model.addAttribute("errors", userErrors);
             model.addAttribute("user", user);
+            model.addAttribute("family", dbFam);
             return "users/edit";
         }
         if(user.getTitle().trim().equals("")){
@@ -197,6 +200,37 @@ public class UserController {
         familyRepo.save(dbFam);
         return "redirect:/dashboard";
     }
+
+    @PostMapping("/password/update")
+    public String updatePassword(@Valid User userNewPass, Errors errors, Model model, @RequestParam String newPassword, @RequestParam String newPassVerify){
+        User dbUser = userRepo.findById(userNewPass.getId());
+//        errors = userService.checkPassword(dbUser, errors);
+        if(!passwordEncoder.matches(userNewPass.getPassword(), dbUser.getPassword())) {
+            errors.rejectValue(
+                    "password",
+                    "newUserPass.password.user.password",
+                    "Incorrect password. Could not update profile."
+            );
+        }
+        if(!newPassword.equals(newPassVerify)) {
+            errors.rejectValue(
+                    "password",
+                    "newUserPass.password.user.password",
+                    "Passwords do not match."
+            );
+        }
+        if(errors.hasErrors()) {
+            model.addAttribute("errors", errors);
+            model.addAttribute("family", familyRepo.findOne(dbUser.getFamily().getId()));
+            model.addAttribute("user", dbUser);
+            model.addAttribute("userNewPass", userNewPass);
+            return "users/edit";
+        }
+        dbUser.setPassword(passwordEncoder.encode((newPassword)));
+        userRepo.save(dbUser);
+        return "redirect:/dashboard";
+    }
+
 
     @PostMapping("/update/profile/delete")
     public String deleteUser(@RequestParam Long id){

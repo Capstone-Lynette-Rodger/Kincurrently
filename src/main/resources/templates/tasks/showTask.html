@@ -34,11 +34,15 @@
         <h2>Comments</h2>
         <div th:each="taskComment: ${comments}">
             <p th:utext="${taskComment.commentBody}"></p>
-            <p th:if="${taskComment.user.title == null}" th:text="${taskComment.user.firstName}"></p>
-            <p th:if="${taskComment.user.title}" th:text="${taskComment.user.title}"></p>
+            <h5 th:if="${taskComment.user.title == null}">Posted by: <span th:text="${taskComment.user.firstName}"></span></h5>
+            <h5 th:if="${taskComment.user.title}">Posted by: <span th:text="${taskComment.user.title}"></span></h5>
+            <h5>Posted on: <span th:text="${taskComment.created_on}" class="changeDate"></span></h5>
+            <h5 th:if="${taskComment.user.id == #authentication.principal.id}">
+                <a th:href="@{/tasks/comment/{id}/edit(id=${taskComment.id})}">Edit</a>
+            </h5>
             <br/>
         </div>
-        <form th:action="@{/taskcomment}" method="POST" th:object="${newComment}">
+        <form th:action="@{/tasks/comment}" method="POST" th:object="${newComment}">
             <input type="hidden" name="taskId" th:value="${task.id}"/>
             <textarea type="text" th:field="${newComment.commentBody}"></textarea>
             <p class="text-danger" th:if="${#fields.hasErrors('commentBody')}" th:errors="*{commentBody}" />

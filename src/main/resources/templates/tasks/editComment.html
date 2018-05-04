@@ -21,7 +21,6 @@
     <div class="row">
         <form class="xs-offset-3 xs-col-6 center-block text-center" th:action="@{/tasks/comment/delete}" th:method="post" th:object="${editComment}">
             <input type="hidden" th:field="*{id}" th:value="${id}" />
-            <input type="hidden" name="taskId" th:value="${editComment.task.id}" />
             <button id="delete">Delete</button>
         </form>
     </div>

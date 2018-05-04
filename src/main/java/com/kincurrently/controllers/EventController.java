@@ -45,7 +45,7 @@ public class EventController {
     @GetMapping("/events")
     public String eventsIndex (Model model) {
         User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("events", eventRepository.findByFamilyId(current.getFamily().getId()));
+        model.addAttribute("events", dtService.sortEventsByDate(eventRepository.findByFamilyId(current.getFamily().getId())));
 //        model.addAttribute("event", new Event());
 //        Iterable<Category> categories = categoryRepository.findAll();
 //        model.addAttribute("categories", categories);
@@ -79,10 +79,10 @@ public class EventController {
 
     @PostMapping("/events/create")
     public String createEvent (@Valid Event event, Errors validation, Model model,
-                             @RequestParam String startDate,
-                             @RequestParam String endDate,
-                             @RequestParam String startTime,
-                             @RequestParam String endTime) {
+                               @RequestParam String startDate,
+                               @RequestParam String endDate,
+                               @RequestParam String startTime,
+                               @RequestParam String endTime) {
         User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (validation.hasErrors()) {
@@ -107,7 +107,12 @@ public class EventController {
 
     @GetMapping("/events/{id}/edit")
     public String editEvent (Model model, @PathVariable long id) {
-        model.addAttribute("event", eventRepository.findOne(id));
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Event event = eventRepository.findOne(id);
+        if(user.getId() != event.getUser().getId()) {
+            return "redirect:/events";
+        }
+        model.addAttribute("event", event);
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
 
@@ -116,10 +121,10 @@ public class EventController {
 
     @PostMapping("/events/edit")
     public String makeEventEdit(@Valid Event editEvent, Errors validation, Model model,
-                           @RequestParam String startDate,
-                           @RequestParam String endDate,
-                           @RequestParam String startTime,
-                           @RequestParam String endTime){
+                                @RequestParam String startDate,
+                                @RequestParam String endDate,
+                                @RequestParam String startTime,
+                                @RequestParam String endTime){
 
         User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -145,26 +150,29 @@ public class EventController {
 
     private void dateSet(@Valid Event editEvent, @RequestParam String startDate, @RequestParam String endDate, @RequestParam String startTime, @RequestParam String endTime) {
         if (!endDate.equalsIgnoreCase("")) {
-
             editEvent.setStart_date(dtService.parseDate(startDate));
             editEvent.setEnd_date(dtService.parseDate(endDate));
-            editEvent.setStart_time(dtService.parseTime(startTime));
-            editEvent.setEnd_time(dtService.parseTime(endTime));
-
         } else if (endDate.equalsIgnoreCase("")) {
 
             editEvent.setStart_date(dtService.parseDate(startDate));
             editEvent.setEnd_date(null);
+        }
+        if(startTime.trim().equals("")){
+            editEvent.setStart_time(null);
+        } else {
             editEvent.setStart_time(dtService.parseTime(startTime));
+        }
+        if(endTime.trim().equals("")){
+            editEvent.setEnd_time(null);
+        } else {
             editEvent.setEnd_time(dtService.parseTime(endTime));
-
         }
     }
 
     @PostMapping("/events/delete")
     public String deleteEvent (@RequestParam long id) {
-    eventRepository.delete(id);
+        eventRepository.delete(id);
 
-    return "redirect:/dashboard";
+        return "redirect:/dashboard";
     }
 }
