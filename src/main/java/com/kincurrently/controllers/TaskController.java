@@ -35,15 +35,20 @@ public class TaskController {
     }
 
     @GetMapping("/tasks")
-    public String showTaskForm(Model model){
+    public String showTasks(Model model){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("family", familyRepo.findOne(loggedInUser.getFamily().getId()));
         model.addAttribute("allTasks", dtService.sortTasksByDate((List<Task>)taskRepo.findAll()));
         model.addAttribute("myTasks", dtService.sortTasksByDate(taskRepo.findByDesignatedUser(loggedInUser.getId())));
-        model.addAttribute("categories", catRepo.findAll());
-        model.addAttribute("task", new Task());
-
         return "tasks/tasks";
+    }
+
+    @GetMapping("/tasks/create")
+    public String showCreateTaskForm (Model model) {
+        model.addAttribute("task", new Task());
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("family", familyRepo.findOne(loggedInUser.getFamily().getId()));
+        model.addAttribute("categories", catRepo.findAll());
+        return "/tasks/createTask";
     }
 
     @PostMapping("/tasks/create")
@@ -51,7 +56,7 @@ public class TaskController {
         if(errors.hasErrors()) {
             model.addAttribute("errors", errors);
             model.addAttribute("task", task);
-            return "tasks/tasks";
+            return "tasks/createTask";
         }
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         task.setCreated_on(new Date());

@@ -7,16 +7,18 @@ let abbDayArray = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
 currentDate = dayArray[current.getDay()] + ", " + monthArray[current.getMonth()] + " " + current.getDate() + ', ' + current.getFullYear();
 $(".todaysDate").text(currentDate);
 
+// addDays ads the number of days specified to the date specified
 let addDays = (date, days) => {
     let result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
 };
 
-let changeView = () => {
-    $.each($('.date'), (index, element) => {
+// changeView searches through all the dates with a date class and hides items that do not meet search criteria
+let changeEventView = () => {
+    $.each($('.date.event'), (index, element) => {
         let date = new Date(element.textContent.replace(/-/g, '\/'));
-        switch($('#taskView').val()) {
+        switch($('#eventView').val()) {
             case "day":
                 if(current.getFullYear() !== date.getUTCFullYear() || current.getMonth() !== date.getUTCMonth() || current.getDate() !== date.getUTCDate()) {
                     element.parentNode.parentNode.setAttribute("hidden", "hidden");
@@ -28,7 +30,7 @@ let changeView = () => {
                 }
                 break;
             case "month":
-                if(current.getUTCFullYear() !== date.getUTCFullYear() || date.getUTCMonth() !== current.getUTCMonth()) {
+                if(current.getFullYear() !== date.getUTCFullYear() || date.getUTCMonth() !== current.getMonth()) {
                     element.parentNode.parentNode.setAttribute("hidden", "hidden");
                 }
                 break;
@@ -37,15 +39,46 @@ let changeView = () => {
         }
     });
 };
-changeView();
-$('#taskView').change(() => {
-    $.each($('.date'), (index, element) => {
+let changeTaskView = () => {
+    $.each($('.date.task'), (index, element) => {
+        let date = new Date(element.textContent.replace(/-/g, '\/'));
+        switch($('#taskView').val()) {
+            case "day":
+                if(current < date) {
+                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
+                }
+                break;
+            case "week":
+                if(addDays(current, 6)  < date) {
+                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
+                }
+                break;
+            case "month":
+                if(current.getUTCFullYear() < date.getUTCFullYear() || date.getUTCMonth() > current.getUTCMonth()) {
+                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
+                }
+                break;
+            case "all":
+                break;
+        }
+    });
+};
+changeEventView();
+changeTaskView();
+$('#eventView').change(() => {
+    $.each($('.date.event'), (index, element) => {
         element.parentNode.parentNode.removeAttribute("hidden");
     });
-    changeView();
+    changeEventView();
+});
+$('#taskView').change(() => {
+    $.each($('.date.task'), (index, element) => {
+        element.parentNode.parentNode.removeAttribute("hidden");
+    });
+    changeTaskView();
 });
 
-
+//changes the display of the time to am and pm
 $.each($(".changeTime"), (index, element) => {
     if(element.textContent == "") {
         let parent = element.parentNode;
@@ -61,12 +94,17 @@ $.each($(".changeTime"), (index, element) => {
         element.textContent = hours + ':' + minutes + ' ' + ampm;
     }
 });
+
+//changes the display of the date to abbreviated date, month, day, and year if different from current
 $.each($(".changeDate"), (index, element) => {
     if (element.textContent == "") {
         let parent = element.parentNode;
         parent.parentNode.removeChild(parent);
     } else {
         let date = new Date(element.textContent);
+        if(element.classList.contains("due") && (current.getFullYear() > date.getUTCFullYear() || date.getUTCMonth() < current.getMonth() || date.getUTCDate() < current.getDate())) {
+            element.style.color = "red";
+        }
         element.innerHTML = abbDayArray[date.getUTCDay()] + ", " + abbMonthArray[date.getUTCMonth()] + " " + date.getUTCDate();
         if (current.getUTCFullYear() !== date.getUTCFullYear()) {
             element.innerHTML += ', ' + date.getUTCFullYear();
@@ -74,9 +112,10 @@ $.each($(".changeDate"), (index, element) => {
     }
 });
 
+//changes display of form based on if they are joining an existing family
 $('#joinIfExisting').click(()=> {
-    $('#joinIfExisting').attr('checked', function(index, attr){
-        return attr == "checked" ? null : "checked";
+    $('#joinIfExisting').attr('checked', (index, attr) => {
+        return attr === "checked" ? null : "checked";
     });
     if($('#joinIfExisting').attr('checked')) {
         $("#showForNewFamily").hide();
@@ -84,7 +123,7 @@ $('#joinIfExisting').click(()=> {
         $("#showForNewFamily").show();
     }
 });
-
+//sets a minimum date of today on date inputs, sets a maximum date of today on birthdays, and sets dates that begin empty to today
 let today = new Date();
 today.setHours(today.getHours()-5);
 today = today.toISOString().split('T')[0];
@@ -99,6 +138,26 @@ $.each($('input[type="date"]'), (index, input) => {
     }
 });
 
+//opens up delete modal
 $("#showDeleteForm").click(() => {
    $("#deleteModal").modal('show');
+});
+
+//changes navbar links to active if url matches anchor tag path
+$(document).ready(() => {
+    $('li.active').removeClass('active');
+    $('a[href="' + location.pathname + '"]').closest('li').addClass('active');
+});
+
+//hides time inputs for events if allday is checked
+$('input[type="time"]').hide();
+$('#allDay').click(()=> {
+    $('#allDay').attr('checked', (index, attr) => {
+        return attr === "checked" ? null : "checked";
+    });
+    if($('#allDay').attr('checked')) {
+        $('input[type="time"]').hide();
+    } else {
+        $('input[type="time"]').show();
+    }
 });

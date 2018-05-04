@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String saveUser(@Valid User user, Errors userErrors, Model model, @Valid Family family, Errors familyErrors,
+    public String saveUser(@Valid User user, Errors userErrors, Model model, @Valid Family family, Errors familyErrors, @RequestParam String chooseRole,
                            @RequestParam String verifyPassword, @RequestParam String birthdate, @RequestParam(required=false) boolean joinFamily) {
         userErrors = userService.checkRegistration(user, userErrors);
         if(!user.getPassword().equals(verifyPassword)) {
@@ -96,6 +96,7 @@ public class UserController {
         user.setPassword(hash);
         user.setFamily(family);
         if(!joinFamily) {
+
             familyRepo.save(family);
         } else {
             family = familyRepo.findByCode(family.getCode());
@@ -105,7 +106,7 @@ public class UserController {
             user.setTitle(null);
         }
         userRepo.save(user);
-        rolesRepo.save(new UserRole(user.getId(), "PARENT"));
+        rolesRepo.save(new UserRole(user.getId(), chooseRole));
         return "redirect:/";
     }
 
@@ -127,7 +128,7 @@ public class UserController {
         return "users/dashboard";
     }
 
-    @GetMapping("/register/child")
+    @GetMapping("/child/register")
     public String showRegisterChildForm(Model model){
         model.addAttribute("user", new User());
         return "users/register-child";

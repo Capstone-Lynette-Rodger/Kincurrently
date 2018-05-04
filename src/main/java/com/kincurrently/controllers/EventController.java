@@ -97,7 +97,9 @@ public class EventController {
 
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
-
+        if(event.getLocation().trim().equals("")) {
+            event.setLocation(null);
+        }
         event.setFamily(current.getFamily());
         event.setUser(current);
         eventRepository.save(event);
@@ -149,16 +151,11 @@ public class EventController {
     }
 
     private void dateSet(@Valid Event editEvent, @RequestParam String startDate, @RequestParam String endDate, @RequestParam String startTime, @RequestParam String endTime) {
-        if (!endDate.equalsIgnoreCase("")) {
-            editEvent.setStart_date(dtService.parseDate(startDate));
-            editEvent.setEnd_date(dtService.parseDate(endDate));
-        } else if (endDate.equalsIgnoreCase("")) {
+        editEvent.setStart_date(dtService.parseDate(startDate));
+        editEvent.setEnd_date(dtService.parseDate(endDate));
 
-            editEvent.setStart_date(dtService.parseDate(startDate));
-            editEvent.setEnd_date(null);
-        }
         if(startTime.trim().equals("")){
-            editEvent.setStart_time(null);
+            editEvent.setStart_time(new Date(0));
         } else {
             editEvent.setStart_time(dtService.parseTime(startTime));
         }

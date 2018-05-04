@@ -17,20 +17,20 @@
 <div class="container eventContainer">
     <div class="row">
         <form class="form" th:action="@{/events/create}" method="POST" th:object="${event}">
-            <label>Title: </label>
-            <input type="text" th:field="*{title}" th:required="required" /> <br />
+            <label>Add Title
+            <input type="text" th:field="*{title}" th:required="required" /></label> <br />
             <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />
-            <label>Start Date: </label>
-            <input type="date" name="startDate" th:required="required" /> <label>Start Time: </label>
+            <input type="date" name="startDate" th:required="required" />
             <!--<p th:if="${#fields.hasErrors('start_date')}" th:errors="*{start_date}" />-->
-            <input type="time" name="startTime" /> <br />
-            <label>End Date: </label>
-            <input type="date" name="endDate" /> <label>End Time: </label>
-            <input type="time" name="endTime" /> <br />
-            <label>Location: </label>
-            <input type="text" th:field="*{location}" /> <br />
-            <label>Description: </label>
-            <input type="text" th:field="*{description}" th:required="required" />
+            <input type="time" name="startTime" />
+            <span> to </span>
+            <input type="time" name="endTime" />
+            <input type="date" name="endDate" th:required="required"/>
+            <label><input type="checkbox" name="allDay" id="allDay" checked="checked"/> All Day</label><br />
+            <label><i class="fas fa-location-arrow"></i> Add Location
+            <input type="text" th:field="*{location}" /> </label><br />
+            <label><i class="fas fa-file-alt"></i> Add Description<br />
+                <input type="text" th:field="*{description}"/></label><br/>
             <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" />
             <h1>Categories</h1>
             <div>
