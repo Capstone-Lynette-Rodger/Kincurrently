@@ -38,10 +38,10 @@
 <hr />
 
 
-<div class="container eventContainer">
+<div sec:authorize="hasRole('ROLE_PARENT')" class="container eventContainer">
     <h2>Tasks</h2>
     <div class="row">
-        <div sec:authorize="hasRole('ROLE_PARENT')" class="col-md-3 eventContainer"  th:if="${task.status.id != 4}" th:each="task : ${allTasks}">
+        <div class="col-md-3 eventContainer"  th:if="${task.status.id != 4}" th:each="task : ${allTasks}">
             <h2 th:text="${task.title}"></h2>
             <h5>Completion Deadline: <span th:text="${task.completed_by}" class="changeDate"></span><span th:text="${task.completed_by}" hidden="hidden" class="date"></span></h5>
             <h5>Status: <span th:text="${task.status.status}"></span></h5>
