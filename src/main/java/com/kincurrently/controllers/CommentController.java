@@ -42,8 +42,12 @@ public class CommentController {
 
     @GetMapping("/events/comment/{id}/edit")
     public String indCommentView(@PathVariable long id, Model model) {
-
-        model.addAttribute("editComment", eventCommentRepository.findOne(id));
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        EventComment comment = eventCommentRepository.findOne(id);
+        if(user.getId() != comment.getUser().getId()) {
+            return "redirect:/events";
+        }
+        model.addAttribute("editComment", comment);
 
         return "/events/editComment";
     }
@@ -57,8 +61,6 @@ public class CommentController {
         return "redirect:/events/" + id;
     }
 
-
-
     @PostMapping("/events/comment/delete")
     public String deleteEventComment (@RequestParam long id, @RequestParam(name = "eventId") long idd) {
         eventCommentRepository.delete(id);
@@ -66,7 +68,7 @@ public class CommentController {
         return "redirect:/events/" + idd;
     }
 
-    @PostMapping("/taskcomment")
+    @PostMapping("/tasks/comment")
     public String saveTaskComment(@Valid TaskComment newComment, Errors errors, Model model, @RequestParam Long taskId){
         if(errors.hasErrors()) {
             model.addAttribute("errors", errors);
@@ -80,5 +82,33 @@ public class CommentController {
         tcRepo.save(newComment);
 
         return "redirect:/tasks/" + taskId;
+    }
+
+    @GetMapping("/tasks/comment/{id}/edit")
+    public String viewEditTaskCommentForm(@PathVariable long id, Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        TaskComment comment = tcRepo.findOne(id);
+        if(user.getId() != comment.getUser().getId()) {
+            return "redirect:/tasks";
+        }
+        model.addAttribute("editComment", comment);
+        return "/tasks/editComment";
+    }
+
+    @PostMapping("/tasks/comment/edit")
+    public String updateTaskComment (TaskComment editComment, @RequestParam(name = "taskId") long id) {
+        TaskComment dbTaskComment = tcRepo.findOne(id);
+        editComment.setUser(dbTaskComment.getUser());
+        editComment.setCreated_on(dbTaskComment.getCreated_on());
+        editComment.setTask(taskRepo.findById(id));
+        tcRepo.save(editComment);
+        return "redirect:/tasks/" + id;
+    }
+
+    @PostMapping("/tasks/comment/delete")
+    public String deleteTaskComment (@RequestParam long id) {
+        tcRepo.delete(id);
+
+        return "redirect:/tasks/" + id;
     }
 }

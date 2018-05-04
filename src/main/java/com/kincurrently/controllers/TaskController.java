@@ -1,5 +1,6 @@
 package com.kincurrently.controllers;
 
+import com.kincurrently.models.Category;
 import com.kincurrently.models.Task;
 import com.kincurrently.models.TaskComment;
 import com.kincurrently.models.User;
@@ -87,6 +88,8 @@ public class TaskController {
         Task task = taskRepo.findOne(id);
         if(user.getId() == task.getCreator().getId()) {
             model.addAttribute(task);
+            Iterable<Category> categories = catRepo.findAll();
+            model.addAttribute("categories", categories);
             return "tasks/editTask";
         }
         return "redirect:/tasks";

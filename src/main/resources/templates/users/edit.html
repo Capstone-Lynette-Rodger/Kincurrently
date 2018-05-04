@@ -9,7 +9,7 @@
         <div class = "col-md-6 col-md-offset-3 regFormContainer">
             <h2 class="text-center">Update Profile</h2>
             <hr />
-            <form th:action="@{/update/profile}" method="POST">
+            <form th:action="@{/profile/update}" method="POST">
                 <div class="row">
                     <div class="col-md-6">
                         <label class="registrationLabels" for="firstName">First Name</label><br />
@@ -79,27 +79,33 @@
         <div class = "col-md-6 col-md-offset-3 regFormContainer">
             <h2 class="text-center">Change Password</h2>
             <hr />
-            <form th:action="@{/update/password}" method="POST">
+            <form th:action="@{/password/update}" method="POST" th:object="${userNewPass}">
                 <div class="row">
                     <div class="col-md-6">
                         <label class="registrationLabels" for="oldPassword">Current Password</label><br />
-                        <input class="registrationInputs" id="oldPassword" name="oldPassword" th:required="required"/> <br/>
+                        <input class="registrationInputs" id="oldPassword" th:field="*{password}" type="password" th:required="required"/> <br/>
                     </div>
 
                     <div class="col-md-6">
                         <label class="registrationLabels" for="newPassword">New Password</label><br />
-                        <input class="registrationInputs" id="newPassword" name="newPassword" th:required="required" /> <br/>
-                        <!--<p class="text-danger" th:if="${#fields.hasErrors('user.newPassword')}" th:errors="*{user.password}" />-->
+                        <input class="registrationInputs" id="newPassword" name="newPassword" type="password" th:required="required" /> <br/>
                     </div>
 
                     <div class="col-md-6">
                         <label class="registrationLabels" for="newPassVerify">Verify New Password</label><br />
-                        <input class="registrationInputs" id="newPassVerify" name="newPassVerify" th:required="required" /> <br/>
-                        <!--<p class="text-danger" th:if="${#fields.hasErrors('user.lastName')}" th:errors="*{user.lastName}" />-->
+                        <input class="registrationInputs" id="newPassVerify" name="newPassVerify" type="password" th:required="required" /> <br/>
+                        <p class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" />
                     </div>
 
                 </div>
                 <div class="row justify-content-center">
+                    <input type="hidden" th:field="*{id}" th:value="*{id}" name="id"/>
+                    <input type="hidden" th:field="*{firstName}" th:value="*{firstName}" name="id"/>
+                    <input type="hidden" th:field="*{lastName}" th:value="*{lastName}" name="id"/>
+                    <input type="hidden" th:field="*{birthdate}" th:value="*{birthdate}" name="id"/>
+                    <input type="hidden" th:field="*{username}" th:value="*{username}" name="id"/>
+                    <input type="hidden" th:field="*{email}" th:value="*{email}" name="id"/>
+                    <input type="hidden" th:field="*{family}" th:value="*{family}" name="id"/>
                     <input class="registrationButton col-md-4 col-md-offset-4" value="Update Password!" type="submit"/>
                 </div>
 

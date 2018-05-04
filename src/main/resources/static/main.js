@@ -45,10 +45,26 @@ $('#taskView').change(() => {
     changeView();
 });
 
+
+$.each($(".changeTime"), (index, element) => {
+    if(element.textContent == "") {
+        let parent = element.parentNode;
+        element.parentNode.parentNode.removeChild(parent);
+    } else {
+        let time = new Date("2018-01-01 " + element.textContent);
+        let hours = time.getHours();
+        let minutes = time.getMinutes();
+        let ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        element.textContent = hours + ':' + minutes + ' ' + ampm;
+    }
+});
 $.each($(".changeDate"), (index, element) => {
     if (element.textContent == "") {
         let parent = element.parentNode;
-    parent.parentNode.removeChild(parent);
+        parent.parentNode.removeChild(parent);
     } else {
         let date = new Date(element.textContent);
         element.innerHTML = abbDayArray[date.getUTCDay()] + ", " + abbMonthArray[date.getUTCMonth()] + " " + date.getUTCDate();
