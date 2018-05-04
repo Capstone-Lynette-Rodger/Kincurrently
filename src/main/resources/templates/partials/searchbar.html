@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/header :: header (Events)"></head>
+<body>
+
+<div th:fragment="searchbar" class="container">
+    <div class="row">
+        <div class="searchBox">
+            <form th:action="@{/search/results}" method="get">
+                <label for="searchTerm">Search:</label>
+                <input type="text" id="searchTerm" name="searchTerm" placeholder="Keyword(s)" />
+
+                <label>Events<input type="checkbox" id="searchEvents" name="searchType" value="events" /></label>
+                <label for="searchTasks">Tasks<input type="checkbox" id="searchTasks" name="searchType" value="tasks" /></label>
+
+                <select id="searchCategories">
+                    <option name="searchCategories" value="Chore">Chore</option>
+                    <option name="searchCategories" value="Party">Party</option>
+                    <option name="searchCategories" value="Other">Other</option>
+                </select>
+                <button>Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

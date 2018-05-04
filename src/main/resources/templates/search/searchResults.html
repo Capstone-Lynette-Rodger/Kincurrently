@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/header :: header (Events)"></head>
+<body>
+
+<div th:replace="partials/navbar :: navbar"></div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-md-offset-3 text-center">
+            <h1 class="homePageText">Here Are Your Search Results</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container eventContainer">
+    <div class="row">
+        <div class="col-md-3 eventContainer"  th:each="event : ${events}">
+            <h2 th:text="${event.title}"></h2>
+            <h5>Start Date: <span class="changeDate" th:text="${event.start_date}"></span><span th:text="${event.start_date}" hidden="hidden" class="date"></span></h5>
+            <h5>Start Time: <span class="changeTime" th:text="${event.start_time}"></span></h5>
+            <h5>End Date: <span class="changeDate" th:text="${event.end_date}"></span></h5>
+            <h5>End Time: <span class="changeTime" th:text="${event.end_time}"></span></h5>
+            <h5>Location: <span th:text="${event.location}"></span></h5>
+            <p class="bodyText" th:text="${event.description}"></p>
+            <div><span th:each="category : ${event.categories}"><button class="btn btn-primary" th:text="${category.name}"></button></span></div>
+            <div>Created by: <span th:text="${event.user.title}"></span></div>
+            <div><a th:href="@{/events/{id}(id=${event.getId()})}">View Event</a></div>
+            <hr />
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <h2>All Tasks</h2>
+        <div sec:authorize="hasRole('ROLE_PARENT')">
+            <div class="card"  th:if="${task.status.id != 4}" th:each="task : ${allTasks}">
+                <h2 th:text="${task.title}"></h2>
+                <h5>Completion Deadline: <span th:text="${task.completed_by}" class="changeDate"></span><span th:text="${task.completed_by}" hidden="hidden" class="date"></span></h5>
+                <h5>Status: <span th:text="${task.status.status}"></span></h5>
+                <h5 th:if="${task.creator.title}">Assigned By: <span th:text="${task.creator.title}"></span></h5>
+                <h5 th:if="${task.creator.title == null}">Assigned By: <span th:text="${task.creator.firstName}"></span></h5>
+                <h5 th:if="${task.designated_user.title}">Assigned To: <span th:text="${task.designated_user.title}"></span></h5>
+                <h5 th:if="${task.designated_user.title == null}">Assigned To: <span th:text="${task.designated_user.firstName}"></span></h5>
+                <h5>Date Assigned: <span th:text="${task.created_on}" class="changeDate">  </span></h5>
+                <a th:href="@{/tasks/{id}(id = ${task.id})}"> View More Info</a>
+                <form th:if="${#authentication.principal.id == task.creator.id and task.status.id == 3}" th:action="@{/tasks/update}" method="POST">
+                    <input  type="hidden" name="taskId" th:value="${task.id}"/>
+                    <button th:if="${task.status.id == 3}">Mark As Closed</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="partials/footer :: footer"></footer>
+
+</body>
+</html>
