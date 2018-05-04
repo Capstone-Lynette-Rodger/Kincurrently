@@ -15,10 +15,10 @@ let addDays = (date, days) => {
 };
 
 // changeView searches through all the dates with a date class and hides items that do not meet search criteria
-let changeView = () => {
-    $.each($('.date'), (index, element) => {
+let changeEventView = () => {
+    $.each($('.date.event'), (index, element) => {
         let date = new Date(element.textContent.replace(/-/g, '\/'));
-        switch($('#taskView').val()) {
+        switch($('#eventView').val()) {
             case "day":
                 if(current.getFullYear() !== date.getUTCFullYear() || current.getMonth() !== date.getUTCMonth() || current.getDate() !== date.getUTCDate()) {
                     element.parentNode.parentNode.setAttribute("hidden", "hidden");
@@ -30,7 +30,7 @@ let changeView = () => {
                 }
                 break;
             case "month":
-                if(current.getUTCFullYear() !== date.getUTCFullYear() || date.getUTCMonth() !== current.getUTCMonth()) {
+                if(current.getFullYear() !== date.getUTCFullYear() || date.getUTCMonth() !== current.getMonth()) {
                     element.parentNode.parentNode.setAttribute("hidden", "hidden");
                 }
                 break;
@@ -39,12 +39,43 @@ let changeView = () => {
         }
     });
 };
-changeView();
-$('#taskView').change(() => {
-    $.each($('.date'), (index, element) => {
+let changeTaskView = () => {
+    $.each($('.date.task'), (index, element) => {
+        let date = new Date(element.textContent.replace(/-/g, '\/'));
+        switch($('#taskView').val()) {
+            case "day":
+                if(current < date) {
+                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
+                }
+                break;
+            case "week":
+                if(addDays(current, 6)  < date) {
+                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
+                }
+                break;
+            case "month":
+                if(current.getUTCFullYear() < date.getUTCFullYear() || date.getUTCMonth() > current.getUTCMonth()) {
+                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
+                }
+                break;
+            case "all":
+                break;
+        }
+    });
+};
+changeEventView();
+changeTaskView();
+$('#eventView').change(() => {
+    $.each($('.date.event'), (index, element) => {
         element.parentNode.parentNode.removeAttribute("hidden");
     });
-    changeView();
+    changeEventView();
+});
+$('#taskView').change(() => {
+    $.each($('.date.task'), (index, element) => {
+        element.parentNode.parentNode.removeAttribute("hidden");
+    });
+    changeTaskView();
 });
 
 //changes the display of the time to am and pm
@@ -71,6 +102,9 @@ $.each($(".changeDate"), (index, element) => {
         parent.parentNode.removeChild(parent);
     } else {
         let date = new Date(element.textContent);
+        if(element.classList.contains("due") && (current.getFullYear() > date.getUTCFullYear() || date.getUTCMonth() < current.getMonth() || date.getUTCDate() < current.getDate())) {
+            element.style.color = "red";
+        }
         element.innerHTML = abbDayArray[date.getUTCDay()] + ", " + abbMonthArray[date.getUTCMonth()] + " " + date.getUTCDate();
         if (current.getUTCFullYear() !== date.getUTCFullYear()) {
             element.innerHTML += ', ' + date.getUTCFullYear();

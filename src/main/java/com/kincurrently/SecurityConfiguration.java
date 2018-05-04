@@ -47,7 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 /*Pages that require a specific role */
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register/child",
+                .antMatchers("/child/register",
                         "/tasks/create")
                 .hasAuthority("ROLE_PARENT") // only author can disable comments
                 /* Pages that require athentication */

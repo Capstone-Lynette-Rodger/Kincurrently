@@ -128,7 +128,7 @@ public class UserController {
         return "users/dashboard";
     }
 
-    @GetMapping("/register/child")
+    @GetMapping("/child/register")
     public String showRegisterChildForm(Model model){
         model.addAttribute("user", new User());
         return "users/register-child";
