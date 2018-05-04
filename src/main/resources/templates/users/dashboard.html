@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="partials/header :: header('Kincurrently')"/>
 <body>
 <div th:replace="partials/navbar :: navbar"></div>
@@ -37,22 +37,27 @@
             <div><a th:href="@{/events/{id}(id=${event.getId()})}">View Event</a></div>
         </div>
     </div>
+    <div sec:authorize="hasRole('ROLE_PARENT')">
     <h4 class="text-center">Tasks for Others</h4>
-    <div class="row">
-
-        <div class="col-md-3 taskContainer" th:each="taskC : ${tasksCreated}">
-            <h5 th:text="${taskC.title}"></h5>
-            <h5 th:text="${taskC.description}"></h5>
-            <h5 th:text="${taskC.getDesignated_user().getUsername()}"></h5>
-            <a th:href="@{/tasks/{id}(id = ${taskC.id})}"> View More Info</a>
+        <div class="row">
+            <div class="col-md-3 taskContainer" th:each="taskC : ${tasksCreated}">
+                <div th:if="${#authentication.principal.id == taskC.creator.id}">
+                    <h5 th:text="${taskC.title}"></h5>
+                    <h5 th:text="${taskC.description}"></h5>
+                    <h5 th:text="${taskC.getDesignated_user().getUsername()}"></h5>
+                    <a th:href="@{/tasks/{id}(id = ${taskC.id})}"> View More Info</a>
+                </div>
+            </div>
         </div>
     </div>
     <h4 class="text-center">My Tasks</h4>
     <div class="row">
         <div class="col-md-3 taskContainer">
             <div th:each="taskD : ${tasksDesignated}">
-                <h5 th:text="${taskD.title}"></h5>
-                <a th:href="@{/tasks/{id}(id = ${taskD.id})}"> View More Info</a>
+                <div th:if="${#authentication.principal.id == taskD.designated_user.id}">
+                    <h5 th:text="${taskD.title}"></h5>
+                    <a th:href="@{/tasks/{id}(id = ${taskD.id})}"> View More Info</a>
+                </div>
             </div>
         </div>
     </div>
