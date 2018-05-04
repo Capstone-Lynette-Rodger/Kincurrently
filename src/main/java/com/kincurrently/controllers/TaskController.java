@@ -33,7 +33,7 @@ public class TaskController {
         this.catRepo = catRepo;
         this.familyRepo = familyRepo;
     }
-
+    //Shows all the tasks for parents and tasks assigned for each user
     @GetMapping("/tasks")
     public String showTasks(Model model){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
