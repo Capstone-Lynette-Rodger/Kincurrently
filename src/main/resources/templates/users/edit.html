@@ -9,52 +9,58 @@
         <div class = "col-md-6 col-md-offset-3 regFormContainer">
             <h2 class="text-center">Update Profile</h2>
             <hr />
-            <form th:action="@{/profile/update}" method="POST">
+            <form th:action="@{/profile/update}" method="POST" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-6">
-                        <label class="registrationLabels" for="firstName">First Name</label><br />
-                        <input class="registrationInputs" id="firstName" th:value="*{user.firstName}" name="firstName" th:required="required"/> <br/>
+                        <label class="registrationLabels" for="editFirstName">First Name</label><br />
+                        <input class="registrationInputs" id="editFirstName" th:value="*{user.firstName}" name="firstName" th:required="required"/> <br/>
                         <p class="text-danger" th:if="${#fields.hasErrors('user.firstName')}" th:errors="*{user.firstName}" />
                     </div>
 
                     <div class="col-md-6">
-                        <label class="registrationLabels" for="lastName">Last Name</label><br />
-                        <input class="registrationInputs" id="lastName" th:value="*{user.lastName}" name="lastName" th:required="required" /> <br/>
+                        <label class="registrationLabels" for="editLastName">Last Name</label><br />
+                        <input class="registrationInputs" id="editLastName" th:value="*{user.lastName}" name="lastName" th:required="required" /> <br/>
                         <p class="text-danger" th:if="${#fields.hasErrors('user.lastName')}" th:errors="*{user.lastName}" />
                     </div>
 
                     <div class="col-md-6">
-                        <label class="registrationLabels" for="title">Family Title</label><br />
-                        <input class="registrationInputs" id="title" th:value="*{user.title}" name="title" placeholder="e.g., Mom, Daddy, etc." /> <br/>
+                        <label class="registrationLabels" for="editTitle">Family Title</label><br />
+                        <input class="registrationInputs" id="editTitle" th:value="*{user.title}" name="title" placeholder="e.g., Mom, Daddy, etc." /> <br/>
                     </div>
 
                     <div class="col-md-6">
-                        <label class="registrationLabels" for="birthdate">Birthday</label><br />
-                        <input class="registrationInputs" type="date" th:value="*{user.birthdate}" name="birthdate" id="birthdate" th:required="required" /> <br/>
+                        <label class="registrationLabels" for="editBirthdate">Birthday</label><br />
+                        <input class="registrationInputs" type="date" th:value="*{user.birthdate}" name="birthdate" id="editBirthdate" th:required="required" /> <br/>
                         <p class="text-danger" th:if="${#fields.hasErrors('user.birthdate')}" th:errors="*{user.birthdate}" />
                     </div>
 
                     <div class="col-md-6">
-                        <label class="registrationLabels" for="username">Username</label><br/>
-                        <input class="registrationInputs" id="username" th:value="*{user.username}" name="username" th:required="required" /><br/>
+                        <label class="registrationLabels" for="editUsername">Username</label><br/>
+                        <input class="registrationInputs" id="editUsername" th:value="*{user.username}" name="username" th:required="required" /><br/>
                         <p class="text-danger" th:if="${#fields.hasErrors('user.username')}" th:errors="*{user.username}" />
                     </div>
 
                     <div class="col-md-6">
-                        <label class="registrationLabels" for="email">Email</label><br/>
-                        <input class="registrationInputs" id="email" th:value="*{user.email}" name="email" th:required="required" /><br/>
+                        <label class="registrationLabels" for="editEmail">Email</label><br/>
+                        <input class="registrationInputs" id="editEmail" th:value="*{user.email}" name="email" th:required="required" /><br/>
                         <p class="text-danger" th:if="${#fields.hasErrors('user.email')}" th:errors="*{user.email}" />
                     </div>
 
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="imgUpload">Upload Profile Picture</label><br/>
+                        <input class="registrationInputs" id="imgUpload" name="imgUpload" type="file" accept="image/*" /><br/>
+                        <p class="text-danger" th:if="${user.imgPath != null}">An uploaded profile pic exists. Uploading a pic will replace the existing one.</p>
+                    </div>
+
                     <div sec:authorize="hasRole('ROLE_PARENT')" class="col-md-6" >
-                        <label class="registrationLabels" for="family">Family Name</label><br/>
-                        <input class="registrationInputs" id="family" th:value="*{family.name}" name="name" placeholder="e.g., Smith, Sanchez, etc." />
+                        <label class="registrationLabels" for="editFamily">Family Name</label><br/>
+                        <input class="registrationInputs" id="editFamily" th:value="*{family.name}" name="name" placeholder="e.g., Smith, Sanchez, etc." />
                         <p class="text-danger" th:if="${#fields.hasErrors('family.name')}" th:errors="*{family.name}" />
                     </div>
 
                     <div class="col-md-6">
-                        <label class="registrationLabels" for="password">Verify Password</label><br/>
-                        <input class="registrationInputs" id="password" type="password" name="password" th:required="required" /><br/>
+                        <label class="registrationLabels" for="editVerification">Verify Password</label><br/>
+                        <input class="registrationInputs" id="editVerification" type="password" name="password" th:required="required" /><br/>
                         <p class="text-danger" th:if="${#fields.hasErrors('user.password')}" th:errors="*{user.password}" />
                     </div>
 

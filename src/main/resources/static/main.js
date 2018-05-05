@@ -102,7 +102,7 @@ $.each($(".changeDate"), (index, element) => {
         parent.parentNode.removeChild(parent);
     } else {
         let date = new Date(element.textContent);
-        if(element.classList.contains("due") && (current.getFullYear() > date.getUTCFullYear() || date.getUTCMonth() < current.getMonth() || date.getUTCDate() < current.getDate())) {
+        if(element.classList.contains("due") && (current.getFullYear() >= date.getUTCFullYear() && date.getUTCMonth() <= current.getMonth() && date.getUTCDate() < current.getDate())) {
             element.style.color = "red";
         }
         element.innerHTML = abbDayArray[date.getUTCDay()] + ", " + abbMonthArray[date.getUTCMonth()] + " " + date.getUTCDate();

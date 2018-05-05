@@ -33,6 +33,12 @@
     <div class="row">
         <h2>Comments</h2>
         <div th:each="taskComment: ${comments}">
+            <div th:if="${taskComment.user.imgPath}" class="commentImg">
+                <img th:src="${taskComment.user.imgPath}" alt=""/>
+            </div>
+            <div th:if="${taskComment.user.imgPath == null}" class="commentImg">
+                <img src="/img/default.png" alt=""/>
+            </div>
             <p th:utext="${taskComment.commentBody}"></p>
             <h5 th:if="${taskComment.user.title == null}">Posted by: <span th:text="${taskComment.user.firstName}"></span></h5>
             <h5 th:if="${taskComment.user.title}">Posted by: <span th:text="${taskComment.user.title}"></span></h5>

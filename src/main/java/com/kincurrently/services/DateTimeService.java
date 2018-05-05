@@ -4,6 +4,7 @@ import com.kincurrently.models.Event;
 import com.kincurrently.models.Task;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -22,6 +23,19 @@ public class DateTimeService {
             e.printStackTrace();
         }
         return date;
+    }
+
+    public Date today() {
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date today = new Date();
+        Date todayWithZeroTime = null;
+        try {
+            todayWithZeroTime = formatter.parse(formatter.format(today));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return todayWithZeroTime;
     }
 
     public Date parseTime(String dateString) {

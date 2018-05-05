@@ -12,12 +12,27 @@
             <h1 class="todaysDate text-center"></h1>
         </div>
     </div>
+    <div class="row" th:if="${messageList.size() != 0}" th:each="message : ${messageList}">
+        <p class="text-danger col text-center" th:text="${message}"></p>
+    </div>
     <div class="row">
         <div class="col">
             <h1 th:if="${user.title}">Welcome, <span th:text="${user.title}"></span>!</h1>
             <h1 th:if="${user.title == null}">Welcome, <span th:text="${user.firstName}"></span>!</h1>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col">
+            <div th:if="${user.imgPath}" class="dashboardImg">
+                <img th:src="${user.imgPath}" alt=""/>
+            </div>
+            <div th:if="${user.imgPath == null}" class="dashboardImg">
+                <img src="/img/default.png" alt=""/>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col">
             <h3>Check out the <span th:text="${family.name}"></span> family happenings.</h3>

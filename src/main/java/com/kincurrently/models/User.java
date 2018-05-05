@@ -2,6 +2,7 @@ package com.kincurrently.models;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -67,9 +68,9 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<TaskComment> taskComments;
 
-    public User() {
-    }
-
+    @Column(length = 200)
+    @Size(max=200, message = "File name cannot be more than 200 characters.")
+    private String imgPath;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<EventComment> eventComments;
@@ -77,6 +78,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Event> events;
 
+    public User() {
+    }
 
     public User(User copy) {
         this.id = copy.id;
@@ -93,9 +96,10 @@ public class User {
         this.tasksCreated = copy.tasksCreated;
         this.designatedTasks = copy.designatedTasks;
         this.taskComments = copy.taskComments;
+        this.imgPath = copy.imgPath;
     }
 
-    public User(String username, String email, String password, String firstName, String lastName, Date birthdate, List<Task> tasksCreated, List<Task> designatedTasks, Family family, String title, List<TaskComment> taskComments, List<EventComment> eventComments, List<Event> events) {
+    public User(String username, String email, String password, String firstName, String lastName, Date birthdate, List<Task> tasksCreated, List<Task> designatedTasks, Family family, String title, List<TaskComment> taskComments, List<EventComment> eventComments, List<Event> events, String imgPath) {
 
         this.username = username;
         this.email = email;
@@ -110,10 +114,11 @@ public class User {
         this.tasksCreated = tasksCreated;
         this.designatedTasks = designatedTasks;
         this.taskComments = taskComments;
+        this.imgPath = imgPath;
     }
 
 
-    public User(Long id, String username, String email, String password, String firstName, String lastName, Date birthdate, List<Task> tasksCreated, List<Task> designatedTasks, Family family, String title, List<TaskComment> taskComments, List<EventComment> eventComments, List<Event> events) {
+    public User(Long id, String username, String email, String password, String firstName, String lastName, Date birthdate, List<Task> tasksCreated, List<Task> designatedTasks, Family family, String title, List<TaskComment> taskComments, List<EventComment> eventComments, List<Event> events, String imgPath) {
 
         this.id = id;
         this.username = username;
@@ -129,7 +134,7 @@ public class User {
         this.tasksCreated = tasksCreated;
         this.designatedTasks = designatedTasks;
         this.taskComments = taskComments;
-
+        this.imgPath = imgPath;
     }
 
     public long getId() {
@@ -243,6 +248,13 @@ public class User {
 
     public void setDesignatedTasks(List<Task> designatedTasks) {
         this.designatedTasks = designatedTasks;
+    }
 
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 }

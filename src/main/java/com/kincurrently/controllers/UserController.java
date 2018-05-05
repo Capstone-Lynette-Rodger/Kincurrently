@@ -1,6 +1,7 @@
 package com.kincurrently.controllers;
 
 import com.kincurrently.models.Family;
+import com.kincurrently.models.Task;
 import com.kincurrently.models.User;
 import com.kincurrently.models.UserRole;
 import com.kincurrently.repositories.*;
@@ -15,12 +16,15 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -120,8 +124,34 @@ public class UserController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepo.findById(loggedInUser.getId());
         Family family = familyRepo.findByCode(user.getFamily().getCode());
+        int completedTasks = 0;
+        int pastDueTasks = 0;
+        for(Task task : user.getTasksCreated()) {
+            if(task.getStatus().getId() == 3) {
+                completedTasks += 1;
+            }
+        }
+        for(Task task : user.getDesignatedTasks()) {
+            if(task.getCompleted_by().before(dtService.today())) {
+                if(task.getStatus().getId() != 4) {
+                    pastDueTasks += 1;
+                }
+            }
+        }
+        List<String> message = new ArrayList<>();
+        if(completedTasks == 1) {
+            message.add("There is " + completedTasks + " completed task you assigned waiting for approval.");
+        } else if (completedTasks > 1) {
+            message.add("There are " + completedTasks + " completed tasks you assigned waiting for approval.");
+        }
+        if(pastDueTasks == 1) {
+            message.add("You have " + pastDueTasks + " past due task.");
+        } else if(pastDueTasks > 1) {
+            message.add("You have " + pastDueTasks + " past due tasks.");
+        }
         model.addAttribute("user", user);
         model.addAttribute("family", family);
+        model.addAttribute("messageList", message);
         model.addAttribute("events", eventRepository.findByFamilyId(family.getId()) );
         model.addAttribute("tasksCreated", taskRepository.findByCreatedUser(family.getId()));
         model.addAttribute("tasksDesignated", taskRepository.findByDesignatedUser(family.getId()));
@@ -173,13 +203,22 @@ public class UserController {
 
     @PostMapping("/profile/update")
     public String updateProfile(@Valid User user, Errors userErrors, Model model, @Valid Family family, Errors familyErrors,
-                                @RequestParam String password, @RequestParam String birthdate){
+                                @RequestParam String password, @RequestParam String birthdate, @RequestParam(name="imgUpload") MultipartFile imgUpload){
         User dbUser = userRepo.findById(user.getId());
-        Family dbFam = familyRepo.findOne(family.getId());
-        dbFam.setName(family.getName());
+        Family dbFam = familyRepo.findOne(dbUser.getFamily().getId());
         userErrors = userService.checkUpdate(user, userErrors, dbUser);
-        user.setBirthdate(dtService.parseDate(birthdate));
-        user.setFamily(dbFam);
+        user.setBirthdate(dbUser.getBirthdate());
+        if(user.getTitle().trim().equals("")){
+            user.setTitle(null);
+        }
+        String imgPath = userService.saveFile(imgUpload, model);
+        if(imgPath != null) {
+            user.setImgPath(imgPath);
+        } else if (dbUser.getImgPath() != null){
+            user.setImgPath(dbUser.getImgPath());
+        } else {
+            user.setImgPath(null);
+        }
         if(!passwordEncoder.matches(password, dbUser.getPassword())) {
             userErrors.rejectValue(
                     "password",
@@ -187,15 +226,24 @@ public class UserController {
                     "Incorrect password. Could not update profile."
             );
         }
+        if(family.getName().trim().equals("")) {
+            familyErrors.rejectValue(
+                    "name",
+                    "family.name",
+                    "Family name cannot be blank."
+            );
+        }
         if(userErrors.hasErrors()) {
             model.addAttribute("errors", userErrors);
+            model.addAttribute("errors", familyErrors);
             model.addAttribute("user", user);
             model.addAttribute("family", dbFam);
+            model.addAttribute("userNewPass", userRepo.findById(dbUser.getId()));
             return "users/edit";
         }
-        if(user.getTitle().trim().equals("")){
-            user.setTitle(null);
-        }
+        dbFam.setName(family.getName());
+        user.setFamily(dbFam);
+        user.setBirthdate(dtService.parseDate(birthdate));
         user.setPassword(dbUser.getPassword());
         userRepo.save(user);
         familyRepo.save(dbFam);
