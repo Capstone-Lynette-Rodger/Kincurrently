@@ -71,3 +71,14 @@ textarea {
     width: 90%;
     height: auto;
 }
+
+.mapBox {
+    height: 500px;
+    width: 500px;
+    border: 1px solid white;
+}
+
+#map {
+    height: 100%;
+
+}
