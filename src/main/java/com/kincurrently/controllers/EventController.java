@@ -100,6 +100,7 @@ public class EventController {
         if(event.getLocation().trim().equals("")) {
             event.setLocation(null);
         }
+
         event.setFamily(current.getFamily());
         event.setUser(current);
         eventRepository.save(event);
@@ -145,6 +146,7 @@ public class EventController {
 
         editEvent.setFamily(current.getFamily());
         editEvent.setUser(current);
+
         eventRepository.save(editEvent);
 
         return "redirect:/events";
