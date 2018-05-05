@@ -47,7 +47,7 @@
 
     </div>
 </div>
-<div class="container addressStuff" id="mapContainer">
+<div class="container" id="mapContainer">
     <div class="mapBox">
         <div id="map"></div>
     </div>
@@ -59,23 +59,23 @@
 <script>
     "use strict";
 
-    let myLatLng = {};
     let lat = 29.4241219;
     let lng = -98.49362819999999;
 
 
     var map;
+    var marker;
     function initMap() {
+        var coords = {lat: lat, lng: lng};
         map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: -34.397, lng: 150.644},
+            center: coords,
             zoom: 14
         });
-        var marker = new google.maps.Marker({
-            position: {lat: lat, lng: lng},
+        marker = new google.maps.Marker({
+            position: coords,
             map: map
         });
     }
-
 
     $('#addressButton').click(function (){
         var address = document.getElementById("address").value;
@@ -83,17 +83,16 @@
 
         geocoder.geocode({"address": address}, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
-
-                map.setCenter(results[0].geometry.location);
+                lat = results[0].geometry.location.lat();
+                lng = results[0].geometry.location.lng();
+                $('#mapContainer').show();
+                initMap();
 
             } else {
 
                 alert('Geocoding was not successful - STATUS: ' + status);
             }
-            lat = results[0].geometry.location.lat();
-            lng = results[0].geometry.location.lng();
-            myLatLng = { lat: results[0].geometry.location.lat(),
-                lng: results[0].geometry.location.lng()};
+
         });
     });
 
@@ -108,6 +107,8 @@
                 $('.addressStuff').hide();
             }
     });
+
+    $('#mapContainer').hide();
 
 
 </script>
