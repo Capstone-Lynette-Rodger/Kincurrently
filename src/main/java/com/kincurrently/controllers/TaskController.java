@@ -81,7 +81,12 @@ public class TaskController {
 
     @GetMapping("/tasks/{id}")
     public String viewTask(@PathVariable Long id, Model model){
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Task task = taskRepo.findById(id);
+        User user = userRepo.findById(loggedInUser.getId());
+        Family family = familyRepo.findByCode(user.getFamily().getCode());
+        model.addAttribute("user", user);
+        model.addAttribute("family", family);
         model.addAttribute("task", task);
         List<TaskComment> comments = tcRepo.findByTaskId(task.getId());
         TaskComment newComment = new TaskComment();

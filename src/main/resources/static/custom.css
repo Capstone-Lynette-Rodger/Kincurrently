@@ -1,18 +1,27 @@
 body {
     background-color: #2B2958;
-    color: white;
+    color: #2c2a57;
 }
 a {
     color: #b7b3b3;
     font-weight: bold;
+}
+a:hover {
+    color: #A1FBFD;
+}
+p {
+    color: white;
 }
 .homePageText {
     font-family: 'Luckiest Guy', cursive;
     font-size: 2.5rem;
     margin-top: 2.5rem;
     margin-bottom: 1.75rem;
+    color: white;
 }
-
+.searchBox {
+    color: white;
+}
 .iconHeader {
     margin-top: 10px;
 }
@@ -25,6 +34,7 @@ a {
     padding-left: 20px;
     padding-right: 20px;
     margin-top: 40px;
+    color: white;
 }
 
 .registrationLabels {
@@ -43,6 +53,7 @@ a {
     padding-right: 20px;
     border: 1px solid #A1FBFD;
     border-radius: 5px;
+    color: white;
 }
 
 .registrationButton {
@@ -52,13 +63,20 @@ a {
     border-radius: 5px;
     margin-bottom: 10px;
 }
-.card {
-    background-color: #2B2958;
-}
-
-textarea {
-    width: 90%;
+.textArea {
+    width: 100%;
     height: auto;
+    color: #2c2a57;
+    background: white;
+}
+.textArea div {
+    color: #2c2a57;
+}
+textarea {
+    width: 100%;
+    height: 15rem;
+    color: #2c2a57;
+    background: white;
 }
 .dashboardBlock {
     background: #44417d;
@@ -67,6 +85,7 @@ textarea {
     box-shadow: -.5rem .5rem 1rem #1b073c;
     width: 100%;
     margin-top: 1rem;
+    color: white;
 }
 .block-shadow {
     box-shadow: -.5rem .5rem 1rem #1b073c;
@@ -88,9 +107,17 @@ textarea {
     position: relative;
 }
 .dashboardGrid {
-    background: #c1befb;
+    background: #A1FBFD;
     padding: .5rem;
     color: #2B2958;
+}
+.dashboardGrid a{
+    color: rgba(44, 42, 87, .5);
+    font-weight: normal;
+}
+.dashboardGrid a:hover{
+    color: #2c2a57;
+    text-decoration: none;
 }
 .commentImg {
     width: 7rem;
@@ -107,9 +134,15 @@ textarea {
     top: 50%;
     -webkit-transform: translateY(-50%) translateX(-50%);
 }
+.text-info {
+    color: #A1FBFD!important;
+}
+.text-primary {
+    color: #2c2a57!important;
+}
 .btn-outline-info {
-    color: #c1befb;
-    border-color: #c1befb;
+    color: #A1FBFD;
+    border-color: #A1FBFD;
 }
 .btn-outline-primary {
     color: #2c2a57;
@@ -120,9 +153,9 @@ textarea {
     line-height: .3rem;
 }
 .btn-outline-info:hover {
-    color: white;
-    background: #c1befb;
-    border-color: #c1befb;
+    color: #2c2a57;
+    background: #A1FBFD;
+    border-color: #A1FBFD;
 }
 .btn-outline-primary:hover {
     color: white;
@@ -130,27 +163,48 @@ textarea {
     border-color: #2c2a57;
 }
 .btn-outline-info:not(:disabled):not(.disabled):active {
-    color: white;
-    background: #c1befb;
-    border-color: #c1befb;
+    color: #2c2a57;
+    background: #A1FBFD;
+    border-color: #A1FBFD;
+    box-shadow: 0 0 0 0.2rem rgba(161,251,253, .5);
 }
 .btn-outline-primary:not(:disabled):not(.disabled):active {
     color: white;
     background: #2c2a57;
     border-color: #2c2a57;
+    box-shadow: 0 0 0 0.2rem rgba(44, 42, 87, .5);
 }
 .btn-outline-info:focus {
-    box-shadow: 0 0 0 0.2rem rgba(193, 190, 251, .5);
+    box-shadow: 0 0 0 0.2rem rgba(161,251,253, .5);
 }
 .btn-outline-primary:focus {
     box-shadow: 0 0 0 0.2rem rgba(44, 42, 87, .5);
 }
 .input-group-text {
-    color: #c1befb;
-    border: 1px solid #c1befb;
+    color: #A1FBFD;
+    border: 1px solid #A1FBFD;
     background-color: #2c2a57;
 }
 .custom-select {
     color: #2c2a57;
-    border: 1px solid #c1befb;
+    border: 1px solid #A1FBFD;
+}
+.categories {
+    padding: 0 0 .75rem 0;
+    margin: .25rem 0;
+}
+.category {
+    padding: .5rem;
+}
+.category span {
+    border: 1px solid #A1FBFD;
+    border-radius: 1rem;
+    padding: .5rem;
+    border-top-left-radius: 0;
+    background: #a1fbfd;
+    color: #44417c;
+}
+.comment img {
+    width: 100%;
+    height: auto;
 }
