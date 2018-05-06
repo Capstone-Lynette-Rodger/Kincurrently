@@ -1,9 +1,6 @@
 package com.kincurrently.controllers;
 
-import com.kincurrently.models.Family;
-import com.kincurrently.models.Task;
-import com.kincurrently.models.User;
-import com.kincurrently.models.UserRole;
+import com.kincurrently.models.*;
 import com.kincurrently.repositories.*;
 import com.kincurrently.services.DateTimeService;
 import com.kincurrently.services.UserDetailsLoader;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.DateUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -124,37 +122,15 @@ public class UserController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepo.findById(loggedInUser.getId());
         Family family = familyRepo.findByCode(user.getFamily().getCode());
-        int completedTasks = 0;
-        int pastDueTasks = 0;
-        for(Task task : user.getTasksCreated()) {
-            if(task.getStatus().getId() == 3) {
-                completedTasks += 1;
-            }
-        }
-        for(Task task : user.getDesignatedTasks()) {
-            if(task.getCompleted_by().before(dtService.today())) {
-                if(task.getStatus().getId() != 4) {
-                    pastDueTasks += 1;
-                }
-            }
-        }
-        List<String> message = new ArrayList<>();
-        if(completedTasks == 1) {
-            message.add("There is " + completedTasks + " completed task you assigned waiting for approval.");
-        } else if (completedTasks > 1) {
-            message.add("There are " + completedTasks + " completed tasks you assigned waiting for approval.");
-        }
-        if(pastDueTasks == 1) {
-            message.add("You have " + pastDueTasks + " past due task.");
-        } else if(pastDueTasks > 1) {
-            message.add("You have " + pastDueTasks + " past due tasks.");
-        }
+        List<String> message = getNotifications(user);
+
+        dtService.sortEventsByDate(eventRepository.findByFamilyId(family.getId()));
         model.addAttribute("user", user);
         model.addAttribute("family", family);
         model.addAttribute("messageList", message);
-        model.addAttribute("events", eventRepository.findByFamilyId(family.getId()) );
-        model.addAttribute("tasksCreated", taskRepository.findByCreatedUser(family.getId()));
-        model.addAttribute("tasksDesignated", taskRepository.findByDesignatedUser(family.getId()));
+        model.addAttribute("events", getWeekEvents(family));
+        model.addAttribute("tasksCreated", getWeekTasks(taskRepository.findByCreatedUser(user.getId())));
+        model.addAttribute("tasksDesignated", getWeekTasks(taskRepository.findByDesignatedUser(user.getId())));
         return "users/dashboard";
     }
 
@@ -280,12 +256,63 @@ public class UserController {
         return "redirect:/dashboard";
     }
 
-
     @PostMapping("/update/profile/delete")
     public String deleteUser(@RequestParam Long id){
         User user = userRepo.findById(id);
         SecurityContextHolder.clearContext();
         userRepo.delete(user);
         return "redirect:/";
+    }
+
+    public List<String> getNotifications(User user) {
+        List<String> message = new ArrayList<>();
+        int completedTasks = 0;
+        int pastDueTasks = 0;
+        for(Task task : user.getTasksCreated()) {
+            if(task.getStatus().getId() == 3) {
+                completedTasks += 1;
+            }
+        }
+        for(Task task : user.getDesignatedTasks()) {
+            if(task.getCompleted_by().before(dtService.today())) {
+                if(task.getStatus().getId() != 4) {
+                    pastDueTasks += 1;
+                }
+            }
+        }
+        if(completedTasks == 1) {
+            message.add("There is " + completedTasks + " completed task you assigned waiting for approval.");
+        } else if (completedTasks > 1) {
+            message.add("There are " + completedTasks + " completed tasks you assigned waiting for approval.");
+        }
+        if(pastDueTasks == 1) {
+            message.add("You have " + pastDueTasks + " past due task.");
+        } else if(pastDueTasks > 1) {
+            message.add("You have " + pastDueTasks + " past due tasks.");
+        }
+
+        return message;
+    }
+
+    public List<Event> getWeekEvents (Family family){
+        List<Event> allEvents = dtService.sortEventsByDate(eventRepository.findByFamilyId(family.getId()));
+        List<Event> thisWeekEvents = new ArrayList<>();
+        for(Event event : allEvents) {
+            if(event.getStart_date().after(dtService.addDays(dtService.today(), -1)) && event.getStart_date().before(dtService.addDays(dtService.today(), 6))) {
+                thisWeekEvents.add(event);
+            }
+        }
+        return thisWeekEvents;
+    }
+
+    public List<Task> getWeekTasks(List<Task> allTasks){
+        allTasks = dtService.sortTasksByDate(allTasks);
+        List<Task> thisWeekTasks = new ArrayList<>();
+        for(Task task : allTasks) {
+            if(task.getCompleted_by().before(dtService.addDays(dtService.today(), 6)) && task.getStatus().getId() != 4) {
+                thisWeekTasks.add(task);
+            }
+        }
+        return thisWeekTasks;
     }
 }

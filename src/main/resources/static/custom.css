@@ -2,7 +2,10 @@ body {
     background-color: #2B2958;
     color: white;
 }
-
+a {
+    color: #b7b3b3;
+    font-weight: bold;
+}
 .homePageText {
     font-family: 'Luckiest Guy', cursive;
     font-size: 2.5em;
@@ -49,20 +52,6 @@ body {
     border-radius: 5px;
     margin-bottom: 10px;
 }
-
-.taskContainer {
-    border: 1px solid #A1FBFD;
-}
-
-.eventContainer {
-    border: 1px solid #A1FBFD;
-}
-
-
-.familyContainer {
-    border: 1px solid #A1FBFD;
-}
-
 .card {
     background-color: #2B2958;
 }
@@ -71,30 +60,47 @@ textarea {
     width: 90%;
     height: auto;
 }
+.dashboardBlock {
+    background: #44417d;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: -.5rem .5rem 1rem #1b073c;
+    width: 100%;
+    margin-top: 1rem;
+}
 .dashboardImg {
-    width: 15rem;
-    height: 15rem;
-    margin: 0 auto;
+    width: 10rem;
+    height: 10rem;
+    margin: .75rem auto;
     border-radius: 50%;
     overflow: hidden;
     position: relative;
 }
-.dashboardImg img {
-    height: 100%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translateY(-50%) translateX(-50%);
+.familyListImg {
+    width: 5rem;
+    height: 5rem;
+    margin: .25rem auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+.dashboardBlock .text-right {
+    float: right;
+}
+.dashboardGrid {
+    background: #c1befb;
+    padding: .5rem;
+    color: #2B2958;
 }
 .commentImg {
     width: 7rem;
     height: 7rem;
-    margin: 0 auto;
+    margin: .25rem auto;
     border-radius: 50%;
     overflow: hidden;
     position: relative;
 }
-.commentImg img {
+.commentImg img, .dashboardImg img, .familyListImg img {
     height: 100%;
     position: absolute;
     left: 50%;

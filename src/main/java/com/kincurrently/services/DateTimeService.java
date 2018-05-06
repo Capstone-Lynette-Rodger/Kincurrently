@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DateTimeService {
@@ -56,6 +53,13 @@ public class DateTimeService {
     public List<Event> sortEventsByDate(List<Event> events) {
         events.sort(Comparator.comparing(Event::getStart_date).thenComparing(Event::getStart_time));
         return events;
+    }
+
+    public Date addDays(Date date, int days) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days);
+        return cal.getTime();
     }
 
 }

@@ -77,7 +77,6 @@ $('#taskView').change(() => {
     });
     changeTaskView();
 });
-
 //changes the display of the time to am and pm
 $.each($(".changeTime"), (index, element) => {
     if(element.textContent == "") {
@@ -110,6 +109,24 @@ $.each($(".changeDate"), (index, element) => {
             element.innerHTML += ', ' + date.getUTCFullYear();
         }
     }
+});
+
+$.each($(".fullDate"), (index, element) => {
+    if (element.textContent == "") {
+        let parent = element.parentNode;
+        parent.parentNode.removeChild(parent);
+    } else {
+        let date = new Date(element.textContent);
+        if(element.classList.contains("due") && (current.getFullYear() >= date.getUTCFullYear() && date.getUTCMonth() <= current.getMonth() && date.getUTCDate() < current.getDate())) {
+            element.style.color = "red";
+        }
+        element.innerHTML = dayArray[date.getUTCDay()] + ", " + monthArray[date.getUTCMonth()] + " " + date.getUTCDate() + ', ' + date.getUTCFullYear();
+    }
+});
+
+$.each($(".birthDate"), (index, element) => {
+    let date = new Date(element.textContent);
+    element.innerHTML = abbMonthArray[date.getUTCMonth()] + " " + date.getUTCDate() + ', ' + date.getUTCFullYear();
 });
 
 //changes display of form based on if they are joining an existing family

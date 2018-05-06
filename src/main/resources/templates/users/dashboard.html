@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="partials/header :: header('Kincurrently')"/>
 <body>
 <div th:replace="partials/navbar :: navbar"></div>
@@ -12,69 +12,97 @@
             <h1 class="todaysDate text-center"></h1>
         </div>
     </div>
-    <div class="row" th:if="${messageList.size() != 0}" th:each="message : ${messageList}">
-        <p class="text-danger col text-center" th:text="${message}"></p>
-    </div>
     <div class="row">
-        <div class="col">
-            <h1 th:if="${user.title}">Welcome, <span th:text="${user.title}"></span>!</h1>
-            <h1 th:if="${user.title == null}">Welcome, <span th:text="${user.firstName}"></span>!</h1>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <div th:if="${user.imgPath}" class="dashboardImg">
-                <img th:src="${user.imgPath}" alt=""/>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col">
+                    <div class="dashboardBlock">
+                        <h3 th:if="${user.title}" class="text-center">Welcome, <span th:text="${user.title}"></span>!</h3>
+                        <h3 th:if="${user.title == null}" class="text-center">Welcome, <span th:text="${user.firstName}"></span>!</h3>
+                        <div th:if="${user.imgPath}" class="dashboardImg">
+                            <img th:src="${user.imgPath}" alt=""/>
+                        </div>
+                        <div th:if="${user.imgPath == null}" class="dashboardImg">
+                            <img src="/img/default.png" alt=""/>
+                        </div>
+                        <b><p class="text-center" th:text="${user.firstName + ' ' + user.lastName}"></p></b>
+                        <hr/>
+                        <p><span class="text-left"><b>Email</b></span><span class="text-right" th:text="${user.email}"></span></p>
+                        <hr/>
+                        <p><span class="text-left"><b>Birthday</b></span><span class="text-right birthDate" th:text="${user.birthdate}"></span></p>
+                        <hr/>
+                        <p class="text-center"><b><span th:text="${family.name}"></span><span class="text-left"> Family</span></b></p>
+                    </div>
+                </div>
             </div>
-            <div th:if="${user.imgPath == null}" class="dashboardImg">
-                <img src="/img/default.png" alt=""/>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <h3>Check out the <span th:text="${family.name}"></span> family happenings.</h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 familyContainer">
-            <h4>Family Members</h4>
-            <ul th:each="member : ${family.users}">
-                <li th:text="${member.firstName}"></li>
-            </ul>
-        </div>
-    </div>
-    <h4 class="text-center">Events</h4>
-    <div class="row">
-        <div class="col-md-3 eventContainer" th:each="event : ${events}">
-            <h5 th:text="${event.title}"></h5>
-            <h5 th:text="${event.description}"></h5>
-            <h5 th:text="${event.location}"></h5>
-            <div><a th:href="@{/events/{id}(id=${event.getId()})}">View Event</a></div>
-        </div>
-    </div>
-    <div sec:authorize="hasRole('ROLE_PARENT')">
-    <h4 class="text-center">Tasks for Others</h4>
-        <div class="row">
-            <div class="col-md-3 taskContainer" th:each="taskC : ${tasksCreated}">
-                <div th:if="${#authentication.principal.id == taskC.creator.id}">
-                    <h5 th:text="${taskC.title}"></h5>
-                    <h5 th:text="${taskC.description}"></h5>
-                    <h5 th:text="${taskC.getDesignated_user().getUsername()}"></h5>
-                    <a th:href="@{/tasks/{id}(id = ${taskC.id})}"> View More Info</a>
+            <div class="row">
+                <div class="col">
+                    <div class="dashboardBlock">
+                        <h4 class="text-center">Family Members</h4>
+                        <div th:each="member : ${family.users}">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div th:if="${user.imgPath}" class="familyListImg">
+                                        <img th:src="${user.imgPath}" alt=""/>
+                                    </div>
+                                    <div th:if="${user.imgPath == null}" class="familyListImg">
+                                        <img src="/img/default.png" alt=""/>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <h5 th:if="${user.title}" th:text="${user.title}"></h5>
+                                    <h5 th:text="${member.firstName + ' ' + member.lastName}"></h5>
+                                    <h5><i class="fas fa-birthday-cake"></i> <span class="birthDate" th:text="${member.birthdate}"></span></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <h4 class="text-center">My Tasks</h4>
-    <div class="row">
-        <div class="col-md-3 taskContainer">
-            <div th:each="taskD : ${tasksDesignated}">
-                <div th:if="${#authentication.principal.id == taskD.designated_user.id}">
-                    <h5 th:text="${taskD.title}"></h5>
-                    <a th:href="@{/tasks/{id}(id = ${taskD.id})}"> View More Info</a>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col">
+                    <div class="dashboardBlock" th:if="${messageList.size() != 0}">
+                        <div th:each="message : ${messageList}">
+                            <h5 class="text-danger col text-center" th:text="${message}"></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="dashboardBlock">
+                        <h3 class="text-center">Upcoming Family Events</h3>
+                        <div class="col clearfix"  th:each="event : ${events}">
+                            <h5 class="dashboardGrid"><i class="far fa-calendar-alt"></i> <span class="fullDate" th:text="${event.start_date}"></span><span th:text="${event.start_date}" hidden="hidden"></span><span th:if="${!event.end_date.equals(event.start_date)}"> - <span class="fullDate" th:text="${event.end_date}"></span></span></h5>
+                            <h5><span th:if="${event.end_time != null}"><i class="far fa-clock"></i> <span class="changeTime" th:text="${event.start_time}"></span> - <span class="changeTime" th:text="${event.end_time}"></span></span><a th:href="@{/events/{id}(id=${event.getId()})}" class="text-right"><i class="fas fa-map-marker"></i> <span th:text="${event.title}"></span></a></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" sec:authorize="hasRole('ROLE_PARENT')">
+                <div class="col-md-6">
+                    <div class="dashboardBlock">
+                        <h3 class="text-center">My Tasks</h3>
+                        <div class="col clearfix"  th:each="task : ${tasksDesignated}">
+                            <h5 class="dashboardGrid"><i class="far fa-calendar-times"></i> Due <span class="changeDate" th:text="${task.completed_by}"></span></h5>
+                            <a th:href="@{/tasks/{id}(id = ${task.id})}"><h4><span th:text="${task.title}"></span> <i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner fa-spin"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i></h4></a>
+                            <h5 th:if="${task.creator.title}"><i class="fas fa-user-alt"></i> From <span class="text-capitalize" th:text="${task.creator.title}"></span></h5>
+                            <h5 th:if="${task.creator.title == null}"><i class="fas fa-user-alt"></i> From <span class="text-capitalize" th:text="${task.creator.firstName}"></span></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="dashboardBlock">
+                        <h3 class="text-center">Tasks I've Assigned</h3>
+                        <div class="col clearfix"  th:each="task : ${tasksCreated}">
+                            <h5 class="dashboardGrid"><i class="far fa-calendar-times"></i> Due <span class="changeDate" th:text="${task.completed_by}"></span></h5>
+                            <a th:href="@{/tasks/{id}(id = ${task.id})}"><h4><span th:text="${task.title}"></span> <i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner fa-spin"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i></h4></a>
+                            <h5 th:if="${task.designated_user.title}"><i class="fas fa-user-alt"></i> For <span class="text-capitalize" th:text="${task.designated_user.title}"></span></h5>
+                            <h5 th:if="${task.designated_user.title == null}"><i class="fas fa-user-alt"></i> For <span class="text-capitalize" th:text="${task.designated_user.firstName}"></span></h5>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
