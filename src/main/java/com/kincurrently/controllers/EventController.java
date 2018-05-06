@@ -1,9 +1,6 @@
 package com.kincurrently.controllers;
 
-import com.kincurrently.models.Category;
-import com.kincurrently.models.Event;
-import com.kincurrently.models.EventComment;
-import com.kincurrently.models.User;
+import com.kincurrently.models.*;
 import com.kincurrently.repositories.CategoryRepository;
 import com.kincurrently.repositories.EventCommentRepository;
 import com.kincurrently.repositories.EventRepository;
