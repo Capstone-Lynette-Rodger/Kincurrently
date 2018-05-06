@@ -42,11 +42,16 @@ p {
 }
 
 .registrationInputs {
-    margin-bottom: 10px;
+    margin-bottom: .85rem;
     border-radius: 5px;
     width: 100%;
 }
-
+.registrationDescription {
+    margin-bottom: .85rem;
+    border-radius: 5px;
+    width: 100%;
+    height: 2.25rem;
+}
 .regFormContainer {
     margin-top: 25px;
     padding-left: 20px;

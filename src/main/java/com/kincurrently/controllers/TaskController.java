@@ -101,6 +101,7 @@ public class TaskController {
         Task task = taskRepo.findOne(id);
         if(user.getId() == task.getCreator().getId()) {
             model.addAttribute(task);
+            model.addAttribute("family", familyRepo.findOne(user.getFamily().getId()));
             Iterable<Category> categories = catRepo.findAll();
             model.addAttribute("categories", categories);
             return "tasks/editTask";
