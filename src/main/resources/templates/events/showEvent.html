@@ -33,7 +33,7 @@
 
 
 
-<div class="container" id="mapContainer">
+<div th:if="${!event.address.equalsIgnoreCase('')}" class="container" id="mapContainer">
     <div class="mapBox">
         <div id="map"></div>
     </div>
@@ -96,22 +96,28 @@
     }
 
     $( window ).on( "load", function (){
+
         var address = document.getElementById("address").value;
-        var geocoder = new google.maps.Geocoder();
 
-        geocoder.geocode({"address": address}, function (results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                lat = results[0].geometry.location.lat();
-                lng = results[0].geometry.location.lng();
-                $('#mapContainer').show();
-                initMap();
+        if (address !== "") {
 
-            } else {
+            var geocoder = new google.maps.Geocoder();
 
-                alert('Geocoding was not successful - STATUS: ' + status);
-            }
+            geocoder.geocode({"address": address}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    lat = results[0].geometry.location.lat();
+                    lng = results[0].geometry.location.lng();
+                    $('#mapContainer').show();
+                    initMap();
 
-        });
+                } else {
+
+                    alert('Geocoding was not successful - STATUS: ' + status);
+                }
+
+            });
+
+        }
     });
 
 </script>

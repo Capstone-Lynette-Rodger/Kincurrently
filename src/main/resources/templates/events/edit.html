@@ -21,6 +21,9 @@
             <input type="time" name="endTime" /> <br />
             <label>Location: </label>
             <input type="text" th:field="*{location}" th:value="${location}" /> <br />
+            <label><input type="checkbox" name="isAddress" id="isAddress" />Input Address?</label><br />
+            <label class="addressStuff" for="address">Address: <input class="addressStuff" type="text" th:field="*{address}" th:value="${address}" id="address" name="address" /></label> <br class="addressStuff"/>
+            <button class="addressStuff" type="button" id="addressButton">Check Address</button> <br class="addressStuff"/>
             <label>Description: </label>
             <input type="text" th:field="*{description}" th:value="${description}" th:required="required" />
             <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" />
@@ -41,9 +44,77 @@
     </div>
 </div>
 
+<div th:if="${!event.address.equalsIgnoreCase('')}" class="container" id="mapContainer">
+    <div class="mapBox">
+        <div id="map"></div>
+    </div>
+</div>
+
 
 
 <footer th:replace="partials/footer :: footer"></footer>
+
+<script>
+    "use strict";
+
+    let lat = 29.4241219;
+    let lng = -98.49362819999999;
+
+
+    var map;
+    var marker;
+    function initMap() {
+        var coords = {lat: lat, lng: lng};
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: coords,
+            zoom: 14
+        });
+        marker = new google.maps.Marker({
+            position: coords,
+            map: map
+        });
+    }
+
+
+    $('#addressButton').click(function (){
+        var address = document.getElementById("address").value;
+        var geocoder = new google.maps.Geocoder();
+
+        geocoder.geocode({"address": address}, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                lat = results[0].geometry.location.lat();
+                lng = results[0].geometry.location.lng();
+                $('#mapContainer').show();
+                initMap();
+
+            } else {
+
+                alert('Geocoding was not successful - STATUS: ' + status);
+            }
+
+        });
+    });
+    $('#mapContainer').hide();
+
+
+    $('.addressStuff').hide();
+    $('#isAddress').click(()=> {
+        $('#isAddress').attr('checked', (index, attr) => {
+            return attr === "checked" ? null : "checked";
+        });
+        if($('#isAddress').attr('checked')) {
+            $('.addressStuff').show();
+        } else {
+            $('.addressStuff').hide();
+        }
+    });
+
+
+
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfZSV1KZRKrRqegGDRMOme6uxQs56ltXc"></script>
 
 </body>
 </html>
