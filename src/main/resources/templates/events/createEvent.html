@@ -30,7 +30,7 @@
             <label><i class="fas fa-location-arrow"></i> Add Location
             <input type="text" th:field="*{location}" /> </label>
             <label><input type="checkbox" name="isAddress" id="isAddress" />Input Address?</label><br />
-            <label class="addressStuff" for="address">Address: <input class="addressStuff" type="text" id="address" name="address" /></label> <br class="addressStuff"/>
+            <label class="addressStuff" for="address">Address: <input class="addressStuff" type="text" th:field="*{address}" id="address" name="address" /></label> <br class="addressStuff"/>
             <button class="addressStuff" type="button" id="addressButton">Check Address</button> <br class="addressStuff"/>
             <label><i class="fas fa-file-alt"></i> Add Description<br />
                 <input type="text" th:field="*{description}"/></label><br/>

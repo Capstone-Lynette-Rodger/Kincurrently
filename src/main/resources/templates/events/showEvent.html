@@ -23,9 +23,10 @@
             <div th:if="${event.user.id == #authentication.principal.id}">
                 <a th:href="@{/events/{id}/edit(id=${event.id})}">Edit</a>
             </div>
+            <div><img th:src="@{https://maps.googleapis.com/maps/api/staticmap(center=${event.address},markers='color:blue|'+ ${event.address} + '|',zoom=14,size='400x600',key='AIzaSyDfZSV1KZRKrRqegGDRMOme6uxQs56ltXc')}" alt="" /></div>
         </div>
     </div>
-
+<!-- https://maps.googleapis.com/maps/api/staticmap?center=Berkeley,CA&zoom=14&size=400x400&key= -->
 </div>
 
 <hr />
