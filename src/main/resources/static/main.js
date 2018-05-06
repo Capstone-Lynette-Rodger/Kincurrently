@@ -102,7 +102,7 @@ $.each($(".changeDate"), (index, element) => {
     } else {
         let date = new Date(element.textContent);
         if(element.classList.contains("due") && (current.getFullYear() >= date.getUTCFullYear() && date.getUTCMonth() <= current.getMonth() && date.getUTCDate() < current.getDate())) {
-            element.style.color = "red";
+            element.style.color = "#ca0d0d";
         }
         element.innerHTML = abbDayArray[date.getUTCDay()] + ", " + abbMonthArray[date.getUTCMonth()] + " " + date.getUTCDate();
         if (current.getUTCFullYear() !== date.getUTCFullYear()) {
@@ -118,7 +118,7 @@ $.each($(".fullDate"), (index, element) => {
     } else {
         let date = new Date(element.textContent);
         if(element.classList.contains("due") && (current.getFullYear() >= date.getUTCFullYear() && date.getUTCMonth() <= current.getMonth() && date.getUTCDate() < current.getDate())) {
-            element.style.color = "red";
+            element.style.color = "#ca0d0d";
         }
         element.innerHTML = dayArray[date.getUTCDay()] + ", " + monthArray[date.getUTCMonth()] + " " + date.getUTCDate() + ', ' + date.getUTCFullYear();
     }

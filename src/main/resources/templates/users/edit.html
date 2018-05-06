@@ -74,7 +74,7 @@
                     <input type="hidden" th:value="*{user.id}" name="id"/>
                     <input type="hidden" th:value="*{family.id}" name="familyId"/>
                     <input type="hidden" th:value="*{family.code}" name="familyCode"/>
-                    <input sec:authorize="hasRole('ROLE_CHILD')" type="hidden" th:value="*{family.name}" name="familyName"/>
+                    <input sec:authorize="hasRole('ROLE_CHILD')" type="hidden" th:value="*{family.name}" name="name"/>
                     <input class="registrationButton col-md-4 col-md-offset-4" value="Update Profile!" type="submit"/>
                 </div>
 

@@ -128,9 +128,9 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("family", family);
         model.addAttribute("messageList", message);
-        model.addAttribute("events", getWeekEvents(family));
-        model.addAttribute("tasksCreated", getWeekTasks(taskRepository.findByCreatedUser(user.getId())));
-        model.addAttribute("tasksDesignated", getWeekTasks(taskRepository.findByDesignatedUser(user.getId())));
+        model.addAttribute("events", getCurrentEvents(family));
+        model.addAttribute("tasksCreated", getCurrentTasks(taskRepository.findByCreatedUser(user.getId())));
+        model.addAttribute("tasksDesignated", getCurrentTasks(taskRepository.findByDesignatedUser(user.getId())));
         return "users/dashboard";
     }
 
@@ -140,7 +140,7 @@ public class UserController {
         return "users/register-child";
     }
 
-    @PostMapping("/register/child")
+    @PostMapping("/child/register")
     public String saveChildUser(@Valid User user, Errors userErrors, Model model, @RequestParam String verifyPassword, @RequestParam String birthdate) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         userErrors = userService.checkRegistration(user, userErrors);
@@ -202,13 +202,13 @@ public class UserController {
                     "Incorrect password. Could not update profile."
             );
         }
-        if(family.getName().trim().equals("")) {
-            familyErrors.rejectValue(
-                    "name",
-                    "family.name",
-                    "Family name cannot be blank."
-            );
-        }
+//        if(family.getName().trim().equals("")) {
+//            familyErrors.rejectValue(
+//                    "name",
+//                    "family.name",
+//                    "Family name cannot be blank."
+//            );
+//        }
         if(userErrors.hasErrors()) {
             model.addAttribute("errors", userErrors);
             model.addAttribute("errors", familyErrors);
@@ -294,22 +294,23 @@ public class UserController {
         return message;
     }
 
-    public List<Event> getWeekEvents (Family family){
+    public List<Event> getCurrentEvents (Family family){
         List<Event> allEvents = dtService.sortEventsByDate(eventRepository.findByFamilyId(family.getId()));
         List<Event> thisWeekEvents = new ArrayList<>();
+        Date today = new Date();
         for(Event event : allEvents) {
-            if(event.getStart_date().after(dtService.addDays(dtService.today(), -1)) && event.getStart_date().before(dtService.addDays(dtService.today(), 6))) {
+            if(event.getStart_date().after(dtService.addDays(dtService.today(), -1)) && thisWeekEvents.size() <= 5) {
                 thisWeekEvents.add(event);
             }
         }
         return thisWeekEvents;
     }
 
-    public List<Task> getWeekTasks(List<Task> allTasks){
+    public List<Task> getCurrentTasks(List<Task> allTasks){
         allTasks = dtService.sortTasksByDate(allTasks);
         List<Task> thisWeekTasks = new ArrayList<>();
         for(Task task : allTasks) {
-            if(task.getCompleted_by().before(dtService.addDays(dtService.today(), 6)) && task.getStatus().getId() != 4) {
+            if(thisWeekTasks.size() <= 5 && task.getStatus().getId() != 4) {
                 thisWeekTasks.add(task);
             }
         }

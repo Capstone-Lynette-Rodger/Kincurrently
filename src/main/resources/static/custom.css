@@ -8,9 +8,9 @@ a {
 }
 .homePageText {
     font-family: 'Luckiest Guy', cursive;
-    font-size: 2.5em;
-    margin-top: 45px;
-    margin-bottom: 50px;
+    font-size: 2.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1.75rem;
 }
 
 .iconHeader {
@@ -68,6 +68,9 @@ textarea {
     width: 100%;
     margin-top: 1rem;
 }
+.block-shadow {
+    box-shadow: -.5rem .5rem 1rem #1b073c;
+}
 .dashboardImg {
     width: 10rem;
     height: 10rem;
@@ -83,9 +86,6 @@ textarea {
     border-radius: 50%;
     overflow: hidden;
     position: relative;
-}
-.dashboardBlock .text-right {
-    float: right;
 }
 .dashboardGrid {
     background: #c1befb;
@@ -106,4 +106,51 @@ textarea {
     left: 50%;
     top: 50%;
     -webkit-transform: translateY(-50%) translateX(-50%);
+}
+.btn-outline-info {
+    color: #c1befb;
+    border-color: #c1befb;
+}
+.btn-outline-primary {
+    color: #2c2a57;
+    border-color: #2c2a57;
+}
+.btn.btn-outline-primary {
+    padding: .6rem;
+    line-height: .3rem;
+}
+.btn-outline-info:hover {
+    color: white;
+    background: #c1befb;
+    border-color: #c1befb;
+}
+.btn-outline-primary:hover {
+    color: white;
+    background: #2c2a57;
+    border-color: #2c2a57;
+}
+.btn-outline-info:not(:disabled):not(.disabled):active {
+    color: white;
+    background: #c1befb;
+    border-color: #c1befb;
+}
+.btn-outline-primary:not(:disabled):not(.disabled):active {
+    color: white;
+    background: #2c2a57;
+    border-color: #2c2a57;
+}
+.btn-outline-info:focus {
+    box-shadow: 0 0 0 0.2rem rgba(193, 190, 251, .5);
+}
+.btn-outline-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(44, 42, 87, .5);
+}
+.input-group-text {
+    color: #c1befb;
+    border: 1px solid #c1befb;
+    background-color: #2c2a57;
+}
+.custom-select {
+    color: #2c2a57;
+    border: 1px solid #c1befb;
 }

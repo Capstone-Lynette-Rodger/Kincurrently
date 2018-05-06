@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="header :: head" />
+<body>
+
+<div class="col-md-4" th:fragment="leftSidebar">
+    <div class="row">
+        <div class="col">
+            <div class="dashboardBlock">
+                <h3 th:if="${user.title}" class="text-center">Welcome, <span th:text="${user.title}"></span>!</h3>
+                <h3 th:if="${user.title == null}" class="text-center">Welcome, <span th:text="${user.firstName}"></span>!</h3>
+                <div th:if="${user.imgPath}" class="dashboardImg">
+                    <img th:src="${user.imgPath}" alt=""/>
+                </div>
+                <div th:if="${user.imgPath == null}" class="dashboardImg">
+                    <img src="/img/default.png" alt=""/>
+                </div>
+                <b><p class="text-center" th:text="${user.firstName + ' ' + user.lastName}"></p></b>
+                <hr/>
+                <p><span class="text-left"><b>Email</b></span><span class="float-right" th:text="${user.email}"></span></p>
+                <hr/>
+                <p><span class="text-left"><b>Birthday</b></span><span class="float-right birthDate" th:text="${user.birthdate}"></span></p>
+                <hr/>
+                <p class="text-center"><b><span th:text="${family.name}"></span><span class="text-left"> Family</span></b></p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="dashboardBlock">
+                <h4 class="text-center">Family Members</h4>
+                <div th:each="member : ${family.users}">
+                    <div class="row">
+                        <div class="col-4">
+                            <div th:if="${member.imgPath}" class="familyListImg">
+                                <img th:src="${member.imgPath}" alt=""/>
+                            </div>
+                            <div th:if="${member.imgPath == null}" class="familyListImg">
+                                <img src="/img/default.png" alt=""/>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <h5 th:if="${member.title}" th:text="${member.title}"></h5>
+                            <h5 th:text="${member.firstName + ' ' + member.lastName}"></h5>
+                            <h5><i class="fas fa-birthday-cake"></i> <span class="birthDate" th:text="${member.birthdate}"></span></h5>
+                        </div>
+                    </div>
+                    <hr/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

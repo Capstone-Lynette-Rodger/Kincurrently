@@ -1,9 +1,6 @@
 package com.kincurrently.controllers;
 
-import com.kincurrently.models.Category;
-import com.kincurrently.models.Task;
-import com.kincurrently.models.TaskComment;
-import com.kincurrently.models.User;
+import com.kincurrently.models.*;
 import com.kincurrently.repositories.*;
 import com.kincurrently.services.DateTimeService;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,19 +21,25 @@ public class TaskController {
     private TaskCommentRepository tcRepo;
     private CategoryRepository catRepo;
     private FamilyRepository familyRepo;
+    private UserRepository userRepo;
 
-    public TaskController(TaskRepository taskRepo, DateTimeService dtService, StatusRepository statusRepo, TaskCommentRepository tcRepo, CategoryRepository catRepo, FamilyRepository familyRepo) {
+    public TaskController(TaskRepository taskRepo, DateTimeService dtService, StatusRepository statusRepo, TaskCommentRepository tcRepo, CategoryRepository catRepo, FamilyRepository familyRepo, UserRepository userRepo) {
         this.taskRepo = taskRepo;
         this.dtService = dtService;
         this.statusRepo = statusRepo;
         this.tcRepo = tcRepo;
         this.catRepo = catRepo;
         this.familyRepo = familyRepo;
+        this.userRepo = userRepo;
     }
 
     @GetMapping("/tasks")
     public String showTasks(Model model){
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepo.findById(loggedInUser.getId());
+        Family family = familyRepo.findByCode(user.getFamily().getCode());
+        model.addAttribute("user", user);
+        model.addAttribute("family", family);
         model.addAttribute("allTasks", dtService.sortTasksByDate((List<Task>)taskRepo.findAll()));
         model.addAttribute("myTasks", dtService.sortTasksByDate(taskRepo.findByDesignatedUser(loggedInUser.getId())));
         return "tasks/tasks";
