@@ -44,12 +44,13 @@
     </div>
 </div>
 
-<div th:if="${!event.address.equalsIgnoreCase('')}" class="container" id="mapContainer">
-    <div class="mapBox">
-        <div id="map"></div>
+<div th:if="${event.address}">
+    <div th:if="${!event.address.equalsIgnoreCase('')}" class="container" id="mapContainer">
+        <div class="mapBox">
+            <div id="map"></div>
+        </div>
     </div>
 </div>
-
 
 
 <footer th:replace="partials/footer :: footer"></footer>
@@ -116,7 +117,7 @@
 </script>
 
 
-<script th:src="@{https://maps.googleapis.com/maps/api/js(key=${event.getApi()})}"></script>
+<script th:src="@{https://maps.googleapis.com/maps/api/js(key=${api})}"></script>
 
 </body>
 </html>
