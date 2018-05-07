@@ -4,16 +4,25 @@ import com.kincurrently.models.User;
 import com.kincurrently.models.UserWithRoles;
 import com.kincurrently.repositories.Roles;
 import com.kincurrently.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 
 @Service
 public class UserDetailsLoader implements UserDetailsService {
     private final UserRepository userRepo;
     private final Roles roles;
+    @Value("${file-upload-path}")
+    private String uploadPath;
 
     public UserDetailsLoader(UserRepository userRepo, Roles roles) {
         this.userRepo = userRepo;
@@ -124,5 +133,21 @@ public class UserDetailsLoader implements UserDetailsService {
             );
         }
         return errors;
+    }
+
+    public String saveFile(MultipartFile uploadedFile, Model model) {
+        String filename = uploadedFile.getOriginalFilename();
+        if(filename.trim().equals("")) {
+            return null;
+        }
+        String htmlfilepath = Paths.get("/img/", filename).toString();
+        String filepath = Paths.get(uploadPath, filename).toString();
+        File destinationFile = new File(filepath);
+        try {
+            uploadedFile.transferTo(destinationFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return htmlfilepath;
     }
 }

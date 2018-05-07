@@ -4,12 +4,10 @@ import com.kincurrently.models.Event;
 import com.kincurrently.models.Task;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DateTimeService {
@@ -22,6 +20,19 @@ public class DateTimeService {
             e.printStackTrace();
         }
         return date;
+    }
+
+    public Date today() {
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date today = new Date();
+        Date todayWithZeroTime = null;
+        try {
+            todayWithZeroTime = formatter.parse(formatter.format(today));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return todayWithZeroTime;
     }
 
     public Date parseTime(String dateString) {
@@ -42,6 +53,13 @@ public class DateTimeService {
     public List<Event> sortEventsByDate(List<Event> events) {
         events.sort(Comparator.comparing(Event::getStart_date).thenComparing(Event::getStart_time));
         return events;
+    }
+
+    public Date addDays(Date date, int days) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days);
+        return cal.getTime();
     }
 
 }

@@ -1,15 +1,27 @@
 body {
     background-color: #2B2958;
+    color: #2c2a57;
+}
+a {
+    color: #b7b3b3;
+    font-weight: bold;
+}
+a:hover {
+    color: #A1FBFD;
+}
+p {
     color: white;
 }
-
 .homePageText {
     font-family: 'Luckiest Guy', cursive;
-    font-size: 2.5em;
-    margin-top: 45px;
-    margin-bottom: 50px;
+    font-size: 2.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1.75rem;
+    color: white;
 }
-
+.searchBox {
+    color: white;
+}
 .iconHeader {
     margin-top: 10px;
 }
@@ -22,6 +34,7 @@ body {
     padding-left: 20px;
     padding-right: 20px;
     margin-top: 40px;
+    color: white;
 }
 
 .registrationLabels {
@@ -29,17 +42,23 @@ body {
 }
 
 .registrationInputs {
-    margin-bottom: 10px;
+    margin-bottom: .85rem;
     border-radius: 5px;
     width: 100%;
 }
-
+.registrationDescription {
+    margin-bottom: .85rem;
+    border-radius: 5px;
+    width: 100%;
+    height: 2.25rem;
+}
 .regFormContainer {
     margin-top: 25px;
     padding-left: 20px;
     padding-right: 20px;
     border: 1px solid #A1FBFD;
     border-radius: 5px;
+    color: white;
 }
 
 .registrationButton {
@@ -49,25 +68,148 @@ body {
     border-radius: 5px;
     margin-bottom: 10px;
 }
-
-.taskContainer {
-    border: 1px solid #A1FBFD;
+.textArea {
+    width: 100%;
+    height: auto;
+    color: #2c2a57;
+    background: white;
 }
-
-.eventContainer {
-    border: 1px solid #A1FBFD;
+.textArea div {
+    color: #2c2a57;
 }
-
-
-.familyContainer {
-    border: 1px solid #A1FBFD;
-}
-
-.card {
-    background-color: #2B2958;
-}
-
 textarea {
-    width: 90%;
+    width: 100%;
+    height: 15rem;
+    color: #2c2a57;
+    background: white;
+}
+.dashboardBlock {
+    background: #44417d;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: -.5rem .5rem 1rem #1b073c;
+    width: 100%;
+    margin-top: 1rem;
+    color: white;
+}
+.block-shadow {
+    box-shadow: -.5rem .5rem 1rem #1b073c;
+}
+.dashboardImg {
+    width: 10rem;
+    height: 10rem;
+    margin: .75rem auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+.familyListImg {
+    width: 5rem;
+    height: 5rem;
+    margin: .25rem auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+.dashboardGrid {
+    background: #A1FBFD;
+    padding: .5rem;
+    color: #2B2958;
+}
+.dashboardGrid a{
+    color: rgba(44, 42, 87, .5);
+    font-weight: normal;
+}
+.dashboardGrid a:hover{
+    color: #2c2a57;
+    text-decoration: none;
+}
+.commentImg {
+    width: 7rem;
+    height: 7rem;
+    margin: .25rem auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+.commentImg img, .dashboardImg img, .familyListImg img {
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translateY(-50%) translateX(-50%);
+}
+.text-info {
+    color: #A1FBFD!important;
+}
+.text-primary {
+    color: #2c2a57!important;
+}
+.btn-outline-info {
+    color: #A1FBFD;
+    border-color: #A1FBFD;
+}
+.btn-outline-primary {
+    color: #2c2a57;
+    border-color: #2c2a57;
+}
+.btn.btn-outline-primary {
+    padding: .6rem;
+    line-height: .3rem;
+}
+.btn-outline-info:hover {
+    color: #2c2a57;
+    background: #A1FBFD;
+    border-color: #A1FBFD;
+}
+.btn-outline-primary:hover {
+    color: white;
+    background: #2c2a57;
+    border-color: #2c2a57;
+}
+.btn-outline-info:not(:disabled):not(.disabled):active {
+    color: #2c2a57;
+    background: #A1FBFD;
+    border-color: #A1FBFD;
+    box-shadow: 0 0 0 0.2rem rgba(161,251,253, .5);
+}
+.btn-outline-primary:not(:disabled):not(.disabled):active {
+    color: white;
+    background: #2c2a57;
+    border-color: #2c2a57;
+    box-shadow: 0 0 0 0.2rem rgba(44, 42, 87, .5);
+}
+.btn-outline-info:focus {
+    box-shadow: 0 0 0 0.2rem rgba(161,251,253, .5);
+}
+.btn-outline-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(44, 42, 87, .5);
+}
+.input-group-text {
+    color: #A1FBFD;
+    border: 1px solid #A1FBFD;
+    background-color: #2c2a57;
+}
+.custom-select {
+    color: #2c2a57;
+    border: 1px solid #A1FBFD;
+}
+.categories {
+    padding: 0 0 .75rem 0;
+    margin: .25rem 0;
+}
+.category {
+    padding: .5rem;
+}
+.category span {
+    border: 1px solid #A1FBFD;
+    border-radius: 1rem;
+    padding: .5rem;
+    border-top-left-radius: 0;
+    background: #a1fbfd;
+    color: #44417c;
+}
+.comment img {
+    width: 100%;
     height: auto;
 }
