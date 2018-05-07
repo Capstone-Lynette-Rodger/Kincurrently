@@ -74,7 +74,11 @@ public class EventController {
 
     @GetMapping("events/{id}")
     public String indEventView(@PathVariable long id, Model model) {
-
+        User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepo.findById(current.getId());
+        Family family = familyRepository.findByCode(user.getFamily().getCode());
+        model.addAttribute("user", user);
+        model.addAttribute("family", family);
         model.addAttribute("event", eventRepository.findOne(id));
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);

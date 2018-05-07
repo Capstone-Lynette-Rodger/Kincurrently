@@ -215,9 +215,11 @@ textarea {
 }
 
 .mapBox {
-    height: 500px;
-    width: 500px;
+    height: 15rem;
+    width: 100%;
     border: 1px solid white;
+    margin: 1.5rem 0;
+    color:#2c2a57;
 }
 
 #map {
