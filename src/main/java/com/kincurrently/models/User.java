@@ -78,6 +78,13 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Event> events;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Message> messageSend;
+
+    @ManyToMany(mappedBy = "messageRecipients")
+    private List<Message> messageReceived;
+
+
     public User() {
     }
 
@@ -97,9 +104,11 @@ public class User {
         this.designatedTasks = copy.designatedTasks;
         this.taskComments = copy.taskComments;
         this.imgPath = copy.imgPath;
+        this.messageSend = copy.messageSend;
+        this.messageReceived = copy.messageReceived;
     }
 
-    public User(String username, String email, String password, String firstName, String lastName, Date birthdate, List<Task> tasksCreated, List<Task> designatedTasks, Family family, String title, List<TaskComment> taskComments, List<EventComment> eventComments, List<Event> events, String imgPath) {
+    public User(String username, String email, String password, String firstName, String lastName, Date birthdate, List<Task> tasksCreated, List<Task> designatedTasks, Family family, String title, List<TaskComment> taskComments, List<EventComment> eventComments, List<Event> events, String imgPath, List<Message> messageSend, List<Message> messageReceived) {
 
         this.username = username;
         this.email = email;
@@ -115,10 +124,12 @@ public class User {
         this.designatedTasks = designatedTasks;
         this.taskComments = taskComments;
         this.imgPath = imgPath;
+        this.messageSend = messageSend;
+        this.messageReceived = messageReceived;
     }
 
 
-    public User(Long id, String username, String email, String password, String firstName, String lastName, Date birthdate, List<Task> tasksCreated, List<Task> designatedTasks, Family family, String title, List<TaskComment> taskComments, List<EventComment> eventComments, List<Event> events, String imgPath) {
+    public User(Long id, String username, String email, String password, String firstName, String lastName, Date birthdate, List<Task> tasksCreated, List<Task> designatedTasks, Family family, String title, List<TaskComment> taskComments, List<EventComment> eventComments, List<Event> events, String imgPath, List<Message> messageSend, List<Message> messageReceived) {
 
         this.id = id;
         this.username = username;
@@ -135,6 +146,26 @@ public class User {
         this.designatedTasks = designatedTasks;
         this.taskComments = taskComments;
         this.imgPath = imgPath;
+        this.messageSend = messageSend;
+        this.messageReceived = messageReceived;
+
+    }
+
+
+    public List<Message> getMessageSend() {
+        return messageSend;
+    }
+
+    public void setMessageSend(List<Message> messageSend) {
+        this.messageSend = messageSend;
+    }
+
+    public List<Message> getMessageReceived() {
+        return messageReceived;
+    }
+
+    public void setMessageReceived(List<Message> messageReceived) {
+        this.messageReceived = messageReceived;
     }
 
     public long getId() {
