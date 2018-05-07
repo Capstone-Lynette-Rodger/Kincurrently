@@ -4,52 +4,90 @@
 <head th:replace="partials/header :: header (Events)"></head>
 <body>
 <div th:replace="partials/navbar :: navbar"></div>
-<h2>My Current Tasks</h2>
-<div class="container taskContainer">
+<div class="container">
     <div class="row">
-        <div class="card">
-            <h2 th:text="${task.title}"></h2>
-            <h5>Completion Deadline: <span th:text="${task.completed_by}" class="changeDate"></span></h5>
-            <h5>Status: <span th:text="${task.status.status}"></span></h5>
-            <h5 th:if="${task.creator.title}">Assigned By: <span th:text="${task.creator.title}"></span></h5>
-            <h5 th:if="${task.creator.title == null}">Assigned By: <span th:text="${task.creator.firstName}"></span></h5>
-            <h5 th:if="${task.designated_user.title}">Assigned To: <span th:text="${task.designated_user.title}"></span></h5>
-            <h5 th:if="${task.designated_user.title == null}">Assigned To: <span th:text="${task.designated_user.firstName}"></span></h5>
-            <h5>Date Assigned: <span th:text="${task.created_on}" class="changeDate">  </span></h5>
-            <p class="bodyText" th:text="${task.description}"></p>
-            <div th:each="category : ${task.categories}">
-                <span th:text="${category.name + ' '}"></span>
+        <div class="col">
+            <h1 class="todaysDate text-center homePageText"></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div th:replace="partials/leftSidebar :: leftSidebar"></div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col">
+                    <div class="dashboardBlock">
+                        <h2 class="text-center"><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner fa-spin"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span></h2>
+                        <div class="col clearfix">
+                            <h5 class="dashboardGrid"><i class="far fa-calendar-times"></i> Due <span class="fullDate due" th:text="${task.completed_by}"></span><span th:text="${task.completed_by}" hidden="hidden" class="date task"></span><a th:if="${#authentication.principal.id == task.creator.id}" th:href="@{/tasks/{id}/edit(id = ${task.id})}" class="float-right"><i class="far fa-edit"></i> Edit Task</a></h5>
+                            <h5><i class="far fa-calendar-alt"></i> <span th:if="${task.creator.title}"><span class="text-capitalize" th:text="${task.creator.title}"></span></span><span th:if="${task.creator.title == null}"><span class="text-capitalize" th:text="${task.creator.firstName}"></span></span>
+                                assigned this to
+                                <span th:if="${task.designated_user.title}" class="text-capitalize" th:text="${task.designated_user.title}"></span>
+                                <span th:if="${task.designated_user.title == null}" class="text-capitalize" th:text="${task.designated_user.firstName}"></span>
+                                on <span th:text="${task.created_on}" class="changeDate"></span>
+                            </h5>
+                            <p th:text="${task.description}" class="px-5"></p>
+                            <div class="categories">
+                                <span th:each="category : ${task.categories}" class="category">
+                                    <span th:text="${category.name}"></span>
+                                </span>
+                            </div>
+                            <form th:action="@{/tasks/update}" method="POST" th:if="${task.designated_user.id == #authentication.principal.id}">
+                                <input  type="hidden" name="taskId" th:value="${task.id}"/>
+                                <button class="btn btn-outline-info my-2 my-sm-0" th:if="${task.status.id == 1}">Mark As In Progress</button>
+                                <button class="btn btn-outline-info my-2 my-sm-0" th:if="${task.status.id == 2}">Mark As Completed</button>
+                            </form>
+                            <h5 th:if="${task.status.id == 3}">Pending Final Approval</h5>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <form th:action="@{/tasks/update}" method="POST" th:if="${task.designated_user.id == #authentication.principal.id}">
-                <input  type="hidden" name="taskId" th:value="${task.id}"/>
-                <button th:if="${task.status.id == 1}">Mark As In Progress</button>
-                <button th:if="${task.status.id == 2}">Mark As Completed</button>
-            </form>
-            <a th:if="${#authentication.principal.id == task.creator.id}" th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit Task</a>
+            <div class="row">
+                <div class="col">
+                    <div class="dashboardBlock">
+                        <h2 class="text-center">Comments</h2>
+                        <hr/>
+                        <div th:if="${comments.size() > 0}" th:each="taskComment: ${comments}">
+                            <div class="row">
+                                <div class="col-3">
+                                    <div th:if="${taskComment.user.imgPath}" class="commentImg">
+                                        <img th:src="${taskComment.user.imgPath}" alt=""/>
+                                    </div>
+                                    <div th:if="${taskComment.user.imgPath == null}" class="commentImg">
+                                        <img src="/img/default.png" alt=""/>
+                                    </div>
+                                    <h5 class="text-center" th:if="${taskComment.user.title}"><i class="far fa-user"></i> <span th:text="${taskComment.user.title}"></span></h5>
+                                    <h5 class="text-center" th:if="${taskComment.user.title == null}"><i class="far fa-user"></i> <span th:text="${taskComment.user.firstName}"></span></h5>
+                                </div>
+                                <div class="col-9">
+                                    <p class="comment" th:utext="${taskComment.commentBody}"></p>
+                                    <h5 class="text-info"><i class="far fa-calendar-alt"></i> <span th:text="${taskComment.created_on}" class="fullDate"></span></h5>
+                                    <h6 th:if="${taskComment.user.id == #authentication.principal.id}">
+                                        <a th:href="@{/tasks/comment/{id}/edit(id=${taskComment.id})}"><i class="far fa-edit"></i> Edit Comment</a>
+                                    </h6>
+                                </div>
+                            </div>
+                            <hr/>
+                        </div>
+                        <div th:if="${comments.size() == 0}">
+                            <p class="text-center">Be the first to comment on this task!</p>
+                        </div>
+                        <form th:action="@{/tasks/comment}" method="POST" th:object="${newComment}">
+                            <input type="hidden" name="taskId" th:value="${task.id}"/>
+                            <div class="textArea">
+                                <textarea th:field="${newComment.commentBody}"></textarea>
+                            </div>
+                            <p class="text-danger" th:if="${#fields.hasErrors('commentBody')}" th:errors="*{commentBody}" />
+                            <div class="text-center mt-md-2">
+                                <button class="btn btn-outline-info my-2 my-sm-0" >Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<div class="container taskContainer">
-    <div class="row">
-        <h2>Comments</h2>
-        <div th:each="taskComment: ${comments}">
-            <p th:utext="${taskComment.commentBody}"></p>
-            <h5 th:if="${taskComment.user.title == null}">Posted by: <span th:text="${taskComment.user.firstName}"></span></h5>
-            <h5 th:if="${taskComment.user.title}">Posted by: <span th:text="${taskComment.user.title}"></span></h5>
-            <h5>Posted on: <span th:text="${taskComment.created_on}" class="changeDate"></span></h5>
-            <h5 th:if="${taskComment.user.id == #authentication.principal.id}">
-                <a th:href="@{/tasks/comment/{id}/edit(id=${taskComment.id})}">Edit</a>
-            </h5>
-            <br/>
-        </div>
-        <form th:action="@{/tasks/comment}" method="POST" th:object="${newComment}">
-            <input type="hidden" name="taskId" th:value="${task.id}"/>
-            <textarea type="text" th:field="${newComment.commentBody}"></textarea>
-            <p class="text-danger" th:if="${#fields.hasErrors('commentBody')}" th:errors="*{commentBody}" />
-            <button>Submit</button>
-        </form>
-    </div>
-</div>
+
 <footer th:replace="partials/footer :: footer"></footer>
 </body>
 </html>
