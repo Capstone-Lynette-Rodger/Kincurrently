@@ -78,6 +78,12 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Event> events;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Message> messages;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<MessageRecipient> messagesRecieved;
+
     public User() {
     }
 
