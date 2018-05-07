@@ -34,6 +34,11 @@ let changeEventView = () => {
                     element.parentNode.parentNode.setAttribute("hidden", "hidden");
                 }
                 break;
+            case "past":
+                if(current.getFullYear() !== date.getUTCFullYear() || date.getUTCMonth() !== current.getMonth()) {
+                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
+                }
+                break;
             case "all":
                 break;
         }

@@ -54,7 +54,7 @@
 
                     <div sec:authorize="hasRole('ROLE_PARENT')" class="col-md-6" >
                         <label class="registrationLabels" for="editFamily">Family Name</label><br/>
-                        <input class="registrationInputs" id="editFamily" th:value="*{family.name}" name="name" placeholder="e.g., Smith, Sanchez, etc." />
+                        <input class="registrationInputs" id="editFamily" th:value="*{family.name}" name="name" placeholder="e.g., Smith, Sanchez, etc." th:required="required"/>
                         <p class="text-danger" th:if="${#fields.hasErrors('family.name')}" th:errors="*{family.name}" />
                     </div>
 
