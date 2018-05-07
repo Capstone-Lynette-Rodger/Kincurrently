@@ -1,9 +1,6 @@
 package com.kincurrently.controllers;
 
-import com.kincurrently.models.Category;
-import com.kincurrently.models.Event;
-import com.kincurrently.models.EventComment;
-import com.kincurrently.models.User;
+import com.kincurrently.models.*;
 import com.kincurrently.repositories.CategoryRepository;
 import com.kincurrently.repositories.EventCommentRepository;
 import com.kincurrently.repositories.EventRepository;
@@ -55,9 +52,9 @@ public class EventController {
 
     @GetMapping("/events/create")
     public String eventsCreate (Model model) {
-        User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("events", eventRepository.findByFamilyId(current.getFamily().getId()));
-        model.addAttribute("events", dtService.sortEventsByDate(eventRepository.findByFamilyId(current.getFamily().getId())));
+//        User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        model.addAttribute("events", eventRepository.findByFamilyId(current.getFamily().getId()));
+//        model.addAttribute("events", dtService.sortEventsByDate(eventRepository.findByFamilyId(current.getFamily().getId())));
         model.addAttribute("event", new Event());
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
@@ -100,6 +97,7 @@ public class EventController {
         if(event.getLocation().trim().equals("")) {
             event.setLocation(null);
         }
+
         event.setFamily(current.getFamily());
         event.setUser(current);
         eventRepository.save(event);
@@ -145,6 +143,7 @@ public class EventController {
 
         editEvent.setFamily(current.getFamily());
         editEvent.setUser(current);
+
         eventRepository.save(editEvent);
 
         return "redirect:/events";

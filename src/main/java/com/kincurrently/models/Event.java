@@ -1,6 +1,7 @@
 package com.kincurrently.models;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -16,6 +17,13 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Value("${google-api-key")
+    private String api;
+
+    public String getApi() {
+        return api;
+    }
 
     @ManyToOne
     @JoinColumn(name = "family_id")
@@ -48,6 +56,9 @@ public class Event {
     @Column
     private String location;
 
+    @Column
+    private String address;
+
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-DD")
@@ -70,7 +81,7 @@ public class Event {
     private java.util.Date end_time;
 
 
-    public Event(Family family, String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments, List<Category> categories, User user) {
+    public Event(Family family, String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments, List<Category> categories, User user, String address) {
         this.family = family;
         this.title = title;
         this.description = description;
@@ -82,9 +93,10 @@ public class Event {
         this.eventComments = eventComments;
         this.categories = categories;
         this.user = user;
+        this.address = address;
     }
 
-    public Event(String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments, List<Category> categories, User user) {
+    public Event(String title, String description, String location, Date start_date, Date start_time, Date end_date, Date end_time, List<EventComment> eventComments, List<Category> categories, User user, String address) {
         this.title = title;
         this.description = description;
         this.location = location;
@@ -95,9 +107,18 @@ public class Event {
         this.eventComments = eventComments;
         this.categories = categories;
         this.user = user;
+        this.address = address;
     }
 
     public Event() {
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public List<Category> getCategories() {

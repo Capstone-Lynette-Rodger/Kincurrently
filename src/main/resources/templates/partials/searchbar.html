@@ -12,10 +12,10 @@
                 <input type="text" id="searchTerm" name="searchTerm" placeholder="Keyword(s)" />
 
                 <label>Events<input type="checkbox" id="searchEvents" name="searchEvents" /></label>
-                <label for="searchTasks">Tasks<input type="checkbox" id="searchTasks" name="searchTasks" /></label>
+                <label sec:authorize="hasRole('ROLE_PARENT')" for="searchTasks">Tasks<input type="checkbox" id="searchTasks" name="searchTasks" /></label>
 
                 <select id="searchCategories" name="searchCategories">
-                    <option label=" "></option>
+                    <option Value="ALL">All Categories</option>
                     <option value="CHORE">Chore</option>
                     <option value="PARTY">Party</option>
                 </select>
