@@ -2,6 +2,7 @@ package com.kincurrently.controllers;
 
 import com.kincurrently.models.Event;
 import com.kincurrently.models.Task;
+import com.kincurrently.repositories.CategoryRepository;
 import com.kincurrently.repositories.EventRepository;
 import com.kincurrently.repositories.TaskRepository;
 import org.springframework.stereotype.Controller;
@@ -29,30 +30,34 @@ public class SearchController {
     public String showSearchResults (Model model, @RequestParam(name="searchTerm") String search,
                                      @RequestParam(value="searchTasks", required = false) String st,
                                      @RequestParam(value="searchEvents", required = false) String se,
-                                     @RequestParam(value="searchCategories") String searchCategory) {
+                                     @RequestParam(value="searchCategories", required = false) String searchCategory) {
 
         System.out.println("st = " + st);
         System.out.println("se = " + se);
-        if (st != null && se != null) {
-            model.addAttribute("events", eventRepository.findBySearchTerm(search));
-            model.addAttribute("allTasks", taskRepository.findBySearchTerm(search));
-            if (!searchCategory.equalsIgnoreCase(" ")) {
-                model.addAttribute("searchCat", searchCategory);
+        if ((st != null && se != null) || (st == null && se == null)) {
+            if (searchCategory.equalsIgnoreCase("ALL")) {
+                model.addAttribute("events", eventRepository.findBySearchTerm(search));
+                model.addAttribute("allTasks", taskRepository.findBySearchTerm(search));
+            } else if (!searchCategory.equalsIgnoreCase("ALL")) {
+                model.addAttribute("events", eventRepository.findByCategories(searchCategory, search));
+                model.addAttribute("allTasks", taskRepository.findByCategories(searchCategory, search));
             }
             System.out.println("searchCategory = " + searchCategory);
         }
 
         if (se != null) {
-            model.addAttribute("events", eventRepository.findBySearchTerm(search));
-            if (!searchCategory.equalsIgnoreCase(" ")) {
-                model.addAttribute("searchCat", searchCategory);
+            if (searchCategory.equalsIgnoreCase("ALL")) {
+                model.addAttribute("events", eventRepository.findBySearchTerm(search));
+            } else if (!searchCategory.equalsIgnoreCase("ALL")) {
+                model.addAttribute("events", eventRepository.findByCategories(searchCategory,search));
             }
             System.out.println("searchCategory = " + searchCategory);
         }
         if (st != null) {
-            model.addAttribute("allTasks", taskRepository.findBySearchTerm(search));
-            if (!searchCategory.equalsIgnoreCase(" ")) {
-                model.addAttribute("searchCat", searchCategory);
+            if (searchCategory.equalsIgnoreCase("ALL")) {
+                model.addAttribute("allTasks", taskRepository.findBySearchTerm(search));
+            } else if (!searchCategory.equalsIgnoreCase("ALL")) {
+                model.addAttribute("allTasks", taskRepository.findByCategories(searchCategory, search));
             }
             System.out.println("searchCategory = " + searchCategory);
         }

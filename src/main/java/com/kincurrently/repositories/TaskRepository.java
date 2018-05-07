@@ -21,4 +21,7 @@ public interface TaskRepository extends CrudRepository<Task, Long>{
 
     @Query(value="select * from tasks t where t.title LIKE CONCAT('%',?1,'%')", nativeQuery = true)
     public List<Task> findBySearchTerm(String searchTerm);
+
+    @Query(value="select * from tasks t JOIN tasks_categories tc on t.id = tc.task_id Join categories c ON tc.category_id = c.id WHERE c.name = ?1 AND t.title LIKE CONCAT('%',?2,'%')", nativeQuery = true)
+    public List<Task> findByCategories(String searchCategory, String searchTerm);
 }
