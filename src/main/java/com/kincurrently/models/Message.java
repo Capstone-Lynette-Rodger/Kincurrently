@@ -24,6 +24,11 @@ public class Message {
     @Column(columnDefinition = "TEXT")
     private String body;
 
+    @Column(nullable=false)
+    @Temporal(DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date created_on;
+
     @Column
     private boolean messageRead = false;
 
@@ -39,10 +44,19 @@ public class Message {
     )
     private List<User> messageRecipients;
 
-    public Message(User user, String body, List<User> messageRecipients) {
+    public Message(User user, String body, List<User> messageRecipients, Date created_on) {
         this.user = user;
         this.body = body;
         this.messageRecipients = messageRecipients;
+        this.created_on = created_on;
+    }
+
+    public Date getCreated_on() {
+        return created_on;
+    }
+
+    public void setCreated_on(Date created_on) {
+        this.created_on = created_on;
     }
 
     public boolean isMessageRead() {
