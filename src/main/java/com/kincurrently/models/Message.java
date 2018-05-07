@@ -1,8 +1,13 @@
 package com.kincurrently.models;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
+
+import static javax.persistence.TemporalType.DATE;
 
 @Entity
 @Table(name="messages")
@@ -19,18 +24,33 @@ public class Message {
     @Column(columnDefinition = "TEXT")
     private String body;
 
+    @Column
+    private boolean messageRead = false;
+
+    public void readMessage() {
+        this.messageRead = true;
+    }
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name="messages_messageRecipients",
             joinColumns={@JoinColumn(name="message_id")},
             inverseJoinColumns={@JoinColumn(name="recipient_id")}
     )
-    private List<MessageRecipient> messageRecipients;
+    private List<User> messageRecipients;
 
-    public Message(User user, String body, List<MessageRecipient> messageRecipients) {
+    public Message(User user, String body, List<User> messageRecipients) {
         this.user = user;
         this.body = body;
         this.messageRecipients = messageRecipients;
+    }
+
+    public boolean isMessageRead() {
+        return messageRead;
+    }
+
+    public void setMessageRead(boolean messageRead) {
+        this.messageRead = messageRead;
     }
 
     public long getId() {
@@ -57,11 +77,12 @@ public class Message {
         this.body = body;
     }
 
-    public List<MessageRecipient> getMessageRecipients() {
+    public List<User> getMessageRecipients() {
         return messageRecipients;
     }
 
-    public void setMessageRecipients(List<MessageRecipient> messageRecipients) {
+    public void setMessageRecipients(List<User> messageRecipients) {
         this.messageRecipients = messageRecipients;
     }
+
 }
