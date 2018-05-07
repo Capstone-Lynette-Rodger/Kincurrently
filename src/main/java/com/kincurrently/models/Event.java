@@ -18,13 +18,6 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Value("${google-api-key")
-    private String api;
-
-    public String getApi() {
-        return api;
-    }
-
     @ManyToOne
     @JoinColumn(name = "family_id")
     private Family family;

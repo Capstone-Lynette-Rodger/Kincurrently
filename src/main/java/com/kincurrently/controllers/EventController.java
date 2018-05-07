@@ -6,6 +6,7 @@ import com.kincurrently.repositories.EventCommentRepository;
 import com.kincurrently.repositories.EventRepository;
 import com.kincurrently.repositories.FamilyRepository;
 import com.kincurrently.services.DateTimeService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,10 @@ import java.util.List;
 
 @Controller
 public class EventController {
+
+    @Value("${google-api-key}")
+    private String api;
+
 
     private final EventRepository eventRepository;
     private final FamilyRepository familyRepository;
@@ -55,6 +60,7 @@ public class EventController {
 //        User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //        model.addAttribute("events", eventRepository.findByFamilyId(current.getFamily().getId()));
 //        model.addAttribute("events", dtService.sortEventsByDate(eventRepository.findByFamilyId(current.getFamily().getId())));
+        model.addAttribute("api",api);
         model.addAttribute("event", new Event());
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
@@ -70,6 +76,7 @@ public class EventController {
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
         model.addAttribute("eventComment", new EventComment());
+        model.addAttribute("api",api);
 
         return "events/showEvent";
     }
@@ -94,6 +101,7 @@ public class EventController {
 
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
+        model.addAttribute("api",api);
         if(event.getLocation().trim().equals("")) {
             event.setLocation(null);
         }
@@ -113,6 +121,7 @@ public class EventController {
             return "redirect:/events";
         }
         model.addAttribute("event", event);
+        model.addAttribute("api",api);
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
 
@@ -140,6 +149,7 @@ public class EventController {
 
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
+        model.addAttribute("api",api);
 
         editEvent.setFamily(current.getFamily());
         editEvent.setUser(current);
