@@ -1,10 +1,7 @@
 package com.kincurrently.controllers;
 
 import com.kincurrently.models.*;
-import com.kincurrently.repositories.CategoryRepository;
-import com.kincurrently.repositories.EventCommentRepository;
-import com.kincurrently.repositories.EventRepository;
-import com.kincurrently.repositories.FamilyRepository;
+import com.kincurrently.repositories.*;
 import com.kincurrently.services.DateTimeService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,20 +30,26 @@ public class EventController {
     private final EventCommentRepository eventCommentRepository;
     private final CategoryRepository categoryRepository;
     private DateTimeService dtService;
+    private final UserRepository userRepo;
 
     public EventController(EventRepository eventRepository, FamilyRepository familyRepository,
                            EventCommentRepository eventCommentRepository, DateTimeService dtService,
-                           CategoryRepository categoryRepository) {
+                           CategoryRepository categoryRepository, UserRepository userRepo) {
         this.eventRepository = eventRepository;
         this.familyRepository = familyRepository;
         this.eventCommentRepository = eventCommentRepository;
         this.dtService = dtService;
         this.categoryRepository = categoryRepository;
+        this.userRepo = userRepo;
     }
 
     @GetMapping("/events")
     public String eventsIndex (Model model) {
         User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepo.findById(current.getId());
+        Family family = familyRepository.findByCode(user.getFamily().getCode());
+        model.addAttribute("user", user);
+        model.addAttribute("family", family);
         model.addAttribute("events", dtService.sortEventsByDate(eventRepository.findByFamilyId(current.getFamily().getId())));
 //        model.addAttribute("event", new Event());
 //        Iterable<Category> categories = categoryRepository.findAll();

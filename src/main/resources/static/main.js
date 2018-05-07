@@ -7,6 +7,11 @@ let abbDayArray = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
 currentDate = dayArray[current.getDay()] + ", " + monthArray[current.getMonth()] + " " + current.getDate() + ', ' + current.getFullYear();
 $(".todaysDate").text(currentDate);
 
+//sets a minimum date of today on date inputs, sets a maximum date of today on birthdays, and sets dates that begin empty to today
+let today = new Date();
+today.setHours(today.getHours()-5);
+today = today.toISOString().split('T')[0];
+
 // addDays ads the number of days specified to the date specified
 let addDays = (date, days) => {
     let result = new Date(date);
@@ -14,36 +19,42 @@ let addDays = (date, days) => {
     return result;
 };
 
-// changeView searches through all the dates with a date class and hides items that do not meet search criteria
+$.each($('input[type="date"]'), (index, input) => {
+    if (!input.value) {
+        input.setAttribute('value', today)
+    }
+    if(input.name === 'searchStartDate' || input.name === 'searchEndDate') {
+        if(input.name === 'searchEndDate') {
+            input.setAttribute('value', addDays(today, 6).toISOString().split('T')[0]);
+        }
+    } else if(input.name !== 'birthdate') {
+        input.setAttribute('min', today);
+    } else {
+        input.setAttribute('max', today);
+    }
+});
+
+
 let changeEventView = () => {
+    let startDate = new Date($('#searchStartDate').val());
+    let endDate = new Date($('#searchEndDate').val());
+    startDate.setHours(startDate.getHours()+5);
+    endDate.setHours(endDate.getHours()+5);
     $.each($('.date.event'), (index, element) => {
         let date = new Date(element.textContent.replace(/-/g, '\/'));
-        switch($('#eventView').val()) {
-            case "day":
-                if(current.getFullYear() !== date.getUTCFullYear() || current.getMonth() !== date.getUTCMonth() || current.getDate() !== date.getUTCDate()) {
-                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
-                }
-                break;
-            case "week":
-                if((current.getFullYear() !== date.getUTCFullYear() || current.getMonth() !== date.getUTCMonth() || current.getDate() !== date.getUTCDate()) && (date >= addDays(current, 6)  || date < current)) {
-                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
-                }
-                break;
-            case "month":
-                if(current.getFullYear() !== date.getUTCFullYear() || date.getUTCMonth() !== current.getMonth()) {
-                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
-                }
-                break;
-            case "past":
-                if(current.getFullYear() !== date.getUTCFullYear() || date.getUTCMonth() !== current.getMonth()) {
-                    element.parentNode.parentNode.setAttribute("hidden", "hidden");
-                }
-                break;
-            case "all":
-                break;
+        if(startDate > date || endDate < date) {
+            element.parentNode.parentNode.setAttribute("hidden", "hidden");
         }
     });
 };
+changeEventView();
+$('#searchStartDate, #searchEndDate').change(() => {
+    $.each($('.date.event'), (index, element) => {
+        element.parentNode.parentNode.removeAttribute("hidden");
+    });
+    changeEventView();
+});
+
 let changeTaskView = () => {
     $.each($('.date.task'), (index, element) => {
         let date = new Date(element.textContent.replace(/-/g, '\/'));
@@ -59,7 +70,7 @@ let changeTaskView = () => {
                 }
                 break;
             case "month":
-                if(current.getUTCFullYear() < date.getUTCFullYear() || date.getUTCMonth() > current.getUTCMonth()) {
+                if(current.getUTCFullYear() < date.getUTCFullYear() || date.getUTCMonth() > addDays(current.getUTCMonth(), 30)) {
                     element.parentNode.parentNode.setAttribute("hidden", "hidden");
                 }
                 break;
@@ -68,14 +79,7 @@ let changeTaskView = () => {
         }
     });
 };
-changeEventView();
 changeTaskView();
-$('#eventView').change(() => {
-    $.each($('.date.event'), (index, element) => {
-        element.parentNode.parentNode.removeAttribute("hidden");
-    });
-    changeEventView();
-});
 $('#taskView').change(() => {
     $.each($('.date.task'), (index, element) => {
         element.parentNode.parentNode.removeAttribute("hidden");
@@ -143,20 +147,6 @@ $('#joinIfExisting').click(()=> {
         $("#showForNewFamily").hide();
     } else {
         $("#showForNewFamily").show();
-    }
-});
-//sets a minimum date of today on date inputs, sets a maximum date of today on birthdays, and sets dates that begin empty to today
-let today = new Date();
-today.setHours(today.getHours()-5);
-today = today.toISOString().split('T')[0];
-$.each($('input[type="date"]'), (index, input) => {
-    if(input.name !== 'birthdate') {
-        input.setAttribute('min', today);
-    }  else {
-        input.setAttribute('max', today);
-    }
-    if (!input.value) {
-        input.setAttribute('value', today)
     }
 });
 
