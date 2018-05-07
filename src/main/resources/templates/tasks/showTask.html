@@ -53,7 +53,7 @@
                                         <img th:src="${taskComment.user.imgPath}" alt=""/>
                                     </div>
                                     <div th:if="${taskComment.user.imgPath == null}" class="commentImg">
-                                        <img src="/img/default.png" alt=""/>
+                                        <img src="/uploads/default.png" alt=""/>
                                     </div>
                                     <h5 class="text-center" th:if="${taskComment.user.title}"><i class="far fa-user"></i> <span th:text="${taskComment.user.title}"></span></h5>
                                     <h5 class="text-center" th:if="${taskComment.user.title == null}"><i class="far fa-user"></i> <span th:text="${taskComment.user.firstName}"></span></h5>

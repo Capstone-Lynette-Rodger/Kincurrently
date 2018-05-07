@@ -13,7 +13,7 @@
                     <img th:src="${user.imgPath}" alt=""/>
                 </div>
                 <div th:if="${user.imgPath == null}" class="dashboardImg">
-                    <img src="/img/default.png" alt=""/>
+                    <img src="/uploads/default.png" alt=""/>
                 </div>
                 <b><p class="text-center" th:text="${user.firstName + ' ' + user.lastName}"></p></b>
                 <hr/>
@@ -36,7 +36,7 @@
                                 <img th:src="${member.imgPath}" alt=""/>
                             </div>
                             <div th:if="${member.imgPath == null}" class="familyListImg">
-                                <img src="/img/default.png" alt=""/>
+                                <img src="/uploads/default.png" alt=""/>
                             </div>
                         </div>
                         <div class="col-8">
