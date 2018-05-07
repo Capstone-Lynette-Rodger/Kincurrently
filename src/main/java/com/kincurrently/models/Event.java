@@ -1,6 +1,7 @@
 package com.kincurrently.models;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -16,6 +17,13 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Value("${google-api-key")
+    private String api;
+
+    public String getApi() {
+        return api;
+    }
 
     @ManyToOne
     @JoinColumn(name = "family_id")

@@ -123,7 +123,8 @@
 
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfZSV1KZRKrRqegGDRMOme6uxQs56ltXc"></script>
+
+<script th:src="@{https://maps.googleapis.com/maps/api/js(key=${event.getApi()})}"></script>
 
 </body>
 </html>
