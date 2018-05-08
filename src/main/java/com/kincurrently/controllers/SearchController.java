@@ -31,9 +31,6 @@ public class SearchController {
                                      @RequestParam(value="searchTasks", required = false) String st,
                                      @RequestParam(value="searchEvents", required = false) String se,
                                      @RequestParam(value="searchCategories", required = false) String searchCategory) {
-
-        System.out.println("st = " + st);
-        System.out.println("se = " + se);
         if ((st != null && se != null) || (st == null && se == null)) {
             if (searchCategory.equalsIgnoreCase("ALL")) {
                 model.addAttribute("events", eventRepository.findBySearchTerm(search));
@@ -42,7 +39,6 @@ public class SearchController {
                 model.addAttribute("events", eventRepository.findByCategories(searchCategory, search));
                 model.addAttribute("allTasks", taskRepository.findByCategories(searchCategory, search));
             }
-            System.out.println("searchCategory = " + searchCategory);
         }
 
         if (se != null) {
@@ -51,7 +47,6 @@ public class SearchController {
             } else if (!searchCategory.equalsIgnoreCase("ALL")) {
                 model.addAttribute("events", eventRepository.findByCategories(searchCategory,search));
             }
-            System.out.println("searchCategory = " + searchCategory);
         }
         if (st != null) {
             if (searchCategory.equalsIgnoreCase("ALL")) {
@@ -59,9 +54,8 @@ public class SearchController {
             } else if (!searchCategory.equalsIgnoreCase("ALL")) {
                 model.addAttribute("allTasks", taskRepository.findByCategories(searchCategory, search));
             }
-            System.out.println("searchCategory = " + searchCategory);
         }
-
+        model.addAttribute("search", search);
         return "/search/searchResults";
     }
 }
