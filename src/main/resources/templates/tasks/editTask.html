@@ -60,16 +60,16 @@
                     <input type="hidden" th:field="*{creator}" th:value="${creator}"/>
                     <input type="hidden" name="statusId" th:value="${task.status.id}"/>
                     <div class="text-center my-3">
-                        <button class="btn btn-outline-info my-2 my-sm-0">Submit</button>
+                        <button class="btn btn-outline-info my-2 my-sm-0">Update</button>
                     </div>
                 </form>
             </div>
-            <button class="btn btn-outline-info col-md-4 offset-md-4 mt-5"  id="showDeleteForm">Delete Task</button>
+            <button class="btn btn-danger col-md-4 offset-md-4 mt-5"  id="showDeleteForm">Delete Task</button>
         </div>
     </div>
 </div>
 
-<div class="modal" tabindex="-1" role="dialog" id="deleteModal">
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteModal">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
