@@ -22,8 +22,9 @@ public class TaskController {
     private CategoryRepository catRepo;
     private FamilyRepository familyRepo;
     private UserRepository userRepo;
+    private MessageRepository messageRepository;
 
-    public TaskController(TaskRepository taskRepo, DateTimeService dtService, StatusRepository statusRepo, TaskCommentRepository tcRepo, CategoryRepository catRepo, FamilyRepository familyRepo, UserRepository userRepo) {
+    public TaskController(TaskRepository taskRepo, DateTimeService dtService, StatusRepository statusRepo, TaskCommentRepository tcRepo, CategoryRepository catRepo, FamilyRepository familyRepo, UserRepository userRepo, MessageRepository messageRepository) {
         this.taskRepo = taskRepo;
         this.dtService = dtService;
         this.statusRepo = statusRepo;
@@ -31,6 +32,7 @@ public class TaskController {
         this.catRepo = catRepo;
         this.familyRepo = familyRepo;
         this.userRepo = userRepo;
+        this.messageRepository = messageRepository;
     }
     //Shows all the tasks for parents and tasks assigned for each user
     @GetMapping("/tasks")
@@ -39,6 +41,7 @@ public class TaskController {
         User user = userRepo.findById(loggedInUser.getId());
         Family family = familyRepo.findByCode(user.getFamily().getCode());
         model.addAttribute("instantMessage", new Message());
+        model.addAttribute("checkMessages", messageRepository.findUnreadMessages(loggedInUser.getId()));
         model.addAttribute("user", user);
         model.addAttribute("family", family);
         model.addAttribute("allTasks", dtService.sortTasksByDate((List<Task>)taskRepo.findAll()));
@@ -87,6 +90,7 @@ public class TaskController {
         User user = userRepo.findById(loggedInUser.getId());
         Family family = familyRepo.findByCode(user.getFamily().getCode());
         model.addAttribute("instantMessage", new Message());
+        model.addAttribute("checkMessages", messageRepository.findUnreadMessages(loggedInUser.getId()));
         model.addAttribute("user", user);
         model.addAttribute("family", family);
         model.addAttribute("task", task);
