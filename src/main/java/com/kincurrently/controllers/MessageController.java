@@ -7,6 +7,7 @@ import com.kincurrently.repositories.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -38,5 +39,14 @@ public class MessageController {
         messageRepository.save(instantMessage);
 
             return "redirect:/dashboard";
+        }
+
+        @GetMapping("/messages")
+    public String getMessages(Model model) {
+        User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        model.addAttribute("messages", messageRepository.findAllUsersMessages(current.getId()));
+
+        return"/messages/messages";
         }
 }

@@ -135,7 +135,7 @@ public class UserController {
         model.addAttribute("events", getCurrentEvents(family));
         model.addAttribute("tasksCreated", getCurrentTasks(taskRepository.findByCreatedUser(user.getId())));
         model.addAttribute("tasksDesignated", getCurrentTasks(taskRepository.findByDesignatedUser(user.getId())));
-        model.addAttribute("checkMessages", messageRepository.findAll());
+        model.addAttribute("checkMessages", messageRepository.findUnreadMessages(loggedInUser.getId()));
         return "users/dashboard";
     }
 
