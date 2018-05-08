@@ -40,6 +40,7 @@ public class MessageController {
 
         instantMessage.setUser(current);
         instantMessage.setMessageRecipients(messageRecipients);
+        instantMessage.setThread(current.getId());
         instantMessage.setCreated_on(new Date());
         messageRepository.save(instantMessage);
 
