@@ -140,7 +140,7 @@ public class UserDetailsLoader implements UserDetailsService {
         if(filename.trim().equals("")) {
             return null;
         }
-        String htmlfilepath = Paths.get("/img/", filename).toString();
+        String htmlfilepath = Paths.get("/uploads/", filename).toString();
         String filepath = Paths.get(uploadPath, filename).toString();
         File destinationFile = new File(filepath);
         try {
