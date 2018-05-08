@@ -34,6 +34,9 @@ $.each($('input[type="date"]'), (index, input) => {
     }
 });
 
+$('input[name="startDate"]').change(() => {
+    $('input[name="endDate"]').val($('input[name="startDate"]').val());
+});
 
 let changeEventView = () => {
     let startDate = new Date($('#searchStartDate').val());
@@ -162,14 +165,17 @@ $(document).ready(() => {
 });
 
 //hides time inputs for events if allday is checked
-$('input[type="time"]').parent().hide();
-$('#allDay').click(()=> {
-    $('#allDay').attr('checked', (index, attr) => {
-        return attr === "checked" ? null : "checked";
-    });
+let allDayCheck = () => {
     if($('#allDay').attr('checked')) {
         $('input[type="time"]').parent().hide();
     } else {
         $('input[type="time"]').parent().show();
     }
+};
+allDayCheck();
+$('#allDay').click(()=> {
+    $('#allDay').attr('checked', (index, attr) => {
+        return attr === "checked" ? null : "checked";
+    });
+    allDayCheck();
 });

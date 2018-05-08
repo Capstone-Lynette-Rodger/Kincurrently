@@ -134,7 +134,7 @@
                     lng = results[0].geometry.location.lng();
                     $('#mapContainer').show();
                     initMap();
-                    infoWindow = new google.maps.InfoWindow({content: "<h5>" + address + "</h5>"});
+                    infoWindow = new google.maps.InfoWindow({content: "<h6>" + address + "</h6>"});
                     marker.addListener("mouseover", function(){
                         infoWindow.open(map, marker);
                     });

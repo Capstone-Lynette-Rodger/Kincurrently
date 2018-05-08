@@ -51,23 +51,24 @@
                     </div>
                     <div class="row justify-content-md-center">
                         <div class="col-md-3">
-                            <input class="registrationInputs" type="date" name="startDate" th:required="required"/>
+                            <input class="registrationInputs" th:value="*{start_date}" type="date" name="startDate" th:required="required"/>
                         </div>
                         <div class="col-md-2">
-                            <input class="registrationInputs" type="time" name="startTime"/>
+                            <input class="registrationInputs" th:if="${event.end_time}" th:value="*{start_time}" type="time" name="startTime"/>
+                            <input class="registrationInputs" th:if="${event.end_time == null}" type="time" name="startTime"/>
                         </div>
                         <div>
                             <span> to </span>
                         </div>
                         <div class="col-md-2">
-                            <input class="registrationInputs" type="time" name="endTime"/>
+                            <input class="registrationInputs" th:value="*{end_time}" type="time" name="endTime"/>
                         </div>
                         <div class="col-md-3">
-                            <input class="registrationInputs" type="date" name="endDate" th:required="required"/>
+                            <input class="registrationInputs" type="date" th:value="*{end_date}" name="endDate" th:required="required"/>
                         </div>
                         <div>
-                            <label th:if="${start_time == null}"><input type="checkbox" name="allDay" id="allDay" checked="checked"/> All Day</label>
-                            <label th:if="${start_time}"><input type="checkbox" name="allDay" id="allDay"/> All Day</label>
+                            <label th:if="${event.end_time == null}"><input type="checkbox" name="allDay" id="allDay" checked="checked"/> All Day</label>
+                            <label th:if="${event.end_time}"><input type="checkbox" name="allDay" id="allDay"/> All Day</label>
                         </div>
                     </div>
                     <div class="row">
