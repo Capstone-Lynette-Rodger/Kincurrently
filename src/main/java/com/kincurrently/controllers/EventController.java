@@ -31,16 +31,18 @@ public class EventController {
     private final CategoryRepository categoryRepository;
     private DateTimeService dtService;
     private final UserRepository userRepo;
+    private final MessageRepository messageRepository;
 
     public EventController(EventRepository eventRepository, FamilyRepository familyRepository,
                            EventCommentRepository eventCommentRepository, DateTimeService dtService,
-                           CategoryRepository categoryRepository, UserRepository userRepo) {
+                           CategoryRepository categoryRepository, UserRepository userRepo, MessageRepository messageRepository) {
         this.eventRepository = eventRepository;
         this.familyRepository = familyRepository;
         this.eventCommentRepository = eventCommentRepository;
         this.dtService = dtService;
         this.categoryRepository = categoryRepository;
         this.userRepo = userRepo;
+        this.messageRepository = messageRepository;
     }
 
     @GetMapping("/events")
@@ -49,6 +51,7 @@ public class EventController {
         User user = userRepo.findById(current.getId());
         Family family = familyRepository.findByCode(user.getFamily().getCode());
         model.addAttribute("instantMessage", new Message());
+        model.addAttribute("checkMessages", messageRepository.findUnreadMessages(current.getId()));
         model.addAttribute("user", user);
         model.addAttribute("family", family);
         model.addAttribute("events", dtService.sortEventsByDate(eventRepository.findByFamilyId(current.getFamily().getId())));
@@ -81,6 +84,7 @@ public class EventController {
         model.addAttribute("user", user);
         model.addAttribute("family", family);
         model.addAttribute("instantMessage", new Message());
+        model.addAttribute("checkMessages", messageRepository.findUnreadMessages(current.getId()));
         model.addAttribute("event", eventRepository.findOne(id));
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
