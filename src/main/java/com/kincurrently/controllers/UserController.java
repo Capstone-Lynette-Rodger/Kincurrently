@@ -34,10 +34,12 @@ public class UserController {
     private DateTimeService dtService;
     private EventRepository eventRepository;
     private TaskRepository taskRepository;
+    private MessageRepository messageRepository;
 
     public UserController(UserRepository userRepo, PasswordEncoder passwordEncoder,
                           UserDetailsLoader userService, Roles rolesRepo, FamilyRepository familyRepo,
-                          DateTimeService dtService, EventRepository eventRepository, TaskRepository taskRepository) {
+                          DateTimeService dtService, EventRepository eventRepository, TaskRepository taskRepository,
+                          MessageRepository messageRepository) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
@@ -46,6 +48,7 @@ public class UserController {
         this.dtService = dtService;
         this.eventRepository = eventRepository;
         this.taskRepository = taskRepository;
+        this.messageRepository = messageRepository;
     }
 
     @GetMapping("/")
@@ -132,6 +135,7 @@ public class UserController {
         model.addAttribute("events", getCurrentEvents(family));
         model.addAttribute("tasksCreated", getCurrentTasks(taskRepository.findByCreatedUser(user.getId())));
         model.addAttribute("tasksDesignated", getCurrentTasks(taskRepository.findByDesignatedUser(user.getId())));
+        model.addAttribute("checkMessages", messageRepository.findAll());
         return "users/dashboard";
     }
 

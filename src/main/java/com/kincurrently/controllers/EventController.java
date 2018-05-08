@@ -80,6 +80,7 @@ public class EventController {
         Family family = familyRepository.findByCode(user.getFamily().getCode());
         model.addAttribute("user", user);
         model.addAttribute("family", family);
+        model.addAttribute("instantMessage", new Message());
         model.addAttribute("event", eventRepository.findOne(id));
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
