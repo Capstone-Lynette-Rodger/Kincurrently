@@ -17,25 +17,25 @@
                 <form class="form" th:action="@{/tasks/edit}" method="POST" th:object="${task}">
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="registrationLabels">Title</label><br/>
+                            <label>Title</label>
                             <input class="registrationInputs" type="text" th:field="*{title}" th:required="required"/>
                             <p class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />
                         </div>
                         <div class="col-md-6">
-                            <label class="registrationLabels">Deadline </label><br/>
+                            <label>Deadline </label>
                             <input class="registrationInputs" type="date" th:value="*{completed_by}" name="completed_by" th:required="required"/>
                             <p class="text-danger" th:if="${#fields.hasErrors('completed_by')}" th:errors="*{completed_by}" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <label class="registrationLabels">Description </label>
+                            <label>Description </label>
                             <input class="registrationDescription" type="text" th:field="*{description}" />
                             <p class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}" />
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-8">
                             <p class="mb-3">Categories</p>
                             <span th:each="category : ${categories}" class="category">
                                 <input type="checkbox" th:id="${category.name}" class="check-with-label" th:field="*{categories}" th:value="${category.id}"/>
@@ -43,12 +43,12 @@
 
                             </span>
                         </div>
-                        <div class="col-md-5">
-                            <div class="input-group mt-4">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="editDesignatedUser">Task For</label>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="editDesignatedUser">Task For</label>
                                 </div>
-                                <select class="custom-select" th:field="*{designated_user}" id="editDesignatedUser">
+                                <select class="form-control" th:field="*{designated_user}" id="editDesignatedUser">
                                     <div th:each="member : ${family.users}">
                                         <option th:if="${member.title == null}" th:value="${member.id}" th:text="${member.firstName}"></option>
                                         <option th:if="${member.title}" th:value="${member.id}" th:text="${member.title}"></option>

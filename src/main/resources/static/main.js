@@ -162,14 +162,14 @@ $(document).ready(() => {
 });
 
 //hides time inputs for events if allday is checked
-$('input[type="time"]').hide();
+$('input[type="time"]').parent().hide();
 $('#allDay').click(()=> {
     $('#allDay').attr('checked', (index, attr) => {
         return attr === "checked" ? null : "checked";
     });
     if($('#allDay').attr('checked')) {
-        $('input[type="time"]').hide();
+        $('input[type="time"]').parent().hide();
     } else {
-        $('input[type="time"]').show();
+        $('input[type="time"]').parent().show();
     }
 });

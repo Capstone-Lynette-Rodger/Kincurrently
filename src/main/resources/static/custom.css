@@ -199,7 +199,7 @@ textarea {
     margin: .25rem 0;
 }
 .category {
-    padding: .5rem;
+    padding: 0 .5rem;
 }
 .category span {
     border: 1px solid #A1FBFD;
