@@ -60,7 +60,7 @@
                                 </div>
                                 <div class="col-9">
                                     <p class="comment" th:utext="${taskComment.commentBody}"></p>
-                                    <h5 class="text-info"><i class="far fa-calendar-alt"></i> <span th:text="${taskComment.created_on}" class="fullDate"></span></h5>
+                                    <h6 class="text-info"><i class="far fa-calendar-alt"></i> <span th:text="${taskComment.created_on}" class="fullDate"></span></h6>
                                     <h6 th:if="${taskComment.user.id == #authentication.principal.id}">
                                         <a th:href="@{/tasks/comment/{id}/edit(id=${taskComment.id})}"><i class="far fa-edit"></i> Edit Comment</a>
                                     </h6>

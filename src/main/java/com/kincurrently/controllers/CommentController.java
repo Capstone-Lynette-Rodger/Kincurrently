@@ -34,6 +34,7 @@ public class CommentController {
     @PostMapping("/events/comment")
     public String addComment(@RequestParam(name = "eventId") long id, EventComment eventComment) {
         User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        eventComment.setCreated_on(new Date());
         eventComment.setEvent(eventRepository.findOne(id));
         eventComment.setUser(current);
         eventCommentRepository.save(eventComment);

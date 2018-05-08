@@ -58,11 +58,10 @@
                         </div>
                     </div>
                     <div class="row">
-                        <!--Creating or Joining a Family-->
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="registrationLabels"><input class="registrationInputs" type="checkbox" name="joinFamily" id="joinIfExisting"/>Join an existing family?</label><br/>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label for="chooseRole">Kin Relationship: </label>
                             <select name="chooseRole" id="chooseRole">
                                 <option value="PARENT" selected="selected">Grown Kin</option>
@@ -70,7 +69,8 @@
                                 <option value="CARETAKER">Caretaker</option>
                             </select>
                         </div>
-
+                    </div>
+                    <div class="row">
                         <div id="showForNewFamily" class="col-md-6">
                             <label class="registrationLabels" for="family">Family Name</label><br/>
                             <input class="registrationInputs" id="family" th:value="*{family.name}" name="name" placeholder="e.g., Smith, Sanchez, etc." />
@@ -84,9 +84,8 @@
                         </div>
                     </div>
                     <div class="row justify-content-center">
-                        <input class="registrationButton col-md-4 col-md-offset-4" value="Sign me up!" type="submit"/>
+                        <input class="btn btn-outline-info col-md-4 col-md-offset-4" value="Sign me up!" type="submit"/>
                     </div>
-
                 </form>
         </div>
     </div>
