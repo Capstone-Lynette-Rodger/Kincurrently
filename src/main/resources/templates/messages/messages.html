@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="partials/header :: header (Events)"></head>
 <body>
+
+<div th:replace="partials/navbar :: navbar"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 dashboardBlock" th:each=" message : ${messages}">
+            <div th:text="${message.body}"></div>
+            <div th:text="${message.user.firstName}"></div>
+            <div th:text="${message.messageRecipients.get(0).firstName}"></div>
+        </div>
+    </div>
+</div>
+
+
+<footer th:replace="partials/footer :: footer"></footer>
 
 </body>
 </html>
