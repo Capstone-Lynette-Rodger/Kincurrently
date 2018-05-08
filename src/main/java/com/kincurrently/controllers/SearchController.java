@@ -18,10 +18,12 @@ public class SearchController {
 
     private final EventRepository eventRepository;
     private final TaskRepository taskRepository;
+    private final CategoryRepository catRepo;
 
-    public SearchController(EventRepository eventRepository, TaskRepository taskRepository) {
+    public SearchController(EventRepository eventRepository, TaskRepository taskRepository, CategoryRepository catRepo) {
         this.eventRepository = eventRepository;
         this.taskRepository = taskRepository;
+        this.catRepo = catRepo;
     }
 
 
@@ -55,7 +57,8 @@ public class SearchController {
                 model.addAttribute("allTasks", taskRepository.findByCategories(searchCategory, search));
             }
         }
-        model.addAttribute("search", search);
+        model.addAttribute("categories", catRepo.findAll());
+        model.addAttribute("searchTerm", search);
         return "/search/searchResults";
     }
 }

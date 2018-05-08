@@ -35,11 +35,12 @@ public class UserController {
     private EventRepository eventRepository;
     private TaskRepository taskRepository;
     private MessageRepository messageRepository;
+    private CategoryRepository catRepo;
 
     public UserController(UserRepository userRepo, PasswordEncoder passwordEncoder,
                           UserDetailsLoader userService, Roles rolesRepo, FamilyRepository familyRepo,
                           DateTimeService dtService, EventRepository eventRepository, TaskRepository taskRepository,
-                          MessageRepository messageRepository) {
+                          MessageRepository messageRepository, CategoryRepository catRepo) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
@@ -49,6 +50,7 @@ public class UserController {
         this.eventRepository = eventRepository;
         this.taskRepository = taskRepository;
         this.messageRepository = messageRepository;
+        this.catRepo = catRepo;
     }
 
     @GetMapping("/")
@@ -128,6 +130,7 @@ public class UserController {
         List<String> message = getNotifications(user);
 
         dtService.sortEventsByDate(eventRepository.findByFamilyId(family.getId()));
+        model.addAttribute("categories", catRepo.findAll());
         model.addAttribute("user", user);
         model.addAttribute("family", family);
         model.addAttribute("messageList", message);
