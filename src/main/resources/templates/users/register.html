@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials/header :: header('Kincurrently')"/>
+<head th:replace="partials/header :: header('Register')"/>
 <body>
 <div th:replace="partials/navbar :: navbar"></div>
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class = "col-md-6 col-md-offset-3 regFormContainer">
-            <h2 class="text-center">Create Account</h2>
+        <div class = "col-md-6 col-md-offset-3 dashboardBlock">
+            <h2 class="text-center homePageText">Create Account</h2>
             <hr />
                 <form th:action="@{/register}" method="POST">
                     <div class="row">

@@ -6,14 +6,11 @@
 
 <div th:replace="partials/navbar :: navbar"></div>
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-md-offset-3 text-center">
-            <h1 class="homePageText">Edit Event</h1>
-        </div>
-    </div>
     <div class="row">
         <div class="col-md-10 offset-md-1">
             <div class="dashboardBlock">
+                <h2 class="text-center homePageText">Edit Event</h2>
+                <hr />
                 <form class="form" th:action="@{/events/edit}" method="POST" th:object="${event}">
                     <div class="row">
                         <div class="col-md-6">
