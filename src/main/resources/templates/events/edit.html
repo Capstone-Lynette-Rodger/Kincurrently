@@ -41,8 +41,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div th:if="${event.address}" class="col">
-                            <div th:if="${!event.address.equalsIgnoreCase('')}" id="mapContainer">
+                        <div class="col">
+                            <div id="mapContainer">
                                 <div class="mapBox">
                                     <div id="map"></div>
                                 </div>
@@ -157,6 +157,7 @@
 <footer th:replace="partials/footer :: footer"></footer>
 <!--<div th:include="partials/googlemaps :: googlemaps"></div>-->
 
+<script th:src="@{https://maps.googleapis.com/maps/api/js(key=${api})}"></script>
 <script>
     "use strict";
 
@@ -185,7 +186,7 @@
         var geocoder = new google.maps.Geocoder();
 
         geocoder.geocode({"address": address}, function (results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
+            if (status === google.maps.GeocoderStatus.OK) {
                 lat = results[0].geometry.location.lat();
                 lng = results[0].geometry.location.lng();
                 $('#mapContainer').show();
@@ -218,7 +219,6 @@
 </script>
 
 
-<script th:src="@{https://maps.googleapis.com/maps/api/js(key=${api})}"></script>
 
 </body>
 </html>
