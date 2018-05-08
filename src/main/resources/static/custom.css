@@ -235,3 +235,11 @@ textarea {
 .label-for-check.category span{
     cursor: pointer;
 }
+
+.messageModal {
+    color: black;
+}
+
+.messageInput {
+    width: 95%;
+}

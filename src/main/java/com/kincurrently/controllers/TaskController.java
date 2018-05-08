@@ -86,6 +86,7 @@ public class TaskController {
         Task task = taskRepo.findById(id);
         User user = userRepo.findById(loggedInUser.getId());
         Family family = familyRepo.findByCode(user.getFamily().getCode());
+        model.addAttribute("instantMessage", new Message());
         model.addAttribute("user", user);
         model.addAttribute("family", family);
         model.addAttribute("task", task);
