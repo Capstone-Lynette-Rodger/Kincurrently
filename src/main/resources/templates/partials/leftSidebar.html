@@ -40,9 +40,33 @@
                             </div>
                         </div>
                         <div class="col-8">
-                            <h5 th:if="${member.title}" th:text="${member.title}"></h5>
+                            <h5 th:if="${member.title}" th:text="${member.title}"></h5><i class="fas fa-comment" data-toggle="modal" th:attr="data-target='#'+ ${member.id}"></i>
                             <h5 th:text="${member.firstName + ' ' + member.lastName}"></h5>
                             <h5><i class="fas fa-birthday-cake"></i> <span class="birthDate" th:text="${member.birthdate}"></span></h5>
+                        </div>
+                    </div>
+                    <div class="modal fade" th:id="${member.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Send <span th:text="${member.title}"></span> a message </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form th:action="@{/send/message}" method="post" th:object="${instantMessage}">
+                                    <div class="modal-body">
+                                        <textarea class="textArea" th:field="*{body}">
+
+                                        </textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="hidden" th:value="${member.id}" name="messageRecipients" />
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Send</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <hr/>

@@ -38,6 +38,7 @@ public class TaskController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepo.findById(loggedInUser.getId());
         Family family = familyRepo.findByCode(user.getFamily().getCode());
+        model.addAttribute("instantMessage", new Message());
         model.addAttribute("user", user);
         model.addAttribute("family", family);
         model.addAttribute("allTasks", dtService.sortTasksByDate((List<Task>)taskRepo.findAll()));
