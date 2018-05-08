@@ -128,6 +128,7 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("family", family);
         model.addAttribute("messageList", message);
+        model.addAttribute("instantMessage", new Message());
         model.addAttribute("events", getCurrentEvents(family));
         model.addAttribute("tasksCreated", getCurrentTasks(taskRepository.findByCreatedUser(user.getId())));
         model.addAttribute("tasksDesignated", getCurrentTasks(taskRepository.findByDesignatedUser(user.getId())));

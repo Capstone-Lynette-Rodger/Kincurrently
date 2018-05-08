@@ -51,6 +51,9 @@ public class Message {
         this.created_on = created_on;
     }
 
+    public Message() {
+    }
+
     public Date getCreated_on() {
         return created_on;
     }

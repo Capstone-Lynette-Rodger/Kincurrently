@@ -48,6 +48,7 @@ public class EventController {
         User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepo.findById(current.getId());
         Family family = familyRepository.findByCode(user.getFamily().getCode());
+        model.addAttribute("instantMessage", new Message());
         model.addAttribute("user", user);
         model.addAttribute("family", family);
         model.addAttribute("events", dtService.sortEventsByDate(eventRepository.findByFamilyId(current.getFamily().getId())));
