@@ -4,10 +4,12 @@ package com.kincurrently.models;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
 import static javax.persistence.TemporalType.DATE;
+import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
 @Table(name="messages")
@@ -25,8 +27,8 @@ public class Message {
     private String body;
 
     @Column(nullable=false)
-    @Temporal(DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TIMESTAMP)
+    @DateTimeFormat
     private Date created_on;
 
     @Column

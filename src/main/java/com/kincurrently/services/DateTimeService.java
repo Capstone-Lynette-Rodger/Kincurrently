@@ -1,6 +1,7 @@
 package com.kincurrently.services;
 
 import com.kincurrently.models.Event;
+import com.kincurrently.models.Message;
 import com.kincurrently.models.Task;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +54,11 @@ public class DateTimeService {
     public List<Event> sortEventsByDate(List<Event> events) {
         events.sort(Comparator.comparing(Event::getStart_date).thenComparing(Event::getStart_time));
         return events;
+    }
+
+    public List<Message> sortMessagesByDateTime(List<Message> messages) {
+        messages.sort(Comparator.comparing(Message::getCreated_on));
+        return messages;
     }
 
     public Date addDays(Date date, int days) {
