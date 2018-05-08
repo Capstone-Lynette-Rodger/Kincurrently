@@ -32,6 +32,9 @@ public class Message {
     private Date created_on;
 
     @Column
+    private Long thread;
+
+    @Column
     private boolean messageRead = false;
 
     public void readMessage() {
@@ -55,6 +58,7 @@ public class Message {
 
     public Message() {
     }
+
 
     public Date getCreated_on() {
         return created_on;
