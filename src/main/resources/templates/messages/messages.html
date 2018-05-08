@@ -7,12 +7,13 @@
 <div th:replace="partials/navbar :: navbar"></div>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-6 dashboardBlock" th:each=" message : ${messages}">
-            <div th:text="${message.body}"></div>
-            <div th:text="${message.user.firstName}"></div>
-            <div th:text="${message.messageRecipients.get(0).firstName}"></div>
-        </div>
+    <div class="row" th:each="member: ${family.users}">
+        <h1 class="col-md-12 dashboardBlock" th:text="${member.title}" style="color: white"></h1>
+            <div class="col-md-12 dashboardBlock" th:each=" message : ${messages}" th:if="${message.user.id == member.id or message.messageRecipients.get(0).id == member.id}">
+                <div th:text="${message.body}"></div>
+                <div th:text="${message.user.firstName}"></div>
+                <div th:text="${message.messageRecipients.get(0).firstName}"></div>
+            </div>
     </div>
 </div>
 

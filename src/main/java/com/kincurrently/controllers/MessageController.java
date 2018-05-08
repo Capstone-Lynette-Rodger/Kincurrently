@@ -1,9 +1,12 @@
 package com.kincurrently.controllers;
 
+import com.kincurrently.models.Family;
 import com.kincurrently.models.Message;
 import com.kincurrently.models.User;
+import com.kincurrently.repositories.FamilyRepository;
 import com.kincurrently.repositories.MessageRepository;
 import com.kincurrently.repositories.UserRepository;
+import com.kincurrently.services.DateTimeService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +23,14 @@ public class MessageController {
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final FamilyRepository familyRepository;
+    private DateTimeService dtService;
 
-    public MessageController(MessageRepository messageRepository, UserRepository userRepository) {
+    public MessageController(MessageRepository messageRepository, UserRepository userRepository, FamilyRepository familyRepository, DateTimeService dtService) {
         this.messageRepository = messageRepository;
         this.userRepository = userRepository;
+        this.familyRepository = familyRepository;
+        this.dtService = dtService;
     }
 
     @PostMapping("/send/message")
@@ -34,18 +41,18 @@ public class MessageController {
         instantMessage.setUser(current);
         instantMessage.setMessageRecipients(messageRecipients);
         instantMessage.setCreated_on(new Date());
-        System.out.println("current = " + current);
-        System.out.println("messageRecipients = " + messageRecipients);
         messageRepository.save(instantMessage);
 
             return "redirect:/dashboard";
         }
 
-        @GetMapping("/messages")
-    public String getMessages(Model model) {
+    @GetMapping("/messages")
+        public String getMessages(Model model) {
         User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        model.addAttribute("messages", messageRepository.findAllUsersMessages(current.getId()));
+        Family family = familyRepository.findByCode(current.getFamily().getCode());
+        model.addAttribute("family", family);
+        model.addAttribute("messages", dtService.sortMessagesByDateTime(messageRepository.findAllUsersMessages(current.getId())));
 
         return"/messages/messages";
         }
