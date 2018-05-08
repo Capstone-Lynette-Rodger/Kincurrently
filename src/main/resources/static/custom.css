@@ -19,9 +19,6 @@ p {
     margin-bottom: 1.75rem;
     color: white;
 }
-.searchBox {
-    color: white;
-}
 .iconHeader {
     margin-top: 10px;
 }
@@ -38,7 +35,7 @@ p {
 }
 
 .registrationLabels {
-    margin-bottom: 2px;
+    margin-bottom: .25rem;
 }
 
 .registrationInputs {
@@ -145,6 +142,9 @@ textarea {
 .text-primary {
     color: #2c2a57!important;
 }
+.text-danger {
+    color: #ff3f51;
+}
 .btn-outline-info {
     color: #A1FBFD;
     border-color: #A1FBFD;
@@ -226,16 +226,21 @@ textarea {
 .text-white {
     color: white;
 }
-.check-with-label:checked + input +.label-for-check{
+.text-gray {
+    color: #b7b3b3;
+}
+.check-with-label:checked + input +.label-for-check {
     font-weight: 800;
+}
+.check-with-label:checked + .label-for-check {
+    color: #a1fbfd;
 }
 .check-with-label {
     display:none;
 }
-.label-for-check.category span{
+.label-for-check{
     cursor: pointer;
 }
-
 .messageModal {
     color: black;
 }

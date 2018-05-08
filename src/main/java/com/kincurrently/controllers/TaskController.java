@@ -80,6 +80,9 @@ public class TaskController {
         Task task = taskRepo.findById(taskId);
         task.setStatus(statusRepo.findOne(task.getStatus().getId()+1));
         taskRepo.save(task);
+        if(task.getStatus().getId() == 4) {
+            return "redirect:/dashboard";
+        }
         return "redirect:/tasks";
     }
 

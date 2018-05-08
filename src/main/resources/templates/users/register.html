@@ -59,15 +59,18 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="registrationLabels"><input class="registrationInputs" type="checkbox" name="joinFamily" id="joinIfExisting"/>Join an existing family?</label><br/>
+                            <div class="form-group">
+                                <label for="chooseRole" class="mb-1">Kinship</label>
+                                <select class="form-control" name="chooseRole" id="chooseRole">
+                                    <option value="PARENT" selected="selected">Grown Kin</option>
+                                    <option value="CHILD">Mini Kin</option>
+                                    <option value="CARETAKER">Caretaker</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="chooseRole">Kin Relationship: </label>
-                            <select name="chooseRole" id="chooseRole">
-                                <option value="PARENT" selected="selected">Grown Kin</option>
-                                <option value="CHILD">Mini Kin</option>
-                                <option value="CARETAKER">Caretaker</option>
-                            </select>
+                        <div class="col-md-6 pt-4 mt-2">
+                            <input type="checkbox" name="joinFamily" id="joinIfExisting"/>
+                            <label class="registrationLabels" for="joinIfExisting">Join an existing family?</label>
                         </div>
                     </div>
                     <div class="row">
@@ -78,8 +81,8 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label class="registrationLabels code" for="password">FamilyCode</label><br/>
-                            <input class="registrationInputs" id="code" th:value="*{family.code}" name="code" placeholder="Secret Family Code." /> <br/>
+                            <label class="registrationLabels code" for="password">Family Code</label><br/>
+                            <input class="registrationInputs" id="code" th:value="*{family.code}" name="code" placeholder="Secret Family Code" /> <br/>
                             <p class="text-danger" th:if="${#fields.hasErrors('family.code')}" th:errors="*{family.code}" />
                         </div>
                     </div>

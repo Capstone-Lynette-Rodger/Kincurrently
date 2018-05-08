@@ -4,23 +4,32 @@
 <head th:replace="partials/header :: header (Events)"></head>
 <body>
 
-<div th:fragment="searchbar" class="container">
+<div th:fragment="searchbar">
     <div class="row">
-        <div class="searchBox">
-            <form th:action="@{/search/results}" method="get">
-                <label for="searchTerm">Search:</label>
-                <input type="text" id="searchTerm" name="searchTerm" placeholder="Keyword(s)" />
-
-                <label>Events<input type="checkbox" id="searchEvents" name="searchEvents" /></label>
-                <label sec:authorize="hasRole('ROLE_PARENT')" for="searchTasks">Tasks<input type="checkbox" id="searchTasks" name="searchTasks" /></label>
-
-                <select id="searchCategories" name="searchCategories">
-                    <option Value="ALL">All Categories</option>
-                    <option value="CHORE">Chore</option>
-                    <option value="PARTY">Party</option>
-                </select>
-                <button>Submit</button>
-            </form>
+        <div class="col justify-content-md-center">
+            <div class="dashboardBlock">
+                <form th:action="@{/search/results}" method="GET" class="row">
+                    <div class="col-md-6 pt-2 mt-1 mb-0">
+                        <input type="text" id="searchTerm" name="searchTerm" placeholder="Search" class="registrationInputs py-1" />
+                    </div>
+                    <div>
+                        <input type="checkbox" id="searchEvents" name="searchEvents" class="check-with-label" checked="checked"/>
+                        <label for="searchEvents" class="label-for-check text-gray"><i class="fas fa-check"></i> Events</label><br/>
+                        <input type="checkbox" id="searchTasks" name="searchTasks" class="check-with-label" checked="checked"/>
+                        <label for="searchTasks" class="label-for-check text-gray"><i class="fas fa-check"></i> Tasks</label>
+                    </div>
+                    <div class="form-group col-md-3 pt-2 mt-1 mb-0">
+                        <select class="form-control" id="searchCategories" name="searchCategories">
+                            <option Value="ALL">All Categories</option>
+                            <option value="CHORE">Chore</option>
+                            <option value="PARTY">Party</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 text-center pt-2 mt-1 mb-0">
+                        <button class="btn btn-outline-info">Search!</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
