@@ -10,7 +10,7 @@
             <div class="dashboardBlock">
                 <form th:action="@{/search/results}" method="GET" class="row">
                     <div class="col-md-6 pt-2 mt-1 mb-0">
-                        <input type="text" id="searchTerm" name="searchTerm" placeholder="Search" class="registrationInputs py-1" />
+                        <input type="text" id="searchTerm" name="searchTerm" placeholder="Search" class="registrationInputs py-1" th:value="${searchTerm}"/>
                     </div>
                     <div>
                         <input type="checkbox" id="searchEvents" name="searchEvents" class="check-with-label" checked="checked"/>
@@ -20,9 +20,8 @@
                     </div>
                     <div class="form-group col-md-3 pt-2 mt-1 mb-0">
                         <select class="form-control" id="searchCategories" name="searchCategories">
-                            <option Value="ALL">All Categories</option>
-                            <option value="CHORE">Chore</option>
-                            <option value="PARTY">Party</option>
+                            <option value="ALL">All</option>
+                            <option th:each="category : ${categories}" class="text-capitalize"><span th:value="${category.name}" th:text="${category.name}"></span></option>
                         </select>
                     </div>
                     <div class="col-md-2 text-center pt-2 mt-1 mb-0">

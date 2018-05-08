@@ -18,7 +18,7 @@
                 <div class="col">
                     <div class="dashboardBlock" th:if="${messageList.size() != 0}">
                         <div th:each="message : ${messageList}">
-                            <h5 class="col text-center text-danger" th:text="${message}"></h5>
+                            <h5 class="col text-center" th:text="${message}"></h5>
                         </div>
                     </div>
                 </div>
