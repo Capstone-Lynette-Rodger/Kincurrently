@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<head th:replace="partials/header :: header (Events)"></head>
+<head th:replace="partials/header :: header ('Edit Task')"></head>
 <body>
 
 <div th:replace="partials/navbar :: navbar"></div>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 col-md-offset-3 text-center">
-            <h1 class="homePageText">Edit Event</h1>
+            <h1 class="homePageText">Edit Task</h1>
         </div>
     </div>
     <div class="row">
@@ -17,37 +17,34 @@
                 <form class="form" th:action="@{/tasks/edit}" method="POST" th:object="${task}">
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="registrationLabels">Title:</label><br/>
+                            <label class="registrationLabels">Title</label><br/>
                             <input class="registrationInputs" type="text" th:field="*{title}" th:required="required"/>
                             <p class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />
                         </div>
                         <div class="col-md-6">
-                            <label class="registrationLabels">Deadline: </label><br/>
+                            <label class="registrationLabels">Deadline </label><br/>
                             <input class="registrationInputs" type="date" th:value="*{completed_by}" name="completed_by" th:required="required"/>
                             <p class="text-danger" th:if="${#fields.hasErrors('completed_by')}" th:errors="*{completed_by}" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <label class="registrationLabels">Description: </label>
+                            <label class="registrationLabels">Description </label>
                             <input class="registrationDescription" type="text" th:field="*{description}" />
                             <p class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}" />
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3 text-right">
-                            <h5>Categories</h5>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check" th:each="category : ${categories}">
-                                <input class="form-check-input" type="checkbox" th:field="*{categories}" th:value="${category.id}"/>
-                                <label class="form-check-label">
-                                    <span class="categories" th:text="${category.name}"></span>
-                                </label>
-                            </div>
+                        <div class="col-md-7">
+                            <p class="mb-3">Categories</p>
+                            <span th:each="category : ${categories}" class="category">
+                                <input type="checkbox" th:id="${category.name}" class="check-with-label" th:field="*{categories}" th:value="${category.id}"/>
+                                <label th:for="${category.name}" class="label-for-check category"><span th:text="${category.name}"></span></label>
+
+                            </span>
                         </div>
                         <div class="col-md-5">
-                            <div class="input-group mt-3">
+                            <div class="input-group mt-4">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="editDesignatedUser">Task For</label>
                                 </div>
@@ -70,7 +67,7 @@
                     </div>
                 </form>
             </div>
-            <input class="registrationButton col-md-4 offset-md-4 mt-5" value="Delete Task" type="button" id="showDeleteForm"/>
+            <button class="btn btn-outline-info col-md-4 offset-md-4 mt-5"  id="showDeleteForm">Delete Task</button>
         </div>
     </div>
 </div>

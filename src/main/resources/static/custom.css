@@ -213,7 +213,6 @@ textarea {
     width: 100%;
     height: auto;
 }
-
 .mapBox {
     height: 15rem;
     width: 100%;
@@ -221,11 +220,19 @@ textarea {
     margin: 1.5rem 0;
     color:#2c2a57;
 }
-
 #map {
     height: 100%;
 
 }
 .text-white {
     color: white;
-  }
+}
+.check-with-label:checked + input +.label-for-check{
+    font-weight: 800;
+}
+.check-with-label {
+    display:none;
+}
+.label-for-check.category span{
+    cursor: pointer;
+}
