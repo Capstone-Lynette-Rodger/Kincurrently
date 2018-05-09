@@ -49,7 +49,7 @@ public class TaskController {
         model.addAttribute("checkMessages", messageRepository.findUnreadMessages(loggedInUser.getId()));
         model.addAttribute("user", user);
         model.addAttribute("family", family);
-        model.addAttribute("allTasks", dtService.sortTasksByDate((List<Task>)taskRepo.findAll()));
+        model.addAttribute("allTasks", dtService.sortTasksByDate(taskRepo.findTasksByFamily(family)));
         model.addAttribute("myTasks", dtService.sortTasksByDate(taskRepo.findByDesignatedUser(loggedInUser.getId())));
         return "tasks/tasks";
     }

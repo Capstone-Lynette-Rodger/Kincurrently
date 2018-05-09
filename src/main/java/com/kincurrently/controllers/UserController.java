@@ -55,11 +55,11 @@ public class UserController {
 
     @GetMapping("/")
     public String showMainPage() {
-        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == null) {
+//        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() == null) {
             return "index";
-        } else {
-            return "redirect:/dashboard";
-        }
+//        } else {
+//            return "redirect:/dashboard";
+//        }
     }
 
 

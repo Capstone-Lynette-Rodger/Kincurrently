@@ -47,26 +47,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 /*Pages that require a specific role */
                 .and()
                 .authorizeRequests()
-                .antMatchers("/child/register", "/tasks/create", "/events", "/events/create")
+                .antMatchers("/child/register",
+                        "/tasks/create")
                 .hasAuthority("ROLE_PARENT")
-                /* Pages that require authentication */
-                /*Pages that require a specific role */
-                .and()
-                .authorizeRequests()
-                .antMatchers("/tasks/create")
-                .hasAuthority("ROLE_CARETAKER")
-                /* Pages that require authentication */
-                /*Pages that require a specific role */
-                .and()
-                .authorizeRequests()
-                .antMatchers("/events", "/events/create")
-                .hasAuthority("ROLE_CHILD")
                 /* Pages that require athentication */
                 .and()
                 .authorizeRequests()
                 .antMatchers(
                         "/dashboard", // only authenticated users can view dashboard
-                        "/tasks", "/tasks/{id}"
+                        "/register/child",// only authenticated users can register children
+                        "/tasks", "/tasks/{id}",
+                        "/events", "/events/create"
                 )
                 .authenticated()
                 /* Pages that can be viewed without having to log in */
