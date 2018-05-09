@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" sec:authorize="hasAnyRole('ROLE_PARENT, ROLE_CHILD')">
                 <div class="col">
                     <div class="dashboardBlock">
                         <h3 class="text-center">Upcoming Family Events</h3>
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row" sec:authorize="hasRole('ROLE_PARENT')">
+            <div class="row" sec:authorize="hasAnyRole('ROLE_PARENT, ROLE_CARETAKER')">
                 <div class="col-md-6">
                     <div class="dashboardBlock">
                         <h3 class="text-center">My Due Tasks</h3>
@@ -77,7 +77,7 @@
                         <h3 class="text-center">My Tasks</h3>
                         <div class="col clearfix"  th:if="${tasksDesignated.size() > 0}" th:each="task : ${tasksDesignated}">
                             <h5 class="dashboardGrid"><i class="far fa-calendar-times"></i> Due <span class="changeDate" th:text="${task.completed_by}"></span></h5>
-                            <a th:href="@{/tasks/{id}(id = ${task.id})}"><h5><span th:text="${task.title}"></span> <i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner fa-spin"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i></h5></a>
+                            <a th:href="@{/tasks/{id}(id = ${task.id})}"><h5><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner fa-spin"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span> </h5></a>
                             <h5 th:if="${task.creator.title}"><i class="fas fa-user-alt"></i> From <span class="text-capitalize" th:text="${task.creator.title}"></span></h5>
                             <h5 th:if="${task.creator.title == null}"><i class="fas fa-user-alt"></i> From <span class="text-capitalize" th:text="${task.creator.firstName}"></span></h5>
                         </div>

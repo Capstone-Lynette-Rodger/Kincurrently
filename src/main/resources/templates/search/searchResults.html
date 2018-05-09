@@ -50,6 +50,24 @@
                     </div>
                 </div>
             </div>
+            <div class="dashboardBlock" th:if="${allTasks}" sec:authorize="hasRole('ROLE_CHILD')">
+                <div class="col-md-8 offset-md-2">
+                    <h2 class="text-center">Tasks</h2>
+                    <div class="col" th:if="${task.status.id != 4 and task.designated_user.id == #authentication.principal.id}" th:each="task : ${allTasks}">
+                        <h5 class="dashboardGrid"><i class="far fa-calendar-times"></i> Due <span class="fullDate due" th:text="${task.completed_by}"></span><span th:text="${task.completed_by}" hidden="hidden" class="date task"></span></h5>
+                        <a th:href="@{/tasks/{id}(id = ${task.id})}" class="float-right"><h5><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner fa-spin"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span></h5></a>
+                        <h5><i class="far fa-calendar-alt"></i> <span th:if="${task.creator.title}"><span class="text-capitalize" th:text="${task.creator.title}"></span></span><span th:if="${task.creator.title == null}"><span class="text-capitalize" th:text="${task.creator.firstName}"></span></span>
+                            assigned this to
+                            <span th:if="${task.designated_user.title}" class="text-capitalize" th:text="${task.designated_user.title}"></span>
+                            <span th:if="${task.designated_user.title == null}" class="text-capitalize" th:text="${task.designated_user.firstName}"></span>
+                            on <span th:text="${task.created_on}" class="changeDate"></span>
+                        </h5>
+                    </div>
+                    <div th:if="${allTasks.size() == 0}">
+                        <p class="text-center">No Task Results</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

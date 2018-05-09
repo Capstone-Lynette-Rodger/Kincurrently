@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class TaskController {
@@ -23,8 +24,9 @@ public class TaskController {
     private FamilyRepository familyRepo;
     private UserRepository userRepo;
     private MessageRepository messageRepository;
+    private Roles rolesRepo;
 
-    public TaskController(TaskRepository taskRepo, DateTimeService dtService, StatusRepository statusRepo, TaskCommentRepository tcRepo, CategoryRepository catRepo, FamilyRepository familyRepo, UserRepository userRepo, MessageRepository messageRepository) {
+    public TaskController(TaskRepository taskRepo, DateTimeService dtService, StatusRepository statusRepo, TaskCommentRepository tcRepo, CategoryRepository catRepo, FamilyRepository familyRepo, UserRepository userRepo, MessageRepository messageRepository, Roles rolesRepo) {
         this.taskRepo = taskRepo;
         this.dtService = dtService;
         this.statusRepo = statusRepo;
@@ -33,6 +35,7 @@ public class TaskController {
         this.familyRepo = familyRepo;
         this.userRepo = userRepo;
         this.messageRepository = messageRepository;
+        this.rolesRepo = rolesRepo;
     }
     //Shows all the tasks for parents and tasks assigned for each user
     @GetMapping("/tasks")
@@ -40,6 +43,8 @@ public class TaskController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepo.findById(loggedInUser.getId());
         Family family = familyRepo.findByCode(user.getFamily().getCode());
+        List<Long> childUserIds = rolesRepo.findByRole("CHILD").stream().map(UserRole::getUserId).collect(Collectors.toList());
+        model.addAttribute("childUsers", childUserIds);
         model.addAttribute("instantMessage", new Message());
         model.addAttribute("checkMessages", messageRepository.findUnreadMessages(loggedInUser.getId()));
         model.addAttribute("user", user);
