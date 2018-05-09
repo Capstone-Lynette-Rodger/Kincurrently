@@ -15,6 +15,7 @@
                     <div> <span th:text="${message.user.firstName + ': ' + message.body}"></span></div>
                 </div>
             </div>
+            <hr />
             <h5>Message <i class="fas fa-comment" data-toggle="modal" th:attr="data-target='#'+ ${member.id}"></i></h5>
             <div class="modal fade messageModal" th:id="${member.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">

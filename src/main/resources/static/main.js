@@ -197,3 +197,11 @@ $('#allDay').click(()=> {
     });
     allDayCheck();
 });
+
+
+$("button").on("click", setTimeout(() => {
+    $(this).prop("disabled", true);
+}),100);
+
+
+
