@@ -148,20 +148,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col kid-text">
+                <div class="col text-center">
                     <div class="dashboardBlock">
                         <h3 class="text-center"><span th:if="${user.title}" th:text="${user.title}"></span><span th:if="${user.title == null}" th:text="${user.firstName}"></span>'s Tasks</h3>
                         <div class="col clearfix"  th:if="${tasksDesignated.size() > 0}" th:each="task : ${tasksDesignated}">
-                            <h5 class="dashboardGrid"><i class="far fa-calendar-times"></i> Due <span class="changeDate due" th:text="${task.completed_by}"></span>
-                                <form th:if="${task.status.id == 1 or task.status.id == 2}" th:action="@{/tasks/update}" method="POST" class="float-right">
-                                    <input  type="hidden" name="taskId" th:value="${task.id}"/>
-                                    <button class="btn btn-outline-primary my-2 my-sm-0" th:if="${task.status.id == 1}">Start!</button>
-                                    <button class="btn btn-outline-primary my-2 my-sm-0" th:if="${task.status.id == 2}">Done!</button>
-                                </form>
-                            </h5>
+                            <h5 class="dashboardGrid"><i class="far fa-calendar-times"></i> Due <span class="changeDate due" th:text="${task.completed_by}"></span></h5>
                             <a th:href="@{/tasks/{id}(id = ${task.id})}"><h5><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner fa-spin"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span> </h5></a>
                             <h5 th:if="${task.creator.title}"><i class="far fa-user"></i> From <span class="text-capitalize" th:text="${task.creator.title}"></span></h5>
                             <h5 th:if="${task.creator.title == null}"><i class="far fa-user"></i> From <span class="text-capitalize" th:text="${task.creator.firstName}"></span></h5>
+                            <form th:if="${task.status.id == 1 or task.status.id == 2}" th:action="@{/tasks/update}" method="POST">
+                                <input  type="hidden" name="taskId" th:value="${task.id}"/>
+                                <button class="btn btn-outline-info my-3" th:if="${task.status.id == 1}">Start!</button>
+                                <button class="btn btn-outline-info my-3" th:if="${task.status.id == 2}">Done!</button>
+                            </form>
                         </div>
                         <div class="col clearfix"  th:if="${tasksDesignated.size() == 0}">
                             <p class="text-center">You have not been assigned any tasks. You're free!</p>

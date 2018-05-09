@@ -9,6 +9,10 @@ a {
 a:hover {
     color: #A1FBFD;
 }
+.kid-text a:hover {
+    color: #A1FBFD;
+    transform: scaleY(1.25);
+}
 p {
     color: white;
 }
@@ -267,6 +271,10 @@ textarea {
 }
 .label-for-check{
     cursor: pointer;
+}
+.kid-text .check-with-label:checked + input +.label-for-check {
+    font-weight: 800;
+    transform: rotate(20deg);
 }
 .messageModal {
     color: black;
