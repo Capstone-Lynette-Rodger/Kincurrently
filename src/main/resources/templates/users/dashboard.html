@@ -134,12 +134,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col text-center">
                     <div class="dashboardBlock">
                         <h3 class="text-center">Upcoming Family Events</h3>
                         <div class="col clearfix"  th:if="${events.size() > 0}" th:each="event : ${events}">
                             <h5 class="dashboardGrid"><i class="far fa-calendar-alt"></i> <span class="fullDate" th:text="${event.start_date}"></span><span th:text="${event.start_date}" hidden="hidden"></span><span th:if="${!event.end_date.equals(event.start_date)}"> - <span class="fullDate" th:text="${event.end_date}"></span></span></h5>
-                            <h5><i class="far fa-clock"></i> <span th:if="${event.end_time != null}"><span class="changeTime" th:text="${event.start_time}"></span> - <span class="changeTime" th:text="${event.end_time}"></span></span><span th:if="${event.end_time == null}">All Day</span><a th:href="@{/events/{id}(id=${event.getId()})}" class="float-right"><i class="fas fa-map-marker"></i> <span th:text="${event.title}"></span></a></h5>
+                            <a th:href="@{/events/{id}(id=${event.getId()})}" ><h5><i class="fas fa-map-marker"></i> <span th:text="${event.title}"></span></h5></a>
+                            <h5><i class="far fa-clock"></i> <span th:if="${event.end_time != null}"><span class="changeTime" th:text="${event.start_time}"></span> - <span class="changeTime" th:text="${event.end_time}"></span></span><span th:if="${event.end_time == null}">All Day</span></h5>
                         </div>
                         <div class="col clearfix"  th:if="${events.size() == 0}">
                             <p class="text-center">No Events Currently Scheduled</p>
