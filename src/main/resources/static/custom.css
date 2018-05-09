@@ -6,12 +6,17 @@ a {
     color: #b7b3b3;
     font-weight: bold;
 }
+.kid-text a h5 {
+    color: #b7b3b3;
+    font-weight: bold;
+    text-decoration: underline;
+}
 a:hover {
     color: #A1FBFD;
 }
-.kid-text a:hover {
+.kid-text a:hover, .kid-text a h5:hover {
     color: #A1FBFD;
-    transform: scaleY(1.25);
+    transform: scaleY(1.5);
 }
 p {
     color: white;
@@ -240,6 +245,15 @@ textarea {
     background: #a1fbfd;
     color: #44417c;
 }
+.swivel {
+    animation: swivel 2s linear infinite alternate;
+    animation-fill-mode: both;
+    display: inline-block;
+}
+@keyframes swivel {
+    0% {transform: rotate(15deg)}
+    100% {transform: rotate(-15deg)}
+}
 .comment img {
     width: 100%;
     height: auto;
@@ -286,7 +300,9 @@ textarea {
 .kid-text {
     font-family: 'Short Stack', cursive;
 }
-
+footer {
+    height: 7rem;
+}
 .fa-envelope {
     margin-right: 5px;
 }

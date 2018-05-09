@@ -169,7 +169,7 @@
         <div th:replace="partials/leftSidebar :: leftSidebar"></div>
         <div class="col-md-8">
             <div class="row">
-                <div class="col">
+                <div class="col text-center">
                     <div class="dashboardBlock">
                         <h2 class="text-center"><span th:text="${event.title}"></span></h2>
                         <div class="col clearfix">
@@ -178,8 +178,6 @@
                                 <span class="fullDate" th:text="${event.start_date}"></span>
                                 <span th:text="${event.start_date}" hidden="hidden" class="date event"></span>
                                 <span th:if="${!event.end_date.equals(event.start_date)}"> - <span class="fullDate" th:text="${event.end_date}"></span></span>
-                                <a th:if="${#authentication.principal.id == event.user.id}" th:href="@{/events/{id}/edit(id = ${event.id})}" class="float-right">
-                                    <i class="far fa-edit"></i> Edit Event</a>
                             </h5>
                             <h5><i class="far fa-clock"></i> <span th:if="${event.end_time != null}"><span class="changeTime" th:text="${event.start_time}"></span> - <span class="changeTime" th:text="${event.end_time}"></span></span><span th:if="${event.end_time == null}">All Day</span></h5>
                             <h5 th:if="${event.location}"><i class="fas fa-location-arrow"></i> <span th:text="${event.location}"></span></h5>
@@ -194,10 +192,12 @@
                             </div>
                             <h6><i class="far fa-calendar-alt"></i> Scheduled By <span th:if="${event.user.title}"><span class="text-capitalize" th:text="${event.user.title}"></span></span><span th:if="${event.user.title == null}"><span class="text-capitalize" th:text="${event.user.firstName}"></span></span></h6>
                             <div class="categories mt-3">
-                                <span th:each="category : ${event.categories}" class="category">
+                                <div th:each="category : ${event.categories}" class="category swivel">
                                     <span th:text="${category.name}"></span>
-                                </span>
+                                </div>
                             </div>
+                            <a th:if="${#authentication.principal.id == event.user.id}" th:href="@{/events/{id}/edit(id = ${event.id})}">
+                                <h5><i class="far fa-edit"></i> Edit Event</h5></a>
                         </div>
                     </div>
                 </div>
