@@ -2,7 +2,189 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="partials/header :: header ('Edit Event')"></head>
-<body>
+<body sec:authorize="hasRole('ROLE_PARENT')">
+
+<div th:replace="partials/navbar :: navbar"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="dashboardBlock">
+                <h2 class="text-center homePageText">Edit Event</h2>
+                <hr />
+                <form class="form" th:action="@{/events/edit}" method="POST" th:object="${event}">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Title</label>
+                            <input class="registrationInputs" type="text" th:field="*{title}" th:required="required"/>
+                            <p class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>Location </label>
+                            <input class="registrationInputs" type="text" th:field="*{location}" th:value="${location}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label th:if="${event.address}"><input type="checkbox" checked="checked" name="isAddress" id="isAddress"/> Add Location Address</label>
+                            <label th:if="${event.address == null}"><input type="checkbox" name="isAddress" id="isAddress"/> Add Location Address</label>
+                        </div>
+                    </div>
+                    <div class="row addressStuff">
+                        <div class="col-md-9 mb-2">
+                            <input class="registrationInputs py-1" type="text" th:field="*{address}" th:value="${address}" id="address" name="address" />
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-info" id="addressButton">Check Address</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div id="mapContainer">
+                                <div class="mapBox">
+                                    <div id="map"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-md-center">
+                        <div class="col-md-3">
+                            <input class="registrationInputs" th:value="*{start_date}" type="date" name="startDate" th:required="required"/>
+                        </div>
+                        <div class="col-md-2">
+                            <input class="registrationInputs" th:if="${event.end_time}" th:value="*{start_time}" type="time" name="startTime"/>
+                            <input class="registrationInputs" th:if="${event.end_time == null}" type="time" name="startTime"/>
+                        </div>
+                        <div>
+                            <span> to </span>
+                        </div>
+                        <div class="col-md-2">
+                            <input class="registrationInputs" th:value="*{end_time}" type="time" name="endTime"/>
+                        </div>
+                        <div class="col-md-3">
+                            <input class="registrationInputs" type="date" th:value="*{end_date}" name="endDate" th:required="required"/>
+                        </div>
+                        <div>
+                            <label th:if="${event.end_time == null}"><input type="checkbox" name="allDay" id="allDay" checked="checked"/> All Day</label>
+                            <label th:if="${event.end_time}"><input type="checkbox" name="allDay" id="allDay"/> All Day</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="registrationLabels">Description </label>
+                            <input class="registrationDescription" type="text" th:field="*{description}" />
+                            <p class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label class="mb-3">Categories</label>
+                            <div class="input-group">
+                                <span th:each="category : ${categories}" class="category">
+                                    <input type="checkbox" th:id="${category.name}" class="check-with-label" th:field="*{categories}" th:value="${category.id}"/>
+                                    <label th:for="${category.name}" class="label-for-check category"><span th:text="${category.name}"></span></label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center my-3">
+                        <input type="hidden" th:field="*{id}" th:value="${id}" />
+                        <button class="btn btn-outline-info my-2 my-sm-0">Update</button>
+                    </div>
+                </form>
+            </div>
+            <button class="btn btn-danger col-md-4 offset-md-4 mt-5"  id="showDeleteForm">Delete Event</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center text-danger">Are you sure you would like to delete this event?</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <form th:action="@{/events/delete}" method="POST" th:object="${event}">
+                    <input type="hidden" th:field="*{id}" th:value="${id}" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="partials/footer :: footer"></footer>
+<!--<div th:include="partials/googlemaps :: googlemaps"></div>-->
+
+<script th:src="@{https://maps.googleapis.com/maps/api/js(key=${api})}"></script>
+<script>
+    "use strict";
+
+    let lat = 29.4241219;
+    let lng = -98.49362819999999;
+
+
+    var map;
+    var marker;
+    function initMap() {
+        var coords = {lat: lat, lng: lng};
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: coords,
+            zoom: 14
+        });
+        marker = new google.maps.Marker({
+            position: coords,
+            map: map
+        });
+    }
+
+
+    $('#addressButton').click(function (e){
+        e.preventDefault();
+        var address = document.getElementById("address").value;
+        var geocoder = new google.maps.Geocoder();
+
+        geocoder.geocode({"address": address}, function (results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+                lat = results[0].geometry.location.lat();
+                lng = results[0].geometry.location.lng();
+                $('#mapContainer').show();
+                initMap();
+
+            } else {
+
+                alert('Geocoding was not successful - STATUS: ' + status);
+            }
+
+        });
+    });
+    $('#mapContainer').hide();
+
+    let addressCheck = () => {
+        if($('#isAddress').attr('checked')) {
+            $('.addressStuff').show();
+        } else {
+            $('.addressStuff').hide();
+        }
+    };
+    addressCheck();
+    $('#isAddress').click(() => {
+        $('#isAddress').attr('checked', (index, attr) => {
+            return attr === "checked" ? null : "checked";
+        });
+        addressCheck();
+    });
+
+</script>
+
+</body>
+
+
+<body sec:authorize="hasRole('ROLE_CHILD')" class="kid-text">
 
 <div th:replace="partials/navbar :: navbar"></div>
 <div class="container">

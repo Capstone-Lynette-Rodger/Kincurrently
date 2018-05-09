@@ -12,8 +12,14 @@
                     <div class="col-md-6 pt-2 mt-1 mb-0">
                         <input type="text" id="searchTerm" name="searchTerm" placeholder="Search" class="registrationInputs py-1" th:value="${searchTerm}"/>
                     </div>
-                    <div>
+                    <div sec:authorize="hasAnyRole('ROLE_CHILD, ROLE_PARENT')">
                         <input type="checkbox" id="searchEvents" name="searchEvents" class="check-with-label" checked="checked"/>
+                        <label for="searchEvents" class="label-for-check text-gray"><i class="fas fa-check"></i> Events</label><br/>
+                        <input type="checkbox" id="searchTasks" name="searchTasks" class="check-with-label" checked="checked"/>
+                        <label for="searchTasks" class="label-for-check text-gray"><i class="fas fa-check"></i> Tasks</label>
+                    </div>
+                    <div hidden="hidden" sec:authorize="hasRole('ROLE_CARETAKER')">
+                        <input type="checkbox" id="searchEvents" name="searchEvents" class="check-with-label"/>
                         <label for="searchEvents" class="label-for-check text-gray"><i class="fas fa-check"></i> Events</label><br/>
                         <input type="checkbox" id="searchTasks" name="searchTasks" class="check-with-label" checked="checked"/>
                         <label for="searchTasks" class="label-for-check text-gray"><i class="fas fa-check"></i> Tasks</label>
