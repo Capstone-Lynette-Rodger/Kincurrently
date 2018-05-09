@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="partials/header :: header ('Tasks')"></head>
-<body>
+<body sec:authorize="hasAnyRole('ROLE_PARENT, ROLE_CARETAKER')">
 
 <div th:replace="partials/navbar :: navbar"></div>
 
@@ -44,7 +44,7 @@
                             </h5>
                             <a th:href="@{/tasks/{id}(id = ${task.id})}"><h5><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner fa-spin"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span></h5></a>
                             <h5><i class="far fa-calendar-alt"></i> <span th:if="${task.creator.title}"><span class="text-capitalize" th:text="${task.creator.title}"></span></span><span th:if="${task.creator.title == null}"><span class="text-capitalize" th:text="${task.creator.firstName}"></span></span>
-                                assigned this on <span th:text="${task.created_on}" class="changeDate"></span>
+                                assigned this <span th:text="${task.created_on}" class="changeDate"></span>
                             </h5>
                             <h5 th:if="${task.status.id == 3}">Pending Final Approval</h5>
                         </div>
@@ -66,7 +66,7 @@
                                 assigned this to
                                 <span th:if="${task.designated_user.title}" class="text-capitalize" th:text="${task.designated_user.title}"></span>
                                 <span th:if="${task.designated_user.title == null}" class="text-capitalize" th:text="${task.designated_user.firstName}"></span>
-                                on <span th:text="${task.created_on}" class="changeDate"></span>
+                                 <span th:text="${task.created_on}" class="changeDate"></span>
                             </h5>
                             <h5 th:if="${task.status.id == 3}">Pending Final Approval</h5>
                         </div>
@@ -80,7 +80,7 @@
             <div class="row" sec:authorize="hasRole('ROLE_CARETAKER')">
                 <div class="col">
                     <div class="dashboardBlock" th:if="${allTasks.size() > 0}">
-                        <h2 class="text-center">All Tasks for Children</h2>
+                        <h2 class="text-center">Tasks for Mini Kin</h2>
                         <div class="col clearfix" th:if="${task.status.id != 4 and childUsers.indexOf(task.designated_user.id) >= 0}" th:each="task : ${allTasks}">
                             <h5 class="dashboardGrid"><i class="far fa-calendar-times"></i> Due <span class="fullDate due" th:text="${task.completed_by}"></span><span th:text="${task.completed_by}" hidden="hidden" class="date task"></span></h5>
                             <a th:href="@{/tasks/{id}(id = ${task.id})}"><h5><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner fa-spin"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span></h5></a>
@@ -88,7 +88,7 @@
                                 assigned this to
                                 <span th:if="${task.designated_user.title}" class="text-capitalize" th:text="${task.designated_user.title}"></span>
                                 <span th:if="${task.designated_user.title == null}" class="text-capitalize" th:text="${task.designated_user.firstName}"></span>
-                                on <span th:text="${task.created_on}" class="changeDate"></span>
+                                 <span th:text="${task.created_on}" class="changeDate"></span>
                             </h5>
                             <h5 th:if="${task.status.id == 3}">Pending Final Approval</h5>
                         </div>
@@ -102,7 +102,65 @@
         </div>
     </div>
 </div>
-<!--comment-->
+<footer th:replace="partials/footer :: footer"></footer>
+
+</body>
+<body sec:authorize="hasRole('ROLE_CHILD')" class="kid-text">
+
+<div th:replace="partials/navbar :: navbar"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="todaysDate text-center homePageText"></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div th:replace="partials/leftSidebar :: leftSidebar"></div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col">
+                    <div class="input-group mt-3 block-shadow">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="taskView">View Tasks By</label>
+                        </div>
+                        <select class="custom-select" name="taskView" id="taskView">
+                            <option value="day">Day</option>
+                            <option value="week" selected="selected">Week</option>
+                            <option value="month">Month</option>
+                            <option value="all">All</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="dashboardBlock" th:if="${myTasks.size() > 0}">
+                        <h2 class="text-center">My Tasks</h2>
+                        <div class="col clearfix" th:if="${task.status.id != 4}" th:each="task : ${myTasks}">
+                            <h5 class="dashboardGrid"><i class="far fa-calendar-times"></i> Due <span class="fullDate due" th:text="${task.completed_by}"></span><span th:text="${task.completed_by}" hidden="hidden" class="date task"></span>
+                                <form th:if="${task.status.id == 1 or task.status.id == 2}" th:action="@{/tasks/update}" method="POST" class="float-right">
+                                    <input  type="hidden" name="taskId" th:value="${task.id}"/>
+                                    <button class="btn btn-outline-primary my-2 my-sm-0" th:if="${task.status.id == 1}">Start!</button>
+                                    <button class="btn btn-outline-primary my-2 my-sm-0" th:if="${task.status.id == 2}">Done!</button>
+                                </form>
+                            </h5>
+                            <a th:href="@{/tasks/{id}(id = ${task.id})}"><h5><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner fa-spin"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span></h5></a>
+                            <h5><i class="far fa-calendar-alt"></i> <span th:if="${task.creator.title}"><span class="text-capitalize" th:text="${task.creator.title}"></span></span><span th:if="${task.creator.title == null}"><span class="text-capitalize" th:text="${task.creator.firstName}"></span></span>
+                                assigned this <span th:text="${task.created_on}" class="changeDate"></span>
+                            </h5>
+                            <h5 th:if="${task.status.id == 3}">Waiting for the OK</h5>
+                        </div>
+                    </div>
+                    <div class="dashboardBlock" th:if="${myTasks.size() == 0}">
+                        <h2 class="text-center">My Tasks</h2>
+                        <p class="text-center">No Tasks Currently Assigned</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <footer th:replace="partials/footer :: footer"></footer>
 
 </body>

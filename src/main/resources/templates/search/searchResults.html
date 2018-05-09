@@ -2,10 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="partials/header :: header (Events)"></head>
-<body>
-
+<body sec:authorize="hasAnyRole('ROLE_PARENT, ROLE_CARETAKER')">
 <div th:replace="partials/navbar :: navbar"></div>
-
 <div class="container">
     <div class="row">
         <div class="col">
@@ -16,7 +14,7 @@
     <div th:replace="partials/searchbar :: searchbar"></div>
     <div class="row">
         <div class="col">
-            <div class="dashboardBlock" th:if="${events}">
+            <div class="dashboardBlock" th:if="${events}" sec:authorize="hasAnyRole('ROLE_PARENT')">
                 <div class="col-md-8 offset-md-2">
                     <h2 class="text-center">Events</h2>
                     <div  class="col" th:each="event : ${events}">
@@ -50,7 +48,61 @@
                     </div>
                 </div>
             </div>
-            <div class="dashboardBlock" th:if="${allTasks}" sec:authorize="hasRole('ROLE_CHILD')">
+            <div class="dashboardBlock" th:if="${allTasks}" sec:authorize="hasRole('ROLE_CARETAKER')">
+                <div class="col-md-8 offset-md-2">
+                    <h2 class="text-center">Tasks</h2>
+                    <div class="col" th:if="${task.status.id != 4 and task.designated_user.id == #authentication.principal.id or childUsers.indexOf(task.designated_user.id) >= 0}" th:each="task : ${allTasks}">
+                        <h5 class="dashboardGrid"><i class="far fa-calendar-times"></i> Due <span class="fullDate due" th:text="${task.completed_by}"></span><span th:text="${task.completed_by}" hidden="hidden" class="date task"></span></h5>
+                        <a th:href="@{/tasks/{id}(id = ${task.id})}" class="float-right"><h5><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner fa-spin"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span></h5></a>
+                        <h5><i class="far fa-calendar-alt"></i> <span th:if="${task.creator.title}"><span class="text-capitalize" th:text="${task.creator.title}"></span></span><span th:if="${task.creator.title == null}"><span class="text-capitalize" th:text="${task.creator.firstName}"></span></span>
+                            assigned this to
+                            <span th:if="${task.designated_user.title}" class="text-capitalize" th:text="${task.designated_user.title}"></span>
+                            <span th:if="${task.designated_user.title == null}" class="text-capitalize" th:text="${task.designated_user.firstName}"></span>
+                            on <span th:text="${task.created_on}" class="changeDate"></span>
+                        </h5>
+                    </div>
+                    <div th:if="${allTasks.size() == 0}">
+                        <p class="text-center">No Task Results</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="partials/footer :: footer"></footer>
+
+</body>
+
+<body sec:authorize="hasRole('ROLE_CHILD')" class="kid-text">
+<div th:replace="partials/navbar :: navbar"></div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="todaysDate text-center homePageText"></h1>
+            <h3 th:if="${!searchTerm.trim().equals('')}" th:text="${'Search Results for &quot;' + searchTerm + '&quot;'}" class="text-center text-white"></h3>
+        </div>
+    </div>
+    <div th:replace="partials/searchbar :: searchbar"></div>
+    <div class="row">
+        <div class="col">
+            <div class="dashboardBlock" th:if="${events}">
+                <div class="col-md-8 offset-md-2">
+                    <h2 class="text-center">Events</h2>
+                    <div  class="col" th:each="event : ${events}">
+                        <h5 class="dashboardGrid"><i class="far fa-calendar-alt"></i> <span class="fullDate" th:text="${event.start_date}"></span><span th:text="${event.start_date}" hidden="hidden"></span><span th:if="${!event.end_date.equals(event.start_date)}"> - <span class="fullDate" th:text="${event.end_date}"></span></span></h5>
+                        <h5><i class="far fa-clock"></i> <span th:if="${event.end_time != null}"><span class="changeTime" th:text="${event.start_time}"></span> - <span class="changeTime" th:text="${event.end_time}"></span></span><span th:if="${event.end_time == null}">All Day</span><a th:href="@{/events/{id}(id=${event.getId()})}" class="float-right"><i class="fas fa-map-marker"></i> <span th:text="${event.title}"></span></a></h5>
+                    </div>
+                    <div th:if="${events.size() == 0}">
+                        <p class="text-center">No Event Results</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="dashboardBlock" th:if="${allTasks}">
                 <div class="col-md-8 offset-md-2">
                     <h2 class="text-center">Tasks</h2>
                     <div class="col" th:if="${task.status.id != 4 and task.designated_user.id == #authentication.principal.id}" th:each="task : ${allTasks}">
