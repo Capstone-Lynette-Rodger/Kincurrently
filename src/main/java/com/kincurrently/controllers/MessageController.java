@@ -7,6 +7,7 @@ import com.kincurrently.repositories.FamilyRepository;
 import com.kincurrently.repositories.MessageRepository;
 import com.kincurrently.repositories.UserRepository;
 import com.kincurrently.services.DateTimeService;
+import com.sun.xml.internal.fastinfoset.util.CharArray;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,17 +44,38 @@ public class MessageController {
         instantMessage.setCreated_on(new Date());
         messageRepository.save(instantMessage);
 
+
+
             return "redirect:/dashboard";
         }
+
+
+    @PostMapping("/send/message/message")
+    public String postMessageM(Model model, @Valid Message instantMessage, @RequestParam List<User> messageRecipients) {
+
+        User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        instantMessage.setUser(current);
+        instantMessage.setMessageRecipients(messageRecipients);
+        instantMessage.setCreated_on(new Date());
+        messageRepository.save(instantMessage);
+
+
+
+        return "redirect:/messages";
+    }
 
     @GetMapping("/messages")
         public String getMessages(Model model) {
         User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
+        model.addAttribute("instantMessage", new Message());
+        messageRepository.updateRead(current.getId());
         Family family = familyRepository.findByCode(current.getFamily().getCode());
         model.addAttribute("family", family);
         model.addAttribute("messages", dtService.sortMessagesByDateTime(messageRepository.findAllUsersMessages(current.getId())));
 
         return"/messages/messages";
         }
+
+
 }
