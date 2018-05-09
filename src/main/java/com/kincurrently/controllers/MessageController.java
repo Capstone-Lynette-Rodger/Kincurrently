@@ -7,7 +7,6 @@ import com.kincurrently.repositories.FamilyRepository;
 import com.kincurrently.repositories.MessageRepository;
 import com.kincurrently.repositories.UserRepository;
 import com.kincurrently.services.DateTimeService;
-import com.sun.xml.internal.fastinfoset.util.CharArray;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
