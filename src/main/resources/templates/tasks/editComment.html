@@ -2,7 +2,54 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="partials/header :: header ('Edit Comment')"></head>
-<body>
+<body sec:authorize="hasAnyRole('ROLE_PARENT, ROLE_CARETAKER')">
+
+<div th:replace="partials/navbar :: navbar"></div>
+
+<div class="container">
+    <div class="row">
+        <div class = "col-md-8 offset-md-2 dashboardBlock">
+            <h2 class="text-center homePageText">Edit Your Comment</h2>
+            <hr />
+            <form class="xs-offset-3 xs-col-6 center-block text-center" th:action="@{/tasks/comment/edit}" method="POST" th:object="${editComment}">
+                <label th:text="${editComment.task.title}"></label>
+                <div class="textArea">
+                    <textarea class="createTitle" th:field="*{commentBody}" th:value="${commentBody}" ></textarea>
+                </div>
+                <input type="hidden" name="commentId" th:field="*{id}" th:value="${id}" />
+                <input type="hidden" name="taskId" th:value="${editComment.task.id}" />
+                <br />
+                <button class="btn btn-outline-info">Update</button>
+            </form>
+        </div>
+        <button class="btn btn-danger col-md-4 offset-md-4 mt-5"  id="showDeleteForm">Delete Comment</button>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center text-danger">Are you sure you would like to delete this comment?</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <form th:action="@{/tasks/comment/delete}" th:method="post" th:object="${editComment}">
+                    <input type="hidden" th:field="*{id}" th:value="${id}" />
+                    <button id="delete">Delete</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="partials/footer :: footer"></footer>
+
+</body>
+<body sec:authorize="hasRole('ROLE_CHILD')" class="kid-text">
 
 <div th:replace="partials/navbar :: navbar"></div>
 

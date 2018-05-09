@@ -2,7 +2,160 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="partials/header :: header (Events)"></head>
-<body>
+<body sec:authorize="hasRole('ROLE_PARENT')">
+
+<div th:replace="partials/navbar :: navbar"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="todaysDate text-center homePageText"></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div th:replace="partials/leftSidebar :: leftSidebar"></div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col">
+                    <div class="dashboardBlock">
+                        <h2 class="text-center"><span th:text="${event.title}"></span></h2>
+                        <div class="col clearfix">
+                            <h5 class="dashboardGrid">
+                                <i class="far fa-calendar-alt"></i>
+                                <span class="fullDate" th:text="${event.start_date}"></span>
+                                <span th:text="${event.start_date}" hidden="hidden" class="date event"></span>
+                                <span th:if="${!event.end_date.equals(event.start_date)}"> - <span class="fullDate" th:text="${event.end_date}"></span></span>
+                                <a th:if="${#authentication.principal.id == event.user.id}" th:href="@{/events/{id}/edit(id = ${event.id})}" class="float-right">
+                                    <i class="far fa-edit"></i> Edit Event</a>
+                            </h5>
+                            <h5><i class="far fa-clock"></i> <span th:if="${event.end_time != null}"><span class="changeTime" th:text="${event.start_time}"></span> - <span class="changeTime" th:text="${event.end_time}"></span></span><span th:if="${event.end_time == null}">All Day</span></h5>
+                            <h5 th:if="${event.location}"><i class="fas fa-location-arrow"></i> <span th:text="${event.location}"></span></h5>
+                            <p th:text="${event.description}" class="px-5"></p>
+                            <input type="hidden" th:value="${event.address}" id="address" />
+                            <div th:if="${event.address}">
+                                <div th:if="${!event.address.equalsIgnoreCase('')}" id="mapContainer">
+                                    <div class="mapBox">
+                                        <div id="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h6><i class="far fa-calendar-alt"></i> Scheduled By <span th:if="${event.user.title}"><span class="text-capitalize" th:text="${event.user.title}"></span></span><span th:if="${event.user.title == null}"><span class="text-capitalize" th:text="${event.user.firstName}"></span></span></h6>
+                            <div class="categories mt-3">
+                                <span th:each="category : ${event.categories}" class="category">
+                                    <span th:text="${category.name}"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="dashboardBlock">
+                        <h2 class="text-center">Comments</h2>
+                        <hr/>
+                        <div th:if="${event.eventComments.size() > 0}" th:each="eventComment: ${event.eventComments}">
+                            <div class="row">
+                                <div class="col-3">
+                                    <div th:if="${eventComment.user.imgPath}" class="commentImg">
+                                        <img th:src="${eventComment.user.imgPath}" alt=""/>
+                                    </div>
+                                    <div th:if="${eventComment.user.imgPath == null}" class="commentImg">
+                                        <img src="/uploads/default.png" alt=""/>
+                                    </div>
+                                    <h5 class="text-center" th:if="${eventComment.user.title}"><i class="far fa-user"></i> <span th:text="${eventComment.user.title}"></span></h5>
+                                    <h5 class="text-center" th:if="${eventComment.user.title == null}"><i class="far fa-user"></i> <span th:text="${eventComment.user.firstName}"></span></h5>
+                                </div>
+                                <div class="col-9">
+                                    <p class="comment" th:utext="${eventComment.commentBody}"></p>
+                                    <h6 class="text-info"><i class="far fa-calendar-alt"></i> <span th:text="${eventComment.created_on}" class="fullDate"></span></h6>
+                                    <h6 th:if="${eventComment.user.id == #authentication.principal.id}">
+                                        <a th:href="@{/events/comment/{id}/edit(id=${eventComment.id})}"><i class="far fa-edit"></i> Edit Comment</a>
+                                    </h6>
+                                </div>
+                            </div>
+                            <hr/>
+                        </div>
+                        <div th:if="${event.eventComments.size() == 0}">
+                            <p class="text-center">Be the first to comment on this event!</p>
+                        </div>
+                        <form th:action="@{/events/comment}" method="POST" th:object="${eventComment}">
+                            <input type="hidden" name="eventId" th:value="${event.id}"/>
+                            <div class="textArea">
+                                <textarea th:field="*{commentBody}"></textarea>
+                            </div>
+                            <p class="text-danger" th:if="${#fields.hasErrors('commentBody')}" th:errors="*{commentBody}" />
+                            <div class="text-center mt-md-2">
+                                <button class="btn btn-outline-info my-2 my-sm-0" >Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="partials/footer :: footer"></footer>
+<!--<div th:include="partials/googlemaps :: googlemaps"></div>-->
+
+
+<script>
+    "use strict";
+
+    let lat = 29.4241219;
+    let lng = -98.49362819999999;
+
+
+    var map;
+    var marker;
+    function initMap() {
+        var coords = {lat: lat, lng: lng};
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: coords,
+            zoom: 14
+        });
+        marker = new google.maps.Marker({
+            position: coords,
+            map: map
+        });
+    }
+    $( window ).on( "load", function (){
+        var infoWindow = new google.maps.InfoWindow({content: ""});
+        var address = document.getElementById("address").value;
+
+        if (address !== "") {
+
+            var geocoder = new google.maps.Geocoder();
+
+            geocoder.geocode({"address": address}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    lat = results[0].geometry.location.lat();
+                    lng = results[0].geometry.location.lng();
+                    $('#mapContainer').show();
+                    initMap();
+                    infoWindow = new google.maps.InfoWindow({content: "<h6>" + address + "</h6>"});
+                    marker.addListener("mouseover", function(){
+                        infoWindow.open(map, marker);
+                    });
+                } else {
+
+                    alert('Geocoding was not successful - STATUS: ' + status);
+                }
+
+            });
+
+        }
+    });
+
+</script>
+
+
+<script th:src="@{https://maps.googleapis.com/maps/api/js(key=${api})}"></script>
+
+</body>
+
+<body sec:authorize="hasRole('ROLE_CHILD')" class="kid-text">
 
 <div th:replace="partials/navbar :: navbar"></div>
 

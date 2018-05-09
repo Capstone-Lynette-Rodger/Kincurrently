@@ -116,7 +116,16 @@ $.each($(".changeDate"), (index, element) => {
         if(element.classList.contains("due") && (current.getFullYear() >= date.getUTCFullYear() && date.getUTCMonth() <= current.getMonth() && date.getUTCDate() < current.getDate())) {
             element.style.color = "#ca0d0d";
         }
-        element.innerHTML = abbDayArray[date.getUTCDay()] + ", " + abbMonthArray[date.getUTCMonth()] + " " + date.getUTCDate();
+        if(date.getUTCFullYear() === addDays(current, -1).getFullYear() && date.getUTCMonth() === addDays(current, -1).getMonth() && date.getUTCDate() === addDays(current, -1).getDate()) {
+            element.innerHTML = "Yesterday"
+        } else if(date.getUTCFullYear() === current.getFullYear() && date.getUTCMonth() === current.getMonth() &&date.getUTCDate() === current.getDate()) {
+            element.innerHTML = "Today";
+        } else if (date.getUTCFullYear() === addDays(current, 1).getFullYear() && date.getUTCMonth() === addDays(current, 1).getMonth() && date.getUTCDate() === addDays(current, 1).getDate()) {
+            element.innerHTML = "Tomorrow"
+        } else {
+            element.innerHTML = abbDayArray[date.getUTCDay()];
+        }
+        element.innerHTML += ", " + abbMonthArray[date.getUTCMonth()] + " " + date.getUTCDate();
         if (current.getUTCFullYear() !== date.getUTCFullYear()) {
             element.innerHTML += ', ' + date.getUTCFullYear();
         }
@@ -132,7 +141,16 @@ $.each($(".fullDate"), (index, element) => {
         if(element.classList.contains("due") && (current.getFullYear() >= date.getUTCFullYear() && date.getUTCMonth() <= current.getMonth() && date.getUTCDate() < current.getDate())) {
             element.style.color = "#ca0d0d";
         }
-        element.innerHTML = dayArray[date.getUTCDay()] + ", " + monthArray[date.getUTCMonth()] + " " + date.getUTCDate() + ', ' + date.getUTCFullYear();
+        if(date.getUTCFullYear() === addDays(current, -1).getFullYear() && date.getUTCMonth() === addDays(current, -1).getMonth() && date.getUTCDate() === addDays(current, -1).getDate()) {
+            element.innerHTML = "Yesterday"
+        } else if(date.getUTCFullYear() === current.getFullYear() && date.getUTCMonth() === current.getMonth() &&date.getUTCDate() === current.getDate()) {
+            element.innerHTML = "Today";
+        } else if (date.getUTCFullYear() === addDays(current, 1).getFullYear() && date.getUTCMonth() === addDays(current, 1).getMonth() && date.getUTCDate() === addDays(current, 1).getDate()) {
+            element.innerHTML = "Tomorrow"
+        } else {
+            element.innerHTML = dayArray[date.getUTCDay()];
+        }
+        element.innerHTML += ", " + monthArray[date.getUTCMonth()] + " " + date.getUTCDate() + ', ' + date.getUTCFullYear();
     }
 });
 

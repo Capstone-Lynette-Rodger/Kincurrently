@@ -169,7 +169,7 @@ public class EventController {
 
         eventRepository.save(editEvent);
 
-        return "redirect:/events" + editEvent.getId();
+        return "redirect:/events/" + editEvent.getId();
     }
 
     private void dateSet(@Valid Event editEvent, @RequestParam String startDate, @RequestParam String endDate, @RequestParam String startTime, @RequestParam String endTime) {

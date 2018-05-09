@@ -9,8 +9,22 @@ a {
 a:hover {
     color: #A1FBFD;
 }
+.kid-text a:hover {
+    color: #A1FBFD;
+    transform: scaleY(1.25);
+}
 p {
     color: white;
+}
+.jumbotron {
+    background: url(/img/index.jpg);
+    background-size: cover;
+    height: 44rem;
+    background-position: bottom;
+}
+.overlay {
+     background-color: rgba(255, 255, 255, .5);
+
 }
 .homePageText {
     font-family: 'Luckiest Guy', cursive;
@@ -136,6 +150,23 @@ textarea {
     top: 50%;
     -webkit-transform: translateY(-50%) translateX(-50%);
 }
+.bg-dark {
+    background: #2c2a57!important;
+}
+.navbar-dark .navbar-nav .active>.nav-link, .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .nav-link.show, .navbar-dark .navbar-nav .show>.nav-link {
+    color: #2c2a57;
+    background: #a1fbfd;
+    border-radius: 5px;
+}
+.navbar-dark .navbar-nav .active>.nav-link:hover, .navbar-dark .navbar-nav .nav-link.active:hover, .navbar-dark .navbar-nav .nav-link.show:hover, .navbar-dark .navbar-nav .show>.nav-link:hover {
+    color: #2c2a578a;
+}
+.navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover {
+    color: rgba(159, 251, 253, .75);
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(159, 251, 253,.5);
+}
 .text-info {
     color: #A1FBFD!important;
 }
@@ -241,10 +272,17 @@ textarea {
 .label-for-check{
     cursor: pointer;
 }
+.kid-text .check-with-label:checked + input +.label-for-check {
+    font-weight: 800;
+    transform: rotate(20deg);
+}
 .messageModal {
     color: black;
 }
 
 .messageInput {
     width: 95%;
+}
+.kid-text {
+    font-family: 'Short Stack', cursive;
 }

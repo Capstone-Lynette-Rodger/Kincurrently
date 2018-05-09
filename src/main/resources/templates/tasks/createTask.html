@@ -19,7 +19,7 @@
                             <p class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />
                         </div>
                         <div class="col-md-6">
-                            <label>Deadline </label>
+                            <label>When </label>
                             <input class="registrationInputs" type="date" th:value="*{completed_by}" name="completed_by" th:required="required"/>
                             <p class="text-danger" th:if="${#fields.hasErrors('completed_by')}" th:errors="*{completed_by}" />
                         </div>
