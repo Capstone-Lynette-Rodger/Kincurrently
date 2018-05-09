@@ -21,7 +21,9 @@
                 <hr sec:authorize="hasAnyRole('ROLE_PARENT, ROLE_CARETAKER')"/>
                 <p><span class="text-left"><b>Birthday</b></span><span class="float-right birthDate" th:text="${user.birthdate}"></span></p>
                 <hr/>
-                <div th:if="${checkMessages.size() > 0}"><span th:text="${checkMessages.size()}"></span> New Messages <span><a href="/messages"><i class="far fa-envelope"></i></a></span>
+                <div> <span class="newMessages" th:if="${checkMessages.size() == 1}"><a href="/messages"><i class="far fa-envelope fa-2x"></i> <span th:text="${checkMessages.size()}"></span> New Message </a></span>
+                    <span class="newMessages" th:if="${checkMessages.size() > 1 }"><a href="/messages"><i class="far fa-envelope fa-2x"></i> <span th:text="${checkMessages.size()}"></span> New Messages </a></span>
+                    <span th:if="${checkMessages.size() == 0}"><a href="/messages"><i class="far fa-envelope fa-2x"></i> View Messages </a></span>
                     <hr /></div>
                 <p class="text-center"><b><span th:text="${family.name}"></span><span class="text-left"> Family</span></b></p>
             </div>
