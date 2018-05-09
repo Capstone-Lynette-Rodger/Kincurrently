@@ -32,17 +32,6 @@ public class Message {
     private Date created_on;
 
     @Column
-    private Long thread;
-
-    public Long getThread() {
-        return thread;
-    }
-
-    public void setThread(Long thread) {
-        this.thread = thread;
-    }
-
-    @Column
     private boolean messageRead = false;
 
     public void readMessage() {
@@ -57,12 +46,11 @@ public class Message {
     )
     private List<User> messageRecipients;
 
-    public Message(User user, String body, List<User> messageRecipients, Date created_on, Long thread) {
+    public Message(User user, String body, List<User> messageRecipients, Date created_on) {
         this.user = user;
         this.body = body;
         this.messageRecipients = messageRecipients;
         this.created_on = created_on;
-        this.thread = thread;
     }
 
     public Message() {

@@ -8,15 +8,41 @@
 
 <div class="container">
     <div class="row" th:each="member: ${family.users}">
-        <h1 class="col-md-12 dashboardBlock" th:text="${member.title}" style="color: white"></h1>
-            <div class="col-md-12 dashboardBlock" th:each=" message : ${messages}" th:if="${message.user.id == member.id or message.messageRecipients.get(0).id == member.id}">
-                <div th:text="${message.body}"></div>
-                <div th:text="${message.user.firstName}"></div>
-                <div th:text="${message.messageRecipients.get(0).firstName}"></div>
+        <div class="col-md-12 dashboardBlock" th:if="${member.id != #authentication.principal.id}">
+            <h2 th:text="${member.title}"></h2>
+            <div th:each="message : ${messages}">
+                <div th:if="${message.user.id == member.id or message.messageRecipients.get(0).id == member.id}">
+                    <div> <span th:text="${message.user.firstName + ': ' + message.body}"></span></div>
+                </div>
             </div>
+            <h5>Message <i class="fas fa-comment" data-toggle="modal" th:attr="data-target='#'+ ${member.id}"></i></h5>
+            <div class="modal fade messageModal" th:id="${member.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Send <span th:text="${member.title}"></span> a message </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form th:action="@{/send/message/message}" method="post" th:object="${instantMessage}">
+                            <div class="modal-body">
+                                <input class="messageInput" th:field="*{body}">
+
+                                </input>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" th:value="${member.id}" name="messageRecipients" />
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 
 <footer th:replace="partials/footer :: footer"></footer>
 
