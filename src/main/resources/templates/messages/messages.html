@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<head th:replace="partials/header :: header (Events)"></head>
+<head th:replace="partials/header :: header (Messages)"></head>
 <body>
 
 <div th:replace="partials/navbar :: navbar"></div>
@@ -10,18 +10,49 @@
     <div class="row" th:each="member: ${family.users}">
         <div class="col-md-12 dashboardBlock" th:if="${member.id != #authentication.principal.id}">
             <h2 th:text="${member.title}"></h2>
+
             <div th:each="message : ${messages}">
                 <div th:if="${message.user.id == member.id or message.messageRecipients.get(0).id == member.id}">
-                    <div> <span th:text="${message.user.firstName + ': ' + message.body}"></span></div>
+                    <div class="row">
+                        <div class="col-9 messageBlock">
+                            <div th:if="${message.user.id == member.id}" class="row">
+                                <div class="col-9">  <span class="senderSpeechBubble" th:text="${message.body}"></span></div>
+                                <div class="col-3" th:if="${message.user.imgPath}" >
+                                    <div class="messageImg float-left">
+                                        <img th:src="${message.user.imgPath}" alt=""/>
+                                    </div>
+                                </div>
+                                <div class="col-3" th:if="${message.user.imgPath == null}">
+                                    <div class="messageImg float-left">
+                                        <img src="/uploads/default.png" alt=""/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:if="${message.messageRecipients.get(0).id == member.id}" class="row">
+                                <div class="col-3" th:if="${message.user.imgPath}">
+                                    <div class="messageImg float-right">
+                                        <img th:src="${message.user.imgPath}" alt=""/>
+                                    </div>
+                                </div>
+                                <div class="col-3" th:if="${message.user.imgPath == null}">
+                                    <div class="messageImg float-right">
+                                        <img src="/uploads/default.png" alt=""/>
+                                    </div>
+                                </div>
+                                <div class="col-9">  <span class="receiverSpeechBubble" th:text="${message.body}"></span></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
             <hr />
             <h5>Message <i class="fas fa-comment" data-toggle="modal" th:attr="data-target='#'+ ${member.id}"></i></h5>
             <div class="modal fade messageModal" th:id="${member.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Send <span th:text="${member.title}"></span> a message </h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Send <span th:text="${member.title}"></span> a Message </h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -35,7 +66,7 @@
                             <div class="modal-footer">
                                 <input type="hidden" th:value="${member.id}" name="messageRecipients" />
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Send</button>
+                                <button type="submit" class="btn btn-outline-primary">Send</button>
                             </div>
                         </form>
                     </div>
