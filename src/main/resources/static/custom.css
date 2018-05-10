@@ -325,6 +325,7 @@ footer {
     height: 7rem;
     padding-top: 3rem;
     background: linear-gradient(0deg, rgb(35, 35, 35) 70%, rgba(52,58,64,0) 95%, rgba(205,32,42,0) 100%);
+    overflow: hidden;
 }
 footer img {
     width: 50%;
