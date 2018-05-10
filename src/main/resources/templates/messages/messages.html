@@ -8,21 +8,22 @@
 
 <div class="container">
     <div class="row" th:each="member: ${family.users}">
-        <div class="col-md-10 offset-md-1 dashboardBlock dashboardOver" th:if="${member.id != #authentication.principal.id}">
+        <div class="col-md-12" th:if="${member.id != #authentication.principal.id}">
             <div th:if="${member.title}">
-                <h2 th:text="${member.title}" class="text-center"></h2>
+                <h2 th:text="${member.title}" class="text-center" style="color: White; margin-top: 50px; margin-bottom: 0; font-family: 'Luckiest Guy', cursive"></h2>
             </div>
             <div th:if="${member.title == null}">
-            <h2 th:text="${member.firstName}" class="text-center"></h2>
+                <h2 th:text="${member.firstName}" class="text-center" style="color: White; margin-top: 50px; margin-bottom: 0; font-family: 'Luckiest Guy', cursive"></h2>
             </div>
-            <hr />
+        </div>
+        <div class="col-md-10 offset-md-1 dashboardBlock dashboardOver" th:if="${member.id != #authentication.principal.id}">
 
             <div th:each="message : ${messages}">
                 <div th:if="${message.user.id == member.id or message.messageRecipients.get(0).id == member.id}">
                     <div class="row">
                         <div class="col-12 messageBlock">
                             <div th:if="${message.user.id == member.id}" class="row">
-                                <div class="col-9">  <span class="senderSpeechBubble" th:text="${message.body}"></span><span class="messageTime float-right changeTime dateTime" th:text="${message.created_on}"></span></div>
+                                <div class="col-6 offset-3"> <p style="display: inline-block" class="senderSpeechBubble" th:text="${message.body}"></p><span class="messageTime float-right changeTime dateTime" th:text="${message.created_on}"></span></div>
                                 <div class="col-3" th:if="${message.user.imgPath}" >
                                     <div class="messageImg float-left">
                                         <img th:src="${message.user.imgPath}" alt=""/>
@@ -45,7 +46,7 @@
                                         <img src="/uploads/default.png" alt=""/>
                                     </div>
                                 </div>
-                                <div class="col-9">  <span class="receiverSpeechBubble" th:text="${message.body}"></span><span class="messageTime changeTime dateTime" th:text="${message.created_on}"></span></div>
+                                <div class="col-5"> <p style="display: inline-block" class="receiverSpeechBubble" th:text="${message.body}"></p><span class="messageTime changeTime dateTime" th:text="${message.created_on}"></span></div>
                             </div>
                         </div>
                     </div>
@@ -78,6 +79,7 @@
                     </div>
                 </div>
             </div>
+            <br />
         </div>
     </div>
 </div>
