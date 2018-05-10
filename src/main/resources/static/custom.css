@@ -350,3 +350,104 @@ footer img {
 .fa-envelope {
     margin-right: 5px;
 }
+
+.senderMessage {
+    background-color: deepskyblue;
+    color: white;
+
+}
+
+.receiverMessage {
+    background-color:lightgray;
+    color: black;
+
+}
+
+.senderSpeechBubble {
+    position: relative;
+    background: #6eba37;
+    border-radius: .4em;
+    padding: 10px;
+    float: right;
+    margin-left: 10px;
+}
+
+.senderSpeechBubble:after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-left-color: #6eba37;
+    border-right: 0;
+    border-bottom: 0;
+    margin-top: -10px;
+    margin-right: -20px;
+}
+
+
+.receiverSpeechBubble {
+    position: relative;
+    background: lightgray;
+    border-radius: .4em;
+    padding: 10px;
+    color: black;
+    margin-right:10px;
+
+}
+
+.receiverSpeechBubble:after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 0.781em solid transparent;
+    border-right-color: lightgray;
+    border-left: 0;
+    border-bottom: 0;
+    margin-top: -0.391em;
+    margin-left: -0.781em;
+}
+
+.messageImg {
+    width: 5rem;
+    height: 5rem;
+    margin: .25rem auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+
+
+}
+
+.messageImg img {
+    width: auto;
+    height: 100%;
+}
+
+.messageUserName {
+    font-weight: bold;
+}
+
+.messageBlock {
+    margin-left: 10px;
+}
+
+.modal-content {
+    background-color: #B5F9FC;
+}
+
+.dashboardOver {
+    height: 225px;
+    overflow: auto;
+
+}
+
+.messageTime.float-right {
+    position: relative;
+    top: 10px;
+}
