@@ -9,7 +9,12 @@
 <div class="container">
     <div class="row" th:each="member: ${family.users}">
         <div class="col-md-10 offset-md-1 dashboardBlock dashboardOver" th:if="${member.id != #authentication.principal.id}">
-            <h2 th:text="${member.title}" class="text-center"></h2>
+            <div th:if="${member.title}">
+                <h2 th:text="${member.title}" class="text-center"></h2>
+            </div>
+            <div th:if="${member.title == null}">
+            <h2 th:text="${member.firstName}" class="text-center"></h2>
+            </div>
             <hr />
 
             <div th:each="message : ${messages}">
