@@ -325,6 +325,7 @@ footer {
     border-radius: .4em;
     padding: 10px;
     float: right;
+    margin-left: 10px;
 }
 
 .senderSpeechBubble:after {
@@ -349,6 +350,7 @@ footer {
     border-radius: .4em;
     padding: 10px;
     color: black;
+    margin-right:10px;
 
 }
 
@@ -393,4 +395,15 @@ footer {
 
 .modal-content {
     background-color: #B5F9FC;
+}
+
+.dashboardOver {
+    height: 225px;
+    overflow: auto;
+
+}
+
+.messageTime.float-right {
+    position: relative;
+    top: 10px;
 }
