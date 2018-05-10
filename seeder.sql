@@ -56,8 +56,8 @@ INSERT INTO tasks_categories (task_id, category_id) VALUES (1, 1), (1, 6), (1, 7
 #   VALUES ();
 
 INSERT INTO messages (body, message_read, creator_id, created_on)
-  VALUES('Hey mom is there anything you need for the 5K this weekend?', false, 4, '2018-05-10'),
-  ('Jona what time do you get off work today?', false, 8, '2018-05-10');
+  VALUES('Hey mom is there anything you need for the 5K this weekend?', false, 4, '2018-05-10 16:28:00'),
+  ('Jona what time do you get off work today?', false, 8, '2018-05-10 16:27:00');
 
 INSERT INTO messages_message_recipients (message_id, recipient_id)
     VALUES (1, 6), (2, 7);

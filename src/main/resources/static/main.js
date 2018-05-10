@@ -95,7 +95,12 @@ $.each($(".changeTime"), (index, element) => {
         let parent = element.parentNode;
         element.parentNode.parentNode.removeChild(parent);
     } else {
-        let time = new Date("2018-01-01 " + element.textContent);
+        let time = new Date();
+        if(element.classList.contains("dateTime")){
+            time = new Date(element.textContent);
+        } else {
+            time = new Date("2018-01-01 " + element.textContent);
+        }
         let hours = time.getHours();
         let minutes = time.getMinutes();
         let ampm = hours >= 12 ? 'pm' : 'am';
@@ -198,6 +203,7 @@ $('#allDay').click(()=> {
     allDayCheck();
 });
 
+$("dashboardOver").scrollTop($("dashboardOver")[0].scrollHeight);
 
 $("button").on("click", setTimeout(() => {
     $(this).prop("disabled", true);
