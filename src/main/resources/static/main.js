@@ -203,7 +203,7 @@ $('#allDay').click(()=> {
     allDayCheck();
 });
 
-$("dashboardOver").scrollTop($("dashboardOver")[0].scrollHeight);
+$(".dashboardOver").scrollTop($(".dashboardOver")[0].scrollHeight);
 
 $("button").on("click", setTimeout(() => {
     $(this).prop("disabled", true);
