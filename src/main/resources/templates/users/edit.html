@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="partials/header :: header('Update Profile')"/>
-<body>
+<body sec:authorize="hasAnyRole('ROLE_PARENT, ROLE_CARETAKER')">
 <div th:replace="partials/navbar :: navbar"></div>
 
 <div class="container">
@@ -49,7 +49,7 @@
                     <div class="col-md-6">
                         <label class="registrationLabels" for="imgUpload">Upload Profile Picture</label><br/>
                         <input class="registrationInputs" id="imgUpload" name="imgUpload" type="file" accept="image/*" /><br/>
-                        <p class="text-info" th:if="${user.imgPath != null}">An uploaded profile pic exists. Uploading a pic will replace the existing one.</p>
+                        <p class="text-info text-small" th:if="${user.imgPath != null}">An uploaded profile pic exists. Uploading a pic will replace the existing one.</p>
                     </div>
 
                     <div sec:authorize="hasRole('ROLE_PARENT')" class="col-md-6" >
@@ -58,15 +58,159 @@
                         <p class="text-danger" th:if="${#fields.hasErrors('family.name')}" th:errors="*{family.name}" />
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6 offset-md-3">
                         <label class="registrationLabels" for="editVerification">Verify Password</label><br/>
                         <input class="registrationInputs" id="editVerification" type="password" name="password" th:required="required" /><br/>
                         <p class="text-danger" th:if="${#fields.hasErrors('user.password')}" th:errors="*{user.password}" />
                     </div>
 
                     <div class="col-md-12 text-center">
-                        <p>Share your family code to stay current with family members!</p>
-                        <p class="font-weight-bold" th:text="${family.code}"></p>
+                        <p>Share the following code with family members to stay current with them!</p>
+                        <h4 class="mb-3" th:text="${family.code}"></h4>
+                    </div>
+
+                </div>
+                <div class="row justify-content-center">
+                    <input type="hidden" th:value="*{user.id}" name="id"/>
+                    <input type="hidden" th:value="*{family.id}" name="familyId"/>
+                    <input type="hidden" th:value="*{family.code}" name="familyCode"/>
+                    <input sec:authorize="hasRole('ROLE_CHILD')" type="hidden" th:value="*{family.name}" name="name"/>
+                    <input class="btn btn-outline-info col-md-4 col-md-offset-4" value="Update Profile!" type="submit"/>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class = "col-md-6 col-md-offset-3 dashboardBlock">
+            <h2 class="text-center">Change Password</h2>
+            <hr />
+            <form th:action="@{/password/update}" method="POST" th:object="${userNewPass}">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="oldPassword">Current Password</label><br />
+                        <input class="registrationInputs" id="oldPassword" th:field="*{password}" type="password" th:required="required"/> <br/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="newPassword">New Password</label><br />
+                        <input class="registrationInputs" id="newPassword" name="newPassword" type="password" th:required="required" /> <br/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="newPassVerify">Verify New Password</label><br />
+                        <input class="registrationInputs" id="newPassVerify" name="newPassVerify" type="password" th:required="required" /> <br/>
+                        <p class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" />
+                    </div>
+
+                </div>
+                <div class="row justify-content-center">
+                    <input type="hidden" th:field="*{id}" th:value="*{id}" name="id"/>
+                    <input type="hidden" th:field="*{firstName}" th:value="*{firstName}" name="id"/>
+                    <input type="hidden" th:field="*{lastName}" th:value="*{lastName}" name="id"/>
+                    <input type="hidden" th:field="*{birthdate}" th:value="*{birthdate}" name="id"/>
+                    <input type="hidden" th:field="*{username}" th:value="*{username}" name="id"/>
+                    <input type="hidden" th:field="*{email}" th:value="*{email}" name="id"/>
+                    <input type="hidden" th:field="*{family}" th:value="*{family}" name="id"/>
+                    <input class="btn btn-outline-info col-md-4 col-md-offset-4" value="Update Password!" type="submit"/>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="row justify-content-center my-3">
+        <input class="btn btn-danger col-md-4 col-md-offset-4" value="Delete Account!" type="button" id="showDeleteForm"/>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-center text-danger">Are you sure you would like to delete your account?</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <form th:action="@{/update/profile/delete}" method="POST">
+                    <input type="hidden" th:value="${user.id}" name="id"/>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="partials/footer :: footer"></div>
+</body>
+
+<body sec:authorize="hasRole('ROLE_CHILD')" class="kid-text">
+<div th:replace="partials/navbar :: navbar"></div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class = "col-md-6 col-md-offset-3 dashboardBlock">
+            <h2 class="text-center">Update Profile</h2>
+            <hr />
+            <form th:action="@{/profile/update}" method="POST" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="editFirstName">First Name</label><br />
+                        <input class="registrationInputs" id="editFirstName" th:value="*{user.firstName}" name="firstName" th:required="required"/> <br/>
+                        <p class="text-danger" th:if="${#fields.hasErrors('user.firstName')}" th:errors="*{user.firstName}" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="editLastName">Last Name</label><br />
+                        <input class="registrationInputs" id="editLastName" th:value="*{user.lastName}" name="lastName" th:required="required" /> <br/>
+                        <p class="text-danger" th:if="${#fields.hasErrors('user.lastName')}" th:errors="*{user.lastName}" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="editTitle">Family Title</label><br />
+                        <input class="registrationInputs" id="editTitle" th:value="*{user.title}" name="title" placeholder="e.g., Mom, Daddy, etc." /> <br/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="editBirthdate">Birthday</label><br />
+                        <input class="registrationInputs" type="date" th:value="*{user.birthdate}" name="birthdate" id="editBirthdate" th:required="required" /> <br/>
+                        <p class="text-danger" th:if="${#fields.hasErrors('user.birthdate')}" th:errors="*{user.birthdate}" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="editUsername">Username</label><br/>
+                        <input class="registrationInputs" id="editUsername" th:value="*{user.username}" name="username" th:required="required" /><br/>
+                        <p class="text-danger" th:if="${#fields.hasErrors('user.username')}" th:errors="*{user.username}" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="editEmail">Email</label><br/>
+                        <input class="registrationInputs" id="editEmail" th:value="*{user.email}" name="email" th:required="required" /><br/>
+                        <p class="text-danger" th:if="${#fields.hasErrors('user.email')}" th:errors="*{user.email}" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="registrationLabels" for="imgUpload">Upload Profile Picture</label><br/>
+                        <input class="registrationInputs" id="imgUpload" name="imgUpload" type="file" accept="image/*" /><br/>
+                        <p class="text-info text-small" th:if="${user.imgPath != null}">An uploaded profile pic exists. Uploading a pic will replace the existing one.</p>
+                    </div>
+
+                    <div sec:authorize="hasRole('ROLE_PARENT')" class="col-md-6" >
+                        <label class="registrationLabels" for="editFamily">Family Name</label><br/>
+                        <input class="registrationInputs" id="editFamily" th:value="*{family.name}" name="name" placeholder="e.g., Smith, Sanchez, etc." th:required="required"/>
+                        <p class="text-danger" th:if="${#fields.hasErrors('family.name')}" th:errors="*{family.name}" />
+                    </div>
+
+                    <div class="col-md-6 offset-md-3">
+                        <label class="registrationLabels" for="editVerification">Verify Password</label><br/>
+                        <input class="registrationInputs" id="editVerification" type="password" name="password" th:required="required" /><br/>
+                        <p class="text-danger" th:if="${#fields.hasErrors('user.password')}" th:errors="*{user.password}" />
+                    </div>
+
+                    <div class="col-md-12 text-center">
+                        <p>Share the following code with family members to stay current with them!</p>
+                        <h4 class="mb-3" th:text="${family.code}"></h4>
                     </div>
 
                 </div>
