@@ -2,6 +2,29 @@ body {
     background-color: #2B2958;
     color: #2c2a57;
 }
+.kid-text {
+    font-family: 'Short Stack', cursive;
+}
+.mainImg::before {
+    content:'';
+    position:absolute;
+    width:100%;
+    height:100%;
+    background: #2c2a57;
+    opacity:0.4;
+}
+.mainImg {
+    background: linear-gradient(0deg, rgba(44,42,87,1) 0%, rgba(253,29,29,0) 5%, rgba(205,32,42,0) 95%, rgba(44,42,87,1) 100%), url("/img/family.jpg");
+    background-position: top;
+    background-size: cover;
+    height: 47rem;
+}
+.logo {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    position:absolute;
+}
 a {
     color: #b7b3b3;
     font-weight: bold;
@@ -21,16 +44,6 @@ a:hover {
 p {
     color: white;
 }
-.jumbotron {
-    background: url(/img/index.jpg);
-    background-size: cover;
-    height: 44rem;
-    background-position: bottom;
-}
-.overlay {
-     background-color: rgba(255, 255, 255, .5);
-
-}
 .homePageText {
     font-family: 'Luckiest Guy', cursive;
     font-size: 2.5rem;
@@ -38,14 +51,17 @@ p {
     margin-bottom: 1.75rem;
     color: white;
 }
-.iconHeader {
-    margin-top: 10px;
+.indexHeader {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 2.75vw;
+    margin-top: 2.5rem;
+    margin-bottom: 1.75rem;
+    color: #a1fbfd;
+    border-radius: 50rem;
 }
-
 .indexIconDesc {
     margin-top: 20px;
 }
-
 .iconBox {
     padding-left: 20px;
     padding-right: 20px;
@@ -119,6 +135,14 @@ textarea {
     overflow: hidden;
     position: relative;
 }
+.homeImg {
+    width: 16rem;
+    height: 16rem;
+    margin: .75rem auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
 .familyListImg {
     width: 5rem;
     height: 5rem;
@@ -148,7 +172,7 @@ textarea {
     overflow: hidden;
     position: relative;
 }
-.commentImg img, .dashboardImg img, .familyListImg img {
+.commentImg img, .dashboardImg img, .familyListImg img, .homeImg img {
     height: 100%;
     position: absolute;
     left: 50%;
@@ -170,7 +194,7 @@ textarea {
     color: rgba(159, 251, 253, .75);
 }
 .navbar-dark .navbar-nav .nav-link {
-    color: rgba(159, 251, 253,.5);
+    color: rgba(159, 251, 253, 1);
 }
 .text-info {
     color: #A1FBFD!important;
@@ -297,11 +321,15 @@ textarea {
 .messageInput {
     width: 95%;
 }
-.kid-text {
-    font-family: 'Short Stack', cursive;
-}
 footer {
     height: 7rem;
+    padding-top: 3rem;
+    background: linear-gradient(0deg, rgb(35, 35, 35) 70%, rgba(52,58,64,0) 95%, rgba(205,32,42,0) 100%);
+}
+footer img {
+    width: 50%;
+    margin: 0 auto;
+    display: block;
 }
 .fa-envelope {
     margin-right: 5px;
