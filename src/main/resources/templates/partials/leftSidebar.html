@@ -17,11 +17,7 @@
                 </div>
                 <b><p class="text-center" th:text="${user.firstName + ' ' + user.lastName}"></p></b>
                 <hr/>
-                <p sec:authorize="hasAnyRole('ROLE_PARENT, ROLE_CARETAKER')"><span class="text-left"><b>Email</b></span><span class="float-right" th:text="${user.email}"></span></p>
-                <hr sec:authorize="hasAnyRole('ROLE_PARENT, ROLE_CARETAKER')"/>
-                <p><span class="text-left"><b>Birthday</b></span><span class="float-right birthDate" th:text="${user.birthdate}"></span></p>
-                <hr/>
-                <div> <span class="newMessages" th:if="${checkMessages.size() == 1}"><a href="/messages"><i class="far fa-envelope fa-2x"></i> <span th:text="${checkMessages.size()}"></span> New Message </a></span>
+                <div class="text-center"> <span class="newMessages" th:if="${checkMessages.size() == 1}"><a href="/messages"><i class="far fa-envelope fa-2x"></i> <span th:text="${checkMessages.size()}"></span> New Message </a></span>
                     <span class="newMessages" th:if="${checkMessages.size() > 1 }"><a href="/messages"><i class="far fa-envelope fa-2x"></i> <span th:text="${checkMessages.size()}"></span> New Messages </a></span>
                     <span th:if="${checkMessages.size() == 0}"><a href="/messages"><i class="far fa-envelope fa-2x"></i> View Messages </a></span>
                     <hr /></div>
@@ -45,9 +41,8 @@
                             </div>
                         </div>
                         <div class="col-8">
-                            <h5 th:if="${member.title}" th:text="${member.title}"></h5>
-                            <h5>Message <i class="fas fa-comment" data-toggle="modal" th:attr="data-target='#'+ ${member.id}"></i></h5>
-                            <h5 th:text="${member.firstName + ' ' + member.lastName}"></h5>
+                            <h5 th:if="${member.title}" ><span th:text="${member.title}"></span> <i class="fas fa-comment" data-toggle="modal" th:attr="data-target='#'+ ${member.id}"></i></h5>
+                            <h5><span th:text="${member.firstName + ' ' + member.lastName}"></span> <i th:if="${member.title == null}" class="fas fa-comment" data-toggle="modal" th:attr="data-target='#'+ ${member.id}"></i></h5>
                             <h5><i class="fas fa-birthday-cake"></i> <span class="birthDate" th:text="${member.birthdate}"></span></h5>
                         </div>
                     </div>
@@ -55,7 +50,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Send <span th:text="${member.title}"></span> a message </h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Send <span th:if="${member.title}" th:text="${member.title}"></span><span th:if="${member.title == null}" th:text="${member.firstName}"></span> a message </h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -68,8 +63,8 @@
                                     </div>
                                     <div class="modal-footer">
                                         <input type="hidden" th:value="${member.id}" name="messageRecipients" />
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Send</button>
+                                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-outline-primary">Send</button>
                                     </div>
                                 </form>
                             </div>
