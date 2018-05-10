@@ -58,6 +58,7 @@ public class CommentController {
         User current = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         editComment.setUser(current);
         editComment.setEvent(eventRepository.findById(id));
+        editComment.setCreated_on(eventCommentRepository.findOne(editComment.getId()).getCreated_on());
         eventCommentRepository.save(editComment);
         return "redirect:/events/" + id;
     }
