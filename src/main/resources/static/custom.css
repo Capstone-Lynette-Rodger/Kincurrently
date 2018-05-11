@@ -457,13 +457,11 @@ footer img {
 
 .messageTime.float-right {
     position: relative;
-    top: 10px;
+    top: 2px;
 }
-
 .aboutUs a{
     color: #a1fbfd;
 }
-
 .img404 {
     background: linear-gradient(0deg, rgba(44,42,87,1) 0%, rgba(253,29,29,0) 5%, rgba(205,32,42,0) 95%, rgba(44,42,87,1) 100%), url("/img/404bear.jpg");
     background-position: center;
