@@ -478,16 +478,18 @@ footer img {
     opacity:0.25;
 }
 
-@media screen and (min-width: 768px){
-
-    .homeImg {
-        width: 13rem;
-        height: 13rem;
-        margin: .75rem auto;
-        border-radius: 50%;
-        overflow: hidden;
-        position: relative;
+@media screen and (min-width: 300px){
+    .logoImageDynamic {
+        width: 290px;
     }
+
+}
+
+@media screen and (min-width: 500px){
+    .logoImageDynamic {
+        width: 490px;
+    }
+
 }
 
 @media screen and (min-width: 768px){
@@ -500,10 +502,23 @@ footer img {
         overflow: hidden;
         position: relative;
     }
+
+    .logoImageDynamic {
+        width: 758px;
+    }
+
+
+}
+
+
+@media screen and (min-width: 792px){
+    .logoImageDynamic {
+        width: 790px;
+    }
+
 }
 
 @media screen and (min-width: 992px){
-
     .homeImg {
         width: 16rem;
         height: 16rem;
