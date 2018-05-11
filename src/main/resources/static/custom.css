@@ -485,11 +485,20 @@ footer img {
         width: 290px;
     }
 
+    .commentImg {
+        width: 3rem;
+        height: 3rem;
+    }
+
 }
 
 @media screen and (min-width: 500px){
     .logoImageDynamic {
         width: 490px;
+    }
+    .commentImg {
+        width: 4rem;
+        height: 4rem;
     }
 
 }
@@ -508,6 +517,10 @@ footer img {
     .logoImageDynamic {
         width: 758px;
     }
+    .commentImg {
+        width: 6rem;
+        height: 6rem;
+    }
 
 
 }
@@ -524,6 +537,10 @@ footer img {
     .homeImg {
         width: 16rem;
         height: 16rem;
+    }
+    .commentImg {
+        width: 7rem;
+        height: 7rem;
     }
 }
 
