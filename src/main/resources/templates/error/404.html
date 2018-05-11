@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header :: header('Kincurrently')"/>
+<body>
+<div th:replace="partials/navbar :: navbar"></div>
+
+<div class="img404">
+    <div class="inner404 text-center">
+        <img src="/img/404.png"/>
+        <div>
+            <a class="btn btn-outline-primary" href="/">Go Home</a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="partials/footer :: footer"></div>
+</body>
+</html>

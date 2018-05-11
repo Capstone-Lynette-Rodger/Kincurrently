@@ -276,6 +276,11 @@ public class UserController {
         return "redirect:/";
     }
 
+    @GetMapping("/about-us")
+    public String showAboutUs() {
+        return"users/about-us";
+    }
+
     public List<String> getNotifications(User user) {
         List<String> message = new ArrayList<>();
         int completedTasks = 0;
@@ -328,4 +333,5 @@ public class UserController {
         }
         return thisWeekTasks;
     }
+
 }
