@@ -5,7 +5,7 @@ body {
 .kid-text {
     font-family: 'Short Stack', cursive;
 }
-.mainImg::before {
+.mainImg::before, .img404::before {
     content:'';
     position:absolute;
     width:100%;
@@ -172,7 +172,15 @@ textarea {
     overflow: hidden;
     position: relative;
 }
-.commentImg img, .dashboardImg img, .familyListImg img, .homeImg img {
+.aboutUsImg {
+    width: 20rem;
+    height: 20rem;
+    margin: .25rem auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+.commentImg img, .dashboardImg img, .familyListImg img, .homeImg img, .aboutUsImg img {
     height: 100%;
     position: absolute;
     left: 50%;
@@ -451,4 +459,21 @@ footer img {
     position: relative;
     top: 2px;
 }
-
+.aboutUs a{
+    color: #a1fbfd;
+}
+.img404 {
+    background: linear-gradient(0deg, rgba(44,42,87,1) 0%, rgba(253,29,29,0) 5%, rgba(205,32,42,0) 95%, rgba(44,42,87,1) 100%), url("/img/404bear.jpg");
+    background-position: center;
+    background-size: cover;
+    height: 50rem;
+}
+.inner404 {
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%,-50%);
+    position:absolute;
+}
+.img404::before {
+    opacity:0.25;
+}
