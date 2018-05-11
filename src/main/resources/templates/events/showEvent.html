@@ -65,8 +65,8 @@
                                     <h5 class="text-center" th:if="${eventComment.user.title}"><i class="far fa-user"></i> <span th:text="${eventComment.user.title}"></span></h5>
                                     <h5 class="text-center" th:if="${eventComment.user.title == null}"><i class="far fa-user"></i> <span th:text="${eventComment.user.firstName}"></span></h5>
                                 </div>
-                                <div class="col-9">
-                                    <p class="comment" th:utext="${eventComment.commentBody}"></p>
+                                <div class="col-9 comment">
+                                    <p th:utext="${eventComment.commentBody}"></p>
                                     <h6 class="text-info"><i class="far fa-calendar-alt"></i> <span th:text="${eventComment.created_on}" class="fullDate"></span></h6>
                                     <h6 th:if="${eventComment.user.id == #authentication.principal.id}">
                                         <a th:href="@{/events/comment/{id}/edit(id=${eventComment.id})}"><i class="far fa-edit"></i> Edit Comment</a>
