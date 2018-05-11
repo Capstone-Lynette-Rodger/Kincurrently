@@ -119,7 +119,8 @@ $.each($(".changeDate"), (index, element) => {
     } else {
         let date = new Date(element.textContent);
         if(element.classList.contains("due") && (current.getFullYear() >= date.getUTCFullYear() && date.getUTCMonth() <= current.getMonth() && date.getUTCDate() < current.getDate())) {
-            element.style.color = "#ca0d0d";
+            element.parentNode.style.backgroundColor = "rgba(208, 30, 30, 0.63)";
+            element.parentNode.style.color = "#fff";
         }
         if(date.getUTCFullYear() === addDays(current, -1).getFullYear() && date.getUTCMonth() === addDays(current, -1).getMonth() && date.getUTCDate() === addDays(current, -1).getDate()) {
             element.innerHTML = "Yesterday"
@@ -144,7 +145,20 @@ $.each($(".fullDate"), (index, element) => {
     } else {
         let date = new Date(element.textContent);
         if(element.classList.contains("due") && (current.getFullYear() >= date.getUTCFullYear() && date.getUTCMonth() <= current.getMonth() && date.getUTCDate() < current.getDate())) {
-            element.style.color = "#ca0d0d";
+            element.parentNode.style.backgroundColor = "rgba(208, 30, 30, 0.63)";
+            element.parentNode.style.color = "#fff";
+            if(element.parentNode.querySelector("button")) {
+                element.parentNode.querySelector("button").style.color = "white";
+                element.parentNode.querySelector("button").style.borderColor = "white";
+                element.parentNode.querySelector("button").onmouseenter = () => {
+                    element.parentNode.querySelector("button").style.background = "white";
+                    element.parentNode.querySelector("button").style.color = "rgba(208, 30, 30)";
+                };
+                element.parentNode.querySelector("button").onmouseleave = () => {
+                    element.parentNode.querySelector("button").style.background = "none";
+                    element.parentNode.querySelector("button").style.color = "white";
+                }
+            }
         }
         if(date.getUTCFullYear() === addDays(current, -1).getFullYear() && date.getUTCMonth() === addDays(current, -1).getMonth() && date.getUTCDate() === addDays(current, -1).getDate()) {
             element.innerHTML = "Yesterday"
@@ -203,7 +217,9 @@ $('#allDay').click(()=> {
     allDayCheck();
 });
 
-$(".dashboardOver").scrollTop($(".dashboardOver")[0].scrollHeight);
+if($(".dashboardOver").length > 0) {
+    $(".dashboardOver").scrollTop($(".dashboardOver")[0].scrollHeight);
+}
 
 $("button").on("click", setTimeout(() => {
     $(this).prop("disabled", true);

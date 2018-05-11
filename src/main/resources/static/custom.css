@@ -155,6 +155,8 @@ textarea {
     background: #A1FBFD;
     padding: .5rem;
     color: #2B2958;
+    border-radius: 5px;
+    margin-top: 1.5rem;
 }
 .dashboardGrid a{
     color: rgba(44, 42, 87, .5);
