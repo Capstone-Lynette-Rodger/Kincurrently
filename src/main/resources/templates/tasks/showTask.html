@@ -143,8 +143,8 @@
                                     <h5 class="text-center" th:if="${taskComment.user.title}"><i class="far fa-user"></i> <span th:text="${taskComment.user.title}"></span></h5>
                                     <h5 class="text-center" th:if="${taskComment.user.title == null}"><i class="far fa-user"></i> <span th:text="${taskComment.user.firstName}"></span></h5>
                                 </div>
-                                <div class="col-9">
-                                    <p class="comment" th:utext="${taskComment.commentBody}"></p>
+                                <div class="col-9 comment">
+                                    <p th:utext="${taskComment.commentBody}"></p>
                                     <h6 class="text-info"><i class="far fa-calendar-alt"></i> <span th:text="${taskComment.created_on}" class="fullDate"></span></h6>
                                     <h6 th:if="${taskComment.user.id == #authentication.principal.id}">
                                         <a th:href="@{/tasks/comment/{id}/edit(id=${taskComment.id})}"><i class="far fa-edit"></i> Edit Comment</a>
