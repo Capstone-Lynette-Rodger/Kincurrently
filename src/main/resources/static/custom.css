@@ -477,3 +477,37 @@ footer img {
 .img404::before {
     opacity:0.25;
 }
+
+@media screen and (min-width: 768px){
+
+    .homeImg {
+        width: 13rem;
+        height: 13rem;
+        margin: .75rem auto;
+        border-radius: 50%;
+        overflow: hidden;
+        position: relative;
+    }
+}
+
+@media screen and (min-width: 768px){
+
+    .homeImg {
+        width: 13rem;
+        height: 13rem;
+        margin: .75rem auto;
+        border-radius: 50%;
+        overflow: hidden;
+        position: relative;
+    }
+}
+
+@media screen and (min-width: 992px){
+
+    .homeImg {
+        width: 16rem;
+        height: 16rem;
+    }
+}
+
+
