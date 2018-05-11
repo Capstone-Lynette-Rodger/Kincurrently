@@ -53,7 +53,7 @@ p {
 }
 .indexHeader {
     font-family: 'Luckiest Guy', cursive;
-    font-size: 2.75vw;
+    font-size: 2.75em;
     margin-top: 2.5rem;
     margin-bottom: 1.75rem;
     color: #a1fbfd;
@@ -477,3 +477,52 @@ footer img {
 .img404::before {
     opacity:0.25;
 }
+
+@media screen and (min-width: 300px){
+    .logoImageDynamic {
+        width: 290px;
+    }
+
+}
+
+@media screen and (min-width: 500px){
+    .logoImageDynamic {
+        width: 490px;
+    }
+
+}
+
+@media screen and (min-width: 768px){
+
+    .homeImg {
+        width: 13rem;
+        height: 13rem;
+        margin: .75rem auto;
+        border-radius: 50%;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .logoImageDynamic {
+        width: 758px;
+    }
+
+
+}
+
+
+@media screen and (min-width: 792px){
+    .logoImageDynamic {
+        width: 790px;
+    }
+
+}
+
+@media screen and (min-width: 992px){
+    .homeImg {
+        width: 16rem;
+        height: 16rem;
+    }
+}
+
+
