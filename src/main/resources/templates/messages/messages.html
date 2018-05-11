@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col-12 messageBlock">
                             <div th:if="${message.user.id == member.id}" class="row">
-                                <div class="col-6 offset-3"> <p style="display: inline-block" class="senderSpeechBubble" th:text="${message.body}"></p><span class="messageTime float-right changeTime dateTime" th:text="${message.created_on}"></span></div>
+                                <div class="col-6 offset-3 mb-4"> <p style="display: inline-block" class="senderSpeechBubble mb-0" th:text="${message.body}"></p><span class="messageTime float-right changeTime dateTime" th:text="${message.created_on}"></span></div>
                                 <div class="col-3" th:if="${message.user.imgPath}" >
                                     <div class="messageImg float-left">
                                         <img th:src="${message.user.imgPath}" alt=""/>
@@ -46,7 +46,7 @@
                                         <img src="/uploads/default.png" alt=""/>
                                     </div>
                                 </div>
-                                <div class="col-5"> <p style="display: inline-block" class="receiverSpeechBubble" th:text="${message.body}"></p><span class="messageTime changeTime dateTime" th:text="${message.created_on}"></span></div>
+                                <div class="col-5 mb-4"> <p style="display: inline-block" class="receiverSpeechBubble mb-0" th:text="${message.body}"></p><span class="messageTime changeTime dateTime" th:text="${message.created_on}"></span></div>
                             </div>
                         </div>
                     </div>
