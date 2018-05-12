@@ -433,8 +433,6 @@ footer img {
     border-radius: 50%;
     overflow: hidden;
     position: relative;
-
-
 }
 
 .messageImg img {
@@ -497,6 +495,11 @@ footer img {
         font-size: 2.25em;
     }
 
+    .messageImg {
+        width: 3rem;
+        height: 3rem;
+    }
+
 }
 
 @media screen and (min-width: 350px) {
@@ -511,6 +514,11 @@ footer img {
         width: 490px;
     }
     .commentImg {
+        width: 4rem;
+        height: 4rem;
+    }
+
+    .messageImg {
         width: 4rem;
         height: 4rem;
     }
@@ -534,6 +542,11 @@ footer img {
     .commentImg {
         width: 6rem;
         height: 6rem;
+    }
+
+    .messageImg {
+        width: 5rem;
+        height: 5rem;
     }
 
 
