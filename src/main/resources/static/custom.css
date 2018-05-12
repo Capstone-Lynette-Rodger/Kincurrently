@@ -490,6 +490,17 @@ footer img {
         height: 3rem;
     }
 
+    .btn.indexHeader {
+        font-size: 2.25em;
+    }
+
+}
+
+@media screen and (min-width: 350px) {
+    .btn.indexHeader {
+        font-size: 2.75em;
+    }
+
 }
 
 @media screen and (min-width: 500px){
