@@ -55,7 +55,7 @@
                                     <button class="btn btn-outline-info" th:if="${task.status.id == 2}">Mark Completed</button>
                                 </form>
 
-                                <h5 th:if="${task.status.id == 3}">Pending Final Approval</h5>
+                                <h5 th:if="${task.status.id == 3}" class="approval">Pending Final Approval</h5>
                             </div>
                             <hr/>
                         </div>
@@ -80,7 +80,7 @@
                                     <span th:if="${task.designated_user.title == null}" class="text-capitalize" th:text="${task.designated_user.firstName}"></span>
                                      <span th:text="${task.created_on}" class="changeDate"></span>
                                 </h5>
-                                <h5 th:if="${task.status.id == 3}">Pending Final Approval</h5>
+                                <h5 th:if="${task.status.id == 3}" class="approval">Pending Final Approval</h5>
                             </div>
                             <hr/>
                         </div>
@@ -105,7 +105,7 @@
                                     <span th:if="${task.designated_user.title == null}" class="text-capitalize" th:text="${task.designated_user.firstName}"></span>
                                      <span th:text="${task.created_on}" class="changeDate"></span>
                                 </h5>
-                                <h5 th:if="${task.status.id == 3}">Pending Final Approval</h5>
+                                <h5 th:if="${task.status.id == 3}" class="approval">Pending Final Approval</h5>
                             </div>
                             <hr/>
                         </div>
@@ -167,7 +167,7 @@
                                 <button class="btn btn-outline-info my-3" th:if="${task.status.id == 1}">Start!</button>
                                 <button class="btn btn-outline-info my-3" th:if="${task.status.id == 2}">Done!</button>
                             </form>
-                            <h5 th:if="${task.status.id == 3}">Waiting for the OK</h5>
+                            <h5 th:if="${task.status.id == 3}" class="approval">Waiting for the OK</h5>
                             <hr/>
                         </div>
                     </div>
