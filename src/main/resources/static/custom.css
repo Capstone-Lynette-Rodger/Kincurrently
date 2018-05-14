@@ -500,6 +500,11 @@ footer img {
         height: 3rem;
     }
 
+    .aboutUsImg {
+        width: 7rem;
+        height: 7rem;
+    }
+
 }
 
 @media screen and (min-width: 350px) {
@@ -523,6 +528,11 @@ footer img {
         height: 4rem;
     }
 
+    .aboutUsImg {
+        width: 9rem;
+        height: 9rem;
+    }
+
 }
 
 @media screen and (min-width: 768px){
@@ -542,6 +552,11 @@ footer img {
     .commentImg {
         width: 6rem;
         height: 6rem;
+    }
+
+    .aboutUsImg {
+        width: 11rem;
+        height: 11rem;
     }
 
     .messageImg {
@@ -568,6 +583,11 @@ footer img {
     .commentImg {
         width: 7rem;
         height: 7rem;
+    }
+
+    .aboutUsImg {
+        width: 20rem;
+        height: 20rem;
     }
 }
 
