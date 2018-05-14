@@ -5,6 +5,9 @@ body {
 nav{
     z-index: 1;
 }
+.nav-link {
+    margin: 0 .45rem;
+}
 .kid-text {
     font-family: 'Short Stack', cursive;
 }
@@ -80,6 +83,13 @@ p {
     margin-bottom: .85rem;
     border-radius: 5px;
     width: 100%;
+    padding: .25rem;
+}
+.loginInputs {
+    border-radius: 5px;
+    width: 38%;
+    margin: .25rem .45rem;
+    padding: .25rem;
 }
 .registrationDescription {
     margin-bottom: .85rem;
@@ -504,6 +514,9 @@ footer img {
         width: 7rem;
         height: 7rem;
     }
+    .loginInputs {
+        width: 100%;
+    }
 
 }
 
@@ -588,6 +601,9 @@ footer img {
     .aboutUsImg {
         width: 20rem;
         height: 20rem;
+    }
+    .loginInputs {
+        width: 38%;
     }
 }
 
