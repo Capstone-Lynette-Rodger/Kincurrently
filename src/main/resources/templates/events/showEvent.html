@@ -12,7 +12,9 @@
         </div>
     </div>
     <div class="row">
-        <div th:replace="partials/leftSidebar :: leftSidebar"></div>
+        <div class="d-none d-md-block">
+            <div th:replace="partials/leftSidebar :: leftSidebar"></div>
+        </div>
         <div class="col-md-8">
             <div class="row">
                 <div class="col">
@@ -24,7 +26,7 @@
                                 <span class="fullDate" th:text="${event.start_date}"></span>
                                 <span th:text="${event.start_date}" hidden="hidden" class="date event"></span>
                                 <span th:if="${!event.end_date.equals(event.start_date)}"> - <span class="fullDate" th:text="${event.end_date}"></span></span>
-                                <a th:if="${#authentication.principal.id == event.user.id}" th:href="@{/events/{id}/edit(id = ${event.id})}" class="float-right">
+                                <a th:if="${#authentication.principal.id == event.user.id}" th:href="@{/events/{id}/edit(id = ${event.id})}" class="float-right d-none d-md-block">
                                     <i class="far fa-edit"></i> Edit Event</a>
                             </h5>
                             <h5><i class="far fa-clock"></i> <span th:if="${event.end_time != null}"><span class="changeTime" th:text="${event.start_time}"></span> - <span class="changeTime" th:text="${event.end_time}"></span></span><span th:if="${event.end_time == null}">All Day</span></h5>
@@ -44,6 +46,8 @@
                                     <span th:text="${category.name}"></span>
                                 </span>
                             </div>
+                            <a th:if="${#authentication.principal.id == event.user.id}" th:href="@{/events/{id}/edit(id = ${event.id})}" class="float-right d-md-none">
+                                <h5><i class="far fa-edit"></i> Edit Event</h5></a>
                         </div>
                     </div>
                 </div>
@@ -165,7 +169,9 @@
         </div>
     </div>
     <div class="row">
-        <div th:replace="partials/leftSidebar :: leftSidebar"></div>
+        <div class="d-none d-md-block">
+            <div th:replace="partials/leftSidebar :: leftSidebar"></div>
+        </div>
         <div class="col-md-8">
             <div class="row">
                 <div class="col text-center">
