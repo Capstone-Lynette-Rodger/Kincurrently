@@ -469,6 +469,12 @@ footer img {
     margin-left: 10px;
 }
 
+.family-list {
+    max-height: 42rem;
+    padding-bottom: 1rem;
+    overflow: scroll;
+}
+
 .modal-content {
     background-color: #B5F9FC;
 }

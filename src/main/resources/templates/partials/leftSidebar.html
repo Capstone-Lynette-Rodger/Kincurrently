@@ -29,44 +29,46 @@
         <div class="col">
             <div class="dashboardBlock">
                 <h4 class="text-center">Family Members</h4>
-                <div th:each="member : ${family.users}">
-                    <div class="row" th:if="${member.id != #authentication.principal.id}">
-                        <hr width="100%"/>
-                        <div class="col-4">
-                            <div th:if="${member.imgPath}" class="familyListImg">
-                                <img th:src="${member.imgPath}" alt=""/>
-                            </div>
-                            <div th:if="${member.imgPath == null}" class="familyListImg">
-                                <img src="/uploads/default.png" alt=""/>
-                            </div>
-                        </div>
-                        <div class="col-8">
-                            <h5 th:if="${member.title}" ><span th:text="${member.title}"></span> <i class="fas fa-comment" data-toggle="modal" th:attr="data-target='#'+ ${member.id}"></i></h5>
-                            <h5><span th:text="${member.firstName + ' ' + member.lastName}"></span> <i th:if="${member.title == null}" class="fas fa-comment" data-toggle="modal" th:attr="data-target='#'+ ${member.id}"></i></h5>
-                            <h5><i class="fas fa-birthday-cake"></i> <span class="birthDate" th:text="${member.birthdate}"></span></h5>
-                        </div>
-                    </div>
-                    <div class="modal fade messageModal" th:id="${member.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Send <span th:if="${member.title}" th:text="${member.title}"></span><span th:if="${member.title == null}" th:text="${member.firstName}"></span> a message </h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                <div class="family-list">
+                    <div th:each="member : ${family.users}">
+                        <div class="row" th:if="${member.id != #authentication.principal.id}">
+                            <hr width="100%"/>
+                            <div class="col-4">
+                                <div th:if="${member.imgPath}" class="familyListImg">
+                                    <img th:src="${member.imgPath}" alt=""/>
                                 </div>
-                                <form th:action="@{/send/message}" method="post" th:object="${instantMessage}">
-                                    <div class="modal-body">
-                                        <input class="messageInput" th:field="*{body}">
+                                <div th:if="${member.imgPath == null}" class="familyListImg">
+                                    <img src="/uploads/default.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <h5 th:if="${member.title}" ><span th:text="${member.title}"></span> <i class="fas fa-comment" data-toggle="modal" th:attr="data-target='#'+ ${member.id}"></i></h5>
+                                <h5><span th:text="${member.firstName + ' ' + member.lastName}"></span> <i th:if="${member.title == null}" class="fas fa-comment" data-toggle="modal" th:attr="data-target='#'+ ${member.id}"></i></h5>
+                                <h5><i class="fas fa-birthday-cake"></i> <span class="birthDate" th:text="${member.birthdate}"></span></h5>
+                            </div>
+                        </div>
+                        <div class="modal fade messageModal" th:id="${member.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Send <span th:if="${member.title}" th:text="${member.title}"></span><span th:if="${member.title == null}" th:text="${member.firstName}"></span> a message </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form th:action="@{/send/message}" method="post" th:object="${instantMessage}">
+                                        <div class="modal-body">
+                                            <input class="messageInput" th:field="*{body}">
 
-                                        </input>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <input type="hidden" th:value="${member.id}" name="messageRecipients" />
-                                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-outline-primary">Send</button>
-                                    </div>
-                                </form>
+                                            </input>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="hidden" th:value="${member.id}" name="messageRecipients" />
+                                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-outline-primary">Send</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

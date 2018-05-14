@@ -221,9 +221,11 @@ if($(".dashboardOver").length > 0) {
     $(".dashboardOver").scrollTop($(".dashboardOver")[0].scrollHeight);
 }
 
-$("button").on("click", setTimeout(() => {
-    $(this).prop("disabled", true);
-}),100);
 
-
+let disableButton = () => {
+    setTimeout(() => {
+        $(this).prop("disabled", true);
+    },100);
+};
+$("button").on("click", disableButton);
 
