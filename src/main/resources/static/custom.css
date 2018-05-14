@@ -302,6 +302,17 @@ textarea {
     0% {transform: rotate(15deg)}
     100% {transform: rotate(-15deg)}
 }
+@keyframes approvalNeeded {
+    0% {color: white}
+
+    100% {color: #cd4579}
+}
+.approval {
+    animation-name: approvalNeeded;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
 .attention {
     animation: attention 1s linear infinite alternate;
     animation-fill-mode: both;
