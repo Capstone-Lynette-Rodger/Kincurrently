@@ -13,7 +13,9 @@
         </div>
     </div>
     <div class="row">
-        <div th:replace="partials/leftSidebar :: leftSidebar"></div>
+        <div class="d-none d-md-block">
+            <div th:replace="partials/leftSidebar :: leftSidebar"></div>
+        </div>
         <div class="col-md-8">
             <div class="row">
                 <div class="col">
@@ -36,7 +38,7 @@
                         <h2 class="text-center">My Tasks</h2>
                         <div class="col clearfix" th:if="${task.status.id != 4}" th:each="task : ${myTasks}">
                             <h5 class="dashboardGrid"><i class="far fa-calendar-times"></i> Due <span class="fullDate due" th:text="${task.completed_by}"></span><span th:text="${task.completed_by}" hidden="hidden" class="date task"></span>
-                                <form th:if="${task.status.id == 1 or task.status.id == 2}" th:action="@{/tasks/update}" method="POST" class="float-right">
+                                <form th:if="${task.status.id == 1 or task.status.id == 2}" th:action="@{/tasks/update}" method="POST" class="d-none d-md-block float-right">
                                     <input  type="hidden" name="taskId" th:value="${task.id}"/>
                                     <button class="btn btn-outline-primary" th:if="${task.status.id == 1}">Mark In Progress</button>
                                     <button class="btn btn-outline-primary" th:if="${task.status.id == 2}">Mark Completed</button>
@@ -47,6 +49,12 @@
                                 <h5><i class="far fa-calendar-alt"></i> <span th:if="${task.creator.title}"><span class="text-capitalize" th:text="${task.creator.title}"></span></span><span th:if="${task.creator.title == null}"><span class="text-capitalize" th:text="${task.creator.firstName}"></span></span>
                                     assigned this <span th:text="${task.created_on}" class="changeDate"></span>
                                 </h5>
+                                <form th:if="${task.status.id == 1 or task.status.id == 2}" th:action="@{/tasks/update}" method="POST" class="d-md-none text-center">
+                                    <input  type="hidden" name="taskId" th:value="${task.id}"/>
+                                    <button class="btn btn-outline-info" th:if="${task.status.id == 1}">Mark In Progress</button>
+                                    <button class="btn btn-outline-info" th:if="${task.status.id == 2}">Mark Completed</button>
+                                </form>
+
                                 <h5 th:if="${task.status.id == 3}">Pending Final Approval</h5>
                             </div>
                             <hr/>
@@ -125,7 +133,9 @@
         </div>
     </div>
     <div class="row">
-        <div th:replace="partials/leftSidebar :: leftSidebar"></div>
+        <div class="d-none d-md-block">
+            <div th:replace="partials/leftSidebar :: leftSidebar"></div>
+        </div>
         <div class="col-md-8">
             <div class="row">
                 <div class="col">

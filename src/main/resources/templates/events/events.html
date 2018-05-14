@@ -12,7 +12,9 @@
         </div>
     </div>
     <div class="row">
-        <div th:replace="partials/leftSidebar :: leftSidebar"></div>
+        <div class="d-none d-md-block">
+            <div th:replace="partials/leftSidebar :: leftSidebar"></div>
+        </div>
         <div class="col-md-8">
             <div class="row">
                 <div class="col">
@@ -37,14 +39,19 @@
                         <h2 class="text-center">Family Events</h2>
                         <div class="col clearfix" th:each="event : ${events}">
                             <h5 class="dashboardGrid"><i class="far fa-calendar-alt"></i> <span class="fullDate" th:text="${event.start_date}"></span><span th:text="${event.start_date}" hidden="hidden" class="date event"></span><span th:if="${!event.end_date.equals(event.start_date)}"> - <span class="fullDate" th:text="${event.end_date}"></span></span>
-                                <span class="float-right">
+                                <span class="float-right d-none d-md-block">
                                     <span th:if="${event.user.title == null}"><i class="far fa-user"></i> Scheduled by <span th:text="${event.user.firstName}"></span></span>
                                     <span th:if="${event.user.title}"><i class="far fa-user"></i> Scheduled by <span th:text="${event.user.title}"></span></span>
                                 </span>
                             </h5>
                             <div class="px-4">
-                                <h5><i class="far fa-clock"></i> <span th:if="${event.end_time != null}"><span class="changeTime" th:text="${event.start_time}"></span> - <span class="changeTime" th:text="${event.end_time}"></span></span><span th:if="${event.end_time == null}">All Day</span><a th:href="@{/events/{id}(id=${event.getId()})}" class="float-right"><i class="fas fa-map-marker"></i> <span th:text="${event.title}"></span></a></h5>
+                                <a th:href="@{/events/{id}(id=${event.getId()})}" class="d-md-none"><h5><i class="fas fa-map-marker"></i> <span th:text="${event.title}"></span></h5></a>
+                                <h5><i class="far fa-clock"></i> <span th:if="${event.end_time != null}"><span class="changeTime" th:text="${event.start_time}"></span> - <span class="changeTime" th:text="${event.end_time}"></span></span><span th:if="${event.end_time == null}">All Day</span><a th:href="@{/events/{id}(id=${event.getId()})}" class="float-right d-none d-md-block"><i class="fas fa-map-marker"></i> <span th:text="${event.title}"></span></a></h5>
                                 <h5 th:if="${event.location}"><i class="fas fa-location-arrow"></i> <span th:text="${event.location}"></span></h5>
+                                <h5 class="d-md-none">
+                                    <span th:if="${event.user.title == null}"><i class="far fa-user"></i> Scheduled by <span th:text="${event.user.firstName}"></span></span>
+                                    <span th:if="${event.user.title}"><i class="far fa-user"></i> Scheduled by <span th:text="${event.user.title}"></span></span>
+                                </h5>
                             </div>
                             <hr/>
                         </div>
@@ -72,7 +79,9 @@
         </div>
     </div>
     <div class="row">
-        <div th:replace="partials/leftSidebar :: leftSidebar"></div>
+        <div class="d-none d-md-block">
+            <div th:replace="partials/leftSidebar :: leftSidebar"></div>
+        </div>
         <div class="col-md-8">
             <div class="row">
                 <div class="col">
