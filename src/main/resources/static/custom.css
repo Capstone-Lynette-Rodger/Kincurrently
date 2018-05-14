@@ -2,6 +2,9 @@ body {
     background-color: #2B2958;
     color: #2c2a57;
 }
+nav{
+    z-index: 1;
+}
 .kid-text {
     font-family: 'Short Stack', cursive;
 }
@@ -430,8 +433,6 @@ footer img {
     border-radius: 50%;
     overflow: hidden;
     position: relative;
-
-
 }
 
 .messageImg img {
@@ -490,6 +491,27 @@ footer img {
         height: 3rem;
     }
 
+    .btn.indexHeader {
+        font-size: 2.25em;
+    }
+
+    .messageImg {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .aboutUsImg {
+        width: 7rem;
+        height: 7rem;
+    }
+
+}
+
+@media screen and (min-width: 350px) {
+    .btn.indexHeader {
+        font-size: 2.75em;
+    }
+
 }
 
 @media screen and (min-width: 500px){
@@ -499,6 +521,16 @@ footer img {
     .commentImg {
         width: 4rem;
         height: 4rem;
+    }
+
+    .messageImg {
+        width: 4rem;
+        height: 4rem;
+    }
+
+    .aboutUsImg {
+        width: 9rem;
+        height: 9rem;
     }
 
 }
@@ -522,6 +554,16 @@ footer img {
         height: 6rem;
     }
 
+    .aboutUsImg {
+        width: 11rem;
+        height: 11rem;
+    }
+
+    .messageImg {
+        width: 5rem;
+        height: 5rem;
+    }
+
 
 }
 
@@ -541,6 +583,11 @@ footer img {
     .commentImg {
         width: 7rem;
         height: 7rem;
+    }
+
+    .aboutUsImg {
+        width: 20rem;
+        height: 20rem;
     }
 }
 
