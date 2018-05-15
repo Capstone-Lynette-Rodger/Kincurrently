@@ -47,7 +47,7 @@
                         <div class="col clearfix"  th:if="${tasksDesignated.size() > 0}" th:each="task : ${tasksDesignated}">
                             <h5 class="dashboardGrid"><i class="far fa-calendar-times"></i> Due <span class="changeDate due" th:text="${task.completed_by}"></span></h5>
                             <div class="px-3">
-                                <a th:href="@{/tasks/{id}(id = ${task.id})}"><h5><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner fa-spin"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span></h5></a>
+                                <a th:href="@{/tasks/{id}(id = ${task.id})}"><h5><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span></h5></a>
                                 <h5 th:if="${task.creator.title}"><i class="far fa-user"></i> From <span class="text-capitalize" th:text="${task.creator.title}"></span></h5>
                                 <h5 th:if="${task.creator.title == null}"><i class="far fa-user"></i> From <span class="text-capitalize" th:text="${task.creator.firstName}"></span></h5>
                             </div>
@@ -64,7 +64,7 @@
                         <div class="col clearfix"  th:if="${tasksCreated.size() > 0}" th:each="task : ${tasksCreated}">
                             <h5 class="dashboardGrid"><i class="far fa-calendar-times"></i> Due <span class="changeDate due" th:text="${task.completed_by}"></span></h5>
                             <div class="px-3">
-                                <a th:href="@{/tasks/{id}(id = ${task.id})}"><h5><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner fa-spin"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span></h5></a>
+                                <a th:href="@{/tasks/{id}(id = ${task.id})}"><h5><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span></h5></a>
                                 <h5 th:if="${task.designated_user.title}"><i class="far fa-user"></i> For <span class="text-capitalize" th:text="${task.designated_user.title}"></span></h5>
                                 <h5 th:if="${task.designated_user.title == null}"><i class="far fa-user"></i> For <span class="text-capitalize" th:text="${task.designated_user.firstName}"></span></h5>
                                 <form th:if="${#authentication.principal.id == task.creator.id and task.status.id == 3}" class="text-center pb-md-2" th:action="@{/tasks/update}" method="POST">
@@ -87,7 +87,7 @@
                         <div class="col clearfix"  th:if="${tasksDesignated.size() > 0}" th:each="task : ${tasksDesignated}">
                             <h5 class="dashboardGrid"><i class="far fa-calendar-times"></i> Due <span class="changeDate due" th:text="${task.completed_by}"></span></h5>
                             <div class="px-5">
-                                <a th:href="@{/tasks/{id}(id = ${task.id})}"><h5><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner fa-spin"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span></h5></a>
+                                <a th:href="@{/tasks/{id}(id = ${task.id})}"><h5><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span></h5></a>
                                 <h5 th:if="${task.creator.title}"><i class="far fa-user"></i> From <span class="text-capitalize" th:text="${task.creator.title}"></span></h5>
                                 <h5 th:if="${task.creator.title == null}"><i class="far fa-user"></i> From <span class="text-capitalize" th:text="${task.creator.firstName}"></span></h5>
                             </div>
@@ -106,7 +106,7 @@
                         <div class="col clearfix"  th:if="${tasksCreated.size() > 0}" th:each="task : ${tasksCreated}">
                             <h5 class="dashboardGrid"><i class="far fa-calendar-times"></i> Due <span class="changeDate due" th:text="${task.completed_by}"></span></h5>
                             <div class="px-5">
-                                <a th:href="@{/tasks/{id}(id = ${task.id})}"><h5><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner fa-spin"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span></h5></a>
+                                <a th:href="@{/tasks/{id}(id = ${task.id})}"><h5><i th:if="${task.status.id == 1}" class="fas fa-ellipsis-h"></i><i th:if="${task.status.id == 2}" class="fas fa-spinner"></i><i th:if="${task.status.id == 3}" class="far fa-check-circle"></i> <span th:text="${task.title}"></span></h5></a>
                                 <h5 th:if="${task.designated_user.title}"><i class="far fa-user"></i> For <span class="text-capitalize" th:text="${task.designated_user.title}"></span></h5>
                                 <h5 th:if="${task.designated_user.title == null}"><i class="far fa-user"></i> For <span class="text-capitalize" th:text="${task.designated_user.firstName}"></span></h5>
                                 <form th:if="${#authentication.principal.id == task.creator.id and task.status.id == 3}" class="text-center pb-md-2" th:action="@{/tasks/update}" method="POST">
@@ -178,6 +178,9 @@
                                 <button class="btn btn-outline-info my-3" th:if="${task.status.id == 1}">Start!</button>
                                 <button class="btn btn-outline-info my-3" th:if="${task.status.id == 2}">Done!</button>
                             </form>
+                            <h5 th:if="${task.status.id == 3}" class="approval">Waiting for
+                                <span th:if="${task.creator.title}" th:text="${task.creator.title}"></span><span th:if="${task.creator.title == null}" th:text="${task.creator.firstName}"></span>'s
+                                OK</h5>
                             <hr/>
                         </div>
                         <div class="col clearfix"  th:if="${tasksDesignated.size() == 0}">

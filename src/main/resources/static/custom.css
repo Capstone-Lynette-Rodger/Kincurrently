@@ -308,10 +308,8 @@ textarea {
     100% {color: #cd4579}
 }
 .approval {
-    animation-name: approvalNeeded;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+    animation: approvalNeeded 1.5s linear 1.5s 2 alternate;
+    font-weight: bold;
 }
 .attention {
     animation: attention 1s linear infinite alternate;
@@ -625,6 +623,7 @@ footer img {
     .aboutUsImg {
         width: 20rem;
         height: 20rem;
+        margin-top: 0;
     }
     .loginInputs {
         width: 38%;
