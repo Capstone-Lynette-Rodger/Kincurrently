@@ -491,6 +491,12 @@ footer img {
 }
 .aboutUs a{
     color: #a1fbfd;
+    margin: .5rem;
+    font-size: 3rem;
+}
+.aboutUs a:hover{
+    color: white;
+    text-decoration: underline;
 }
 .img404 {
     background: linear-gradient(0deg, rgba(44,42,87,1) 0%, rgba(253,29,29,0) 5%, rgba(205,32,42,0) 95%, rgba(44,42,87,1) 100%), url("/img/404bear.jpg");
@@ -587,6 +593,7 @@ footer img {
     .aboutUsImg {
         width: 11rem;
         height: 11rem;
+        margin-top: 5rem;
     }
 
     .messageImg {
