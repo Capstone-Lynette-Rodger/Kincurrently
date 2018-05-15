@@ -1,6 +1,10 @@
+html {
+    height: 100%;
+}
 body {
     background-color: #2B2958;
     color: #2c2a57;
+    height: 100%;
 }
 nav{
     z-index: 1;
@@ -23,7 +27,8 @@ nav{
     background: linear-gradient(0deg, rgba(44,42,87,1) 0%, rgba(253,29,29,0) 5%, rgba(205,32,42,0) 95%, rgba(44,42,87,1) 100%), url("/img/family.jpg");
     background-position: top;
     background-size: cover;
-    height: 47rem;
+    height: 50rem;
+    position:relative;
 }
 .logo {
     left: 50%;
@@ -308,10 +313,8 @@ textarea {
     100% {color: #cd4579}
 }
 .approval {
-    animation-name: approvalNeeded;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+    animation: approvalNeeded 1.5s linear 1.5s 2 alternate;
+    font-weight: bold;
 }
 .attention {
     animation: attention 1s linear infinite alternate;
@@ -367,19 +370,6 @@ textarea {
 
 .messageInput {
     width: 95%;
-}
-footer {
-    height: 7rem;
-    padding-top: 3rem;
-    background: linear-gradient(0deg, rgb(35, 35, 35) 70%, rgba(52,58,64,0) 95%, rgba(205,32,42,0) 100%);
-    overflow: hidden;
-    margin-top: 8.5rem;
-    width: 100%;
-}
-footer img {
-    width: 50%;
-    margin: 0 auto;
-    display: block;
 }
 .fa-envelope {
     margin-right: 5px;
@@ -491,6 +481,12 @@ footer img {
 }
 .aboutUs a{
     color: #a1fbfd;
+    margin: .5rem;
+    font-size: 3rem;
+}
+.aboutUs a:hover{
+    color: white;
+    text-decoration: underline;
 }
 .img404 {
     background: linear-gradient(0deg, rgba(44,42,87,1) 0%, rgba(253,29,29,0) 5%, rgba(205,32,42,0) 95%, rgba(44,42,87,1) 100%), url("/img/404bear.jpg");
@@ -508,6 +504,33 @@ footer img {
     opacity:0.25;
 }
 
+.container {
+    min-height: 100%;
+    margin-bottom: -7em;
+}
+.container:after {
+    content: "";
+    display: block;
+}
+footer, .container:after {
+    height: 7em;
+}
+footer {
+    height: 7rem;
+    padding-top: 3rem;
+    background: linear-gradient(0deg, rgb(35, 35, 35) 70%, rgba(52,58,64,0) 95%, rgba(205,32,42,0) 100%);
+    overflow: hidden;
+    margin-top: 8.5rem;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    left: 0;
+}
+footer img {
+    width: 50%;
+    margin: 0 auto;
+    display: block;
+}
 @media screen and (min-width: 300px){
     .logoImageDynamic {
         width: 290px;
@@ -533,6 +556,9 @@ footer img {
     }
     .loginInputs {
         width: 100%;
+    }
+    .mainImg {
+        height: 34rem;
     }
 
 }
@@ -587,11 +613,15 @@ footer img {
     .aboutUsImg {
         width: 11rem;
         height: 11rem;
+        margin-top: 5rem;
     }
 
     .messageImg {
         width: 5rem;
         height: 5rem;
+    }
+    .mainImg {
+        height: 50rem;
     }
 
 
@@ -618,10 +648,12 @@ footer img {
     .aboutUsImg {
         width: 20rem;
         height: 20rem;
+        margin-top: 0;
     }
     .loginInputs {
         width: 38%;
     }
+
 }
 
 
