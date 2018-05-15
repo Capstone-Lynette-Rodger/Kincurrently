@@ -531,6 +531,9 @@ footer img {
     margin: 0 auto;
     display: block;
 }
+footer a {
+    font-size: 1.5em;
+}
 @media screen and (min-width: 300px){
     .logoImageDynamic {
         width: 290px;
