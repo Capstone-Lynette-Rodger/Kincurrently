@@ -175,7 +175,7 @@ $.each($(".fullDate"), (index, element) => {
 
 $.each($(".birthDate"), (index, element) => {
     let date = new Date(element.textContent);
-    element.innerHTML = abbMonthArray[date.getUTCMonth()] + " " + date.getUTCDate() + ', ' + date.getUTCFullYear();
+    element.innerHTML = abbMonthArray[date.getUTCMonth()] + " " + date.getUTCDate();
 });
 
 //changes display of form based on if they are joining an existing family
