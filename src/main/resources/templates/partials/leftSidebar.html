@@ -33,7 +33,7 @@
                     <div th:each="member : ${family.users}">
                         <div class="row" th:if="${member.id != #authentication.principal.id}">
                             <hr width="100%"/>
-                            <div class="col-4">
+                            <div class="col-4 d-none d-lg-block">
                                 <div th:if="${member.imgPath}" class="familyListImg">
                                     <img th:src="${member.imgPath}" alt=""/>
                                 </div>
@@ -41,7 +41,20 @@
                                     <img src="/uploads/default.png" alt=""/>
                                 </div>
                             </div>
-                            <div class="col-8">
+                            <div class="col-8 d-none d-lg-block">
+                                <h5 th:if="${member.title}" ><span th:text="${member.title}"></span> <i class="fas fa-comment" data-toggle="modal" th:attr="data-target='#'+ ${member.id}"></i></h5>
+                                <h5><span th:text="${member.firstName + ' ' + member.lastName}"></span> <i th:if="${member.title == null}" class="fas fa-comment" data-toggle="modal" th:attr="data-target='#'+ ${member.id}"></i></h5>
+                                <h5><i class="fas fa-birthday-cake"></i> <span class="birthDate" th:text="${member.birthdate}"></span></h5>
+                            </div>
+                            <div class="col d-lg-none">
+                                <div th:if="${member.imgPath}" class="familyListImg">
+                                    <img th:src="${member.imgPath}" alt=""/>
+                                </div>
+                                <div th:if="${member.imgPath == null}" class="familyListImg">
+                                    <img src="/uploads/default.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="col d-lg-none text-center">
                                 <h5 th:if="${member.title}" ><span th:text="${member.title}"></span> <i class="fas fa-comment" data-toggle="modal" th:attr="data-target='#'+ ${member.id}"></i></h5>
                                 <h5><span th:text="${member.firstName + ' ' + member.lastName}"></span> <i th:if="${member.title == null}" class="fas fa-comment" data-toggle="modal" th:attr="data-target='#'+ ${member.id}"></i></h5>
                                 <h5><i class="fas fa-birthday-cake"></i> <span class="birthDate" th:text="${member.birthdate}"></span></h5>
